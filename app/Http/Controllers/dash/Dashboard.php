@@ -9,6 +9,6 @@ class Dashboard extends Controller
 {
     public function dash()
     {
-        return view('dash.dashboard');
+        return view('dash.template');
     }
 }
