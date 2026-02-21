@@ -62,13 +62,13 @@
                      </a>
                      <ul class="nav nav-treeview">
                          <li class="nav-item">
-                             <a href="#" class="nav-link">
+                             <a href="{{url('/ai_resume_checker')}}" class="nav-link">
                                  <i class="nav-icon bi bi-circle"></i>
                                  <p>AI Resume Checker</p>
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="#" class="nav-link">
+                             <a href="{{url('/ai_assistant')}}" class="nav-link">
                                  <i class="nav-icon bi bi-circle"></i>
                                  <p>AI Assistant</p>
                              </a>
@@ -132,13 +132,13 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="#" class="nav-link">
+                             <a href="{{url('/system_logs')}}" class="nav-link">
                                  <i class="nav-icon bi bi-circle"></i>
                                  <p>System Logs</p>
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="#" class="nav-link">
+                             <a href="{{url('/general_settings')}}" class="nav-link">
                                  <i class="nav-icon bi bi-circle"></i>
                                  <p>General Setting</p>
                              </a>

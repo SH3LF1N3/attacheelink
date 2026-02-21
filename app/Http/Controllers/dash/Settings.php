@@ -7,12 +7,20 @@ use Illuminate\Http\Request;
 
 class Settings extends Controller
 {
-    public function settings()
-    {
-        return view('dash.settings');
-    }
+    
     public function permit()
     {
-        return view('dash.permission_settings');
+        return view('dash.set.permit');
     }
+
+    public function logs()
+    {
+        return view('dash.set.logs');
+    }
+    
+    public function gen()
+    {
+        return view('dash.set.gen');
+    }
+    
 }
