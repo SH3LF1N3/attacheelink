@@ -64,6 +64,7 @@
 
 
     <!-- from adminlte 3.2 -->
+    <link rel="stylesheet" href="/src/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="/src/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- iCheck -->
     <link rel="stylesheet" href="/src/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
