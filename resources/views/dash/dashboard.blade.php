@@ -43,10 +43,10 @@
                                 </span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">CPU Traffic</span>
+                                    <span class="info-box-text">My Applications</span>
                                     <span class="info-box-number">
                                         10
-                                        <small>%</small>
+
                                     </span>
                                 </div>
                                 <!-- /.info-box-content -->
@@ -61,8 +61,8 @@
                                 </span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Likes</span>
-                                    <span class="info-box-number">41,410</span>
+                                    <span class="info-box-text">Under Review</span>
+                                    <span class="info-box-number">4</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -80,8 +80,8 @@
                                 </span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Sales</span>
-                                    <span class="info-box-number">760</span>
+                                    <span class="info-box-text">Rejected Applications</span>
+                                    <span class="info-box-number">3</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -95,8 +95,8 @@
                                 </span>
 
                                 <div class="info-box-content">
-                                    <span class="info-box-text">New Members</span>
-                                    <span class="info-box-number">2,000</span>
+                                    <span class="info-box-text">New Students</span>
+                                    <span class="info-box-number">20</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
