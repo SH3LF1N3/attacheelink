@@ -43,7 +43,7 @@
 
 
                  <li class="nav-item">
-                     <a href="#" class="nav-link">
+                     <a href="{{url('/applications')}}" class="nav-link">
                          <i class="nav-icon bi bi-file-earmark-text-fill"></i>
                          <p>Applications</p>
                      </a>
@@ -78,7 +78,7 @@
                  </li>
 
                  <li class="nav-item">
-                     <a href="#" class="nav-link">
+                     <a href="{{url('/students')}}" class="nav-link">
                          <i class="nav-icon bi bi-people"></i>
                          <p>All Students</p>
                      </a>

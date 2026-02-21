@@ -16,4 +16,5 @@ class Dashboard extends Controller
     {
         return view('dash.profile');
     }
+    
 }
