@@ -85,7 +85,7 @@
                  </li>
 
                  <li class="nav-item">
-                     <a href="#" class="nav-link">
+                     <a href="{{url('/organisations')}}" class="nav-link">
                          <i class="nav-icon bi bi-building-fill"></i>
                          <p>Organizations</p>
                      </a>
@@ -93,7 +93,7 @@
 
 
                  <li class="nav-item">
-                     <a href="#" class="nav-link">
+                     <a href="{{url('/notifications')}}" class="nav-link">
                          <i class="nav-icon bi bi-bell-fill"></i>
                          <p>Notifications</p>
                      </a>
@@ -101,7 +101,7 @@
 
 
                  <li class="nav-item">
-                     <a href="#" class="nav-link">
+                     <a href="{{url('/reports')}}" class="nav-link">
                          <i class="nav-icon bi bi-graph-up"></i>
                          <p>Reports</p>
                      </a>
@@ -126,7 +126,7 @@
                      </a>
                      <ul class="nav nav-treeview">
                          <li class="nav-item">
-                             <a href="#" class="nav-link">
+                             <a href="{{url('/permission_settings')}}" class="nav-link">
                                  <i class="nav-icon bi bi-circle"></i>
                                  <p>Permissions</p>
                              </a>
