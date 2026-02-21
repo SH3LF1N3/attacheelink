@@ -16,7 +16,7 @@
     <!--begin::Primary Meta Tags-->
     <meta name="title" content="InternLink   | Dashboard" />
     <meta name="author" content="Sherry Obare" />
-   <meta
+    <meta
         name="keywords"
         content="InternLink, Internship, Dashboard, Attachment" />
     <!--end::Primary Meta Tags-->
@@ -61,4 +61,31 @@
         href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
         integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
         crossorigin="anonymous" />
+
+
+    <!-- from adminlte 3.2 -->
+    <link rel="stylesheet" href="/src/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="/src/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="/src/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/src/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/src/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="/src/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+    <link rel="stylesheet" href="/src/plugins/bs-stepper/css/bs-stepper.min.css">
+
+    <link rel="stylesheet" href="/src/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="/src/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+
+    <link rel="stylesheet" href="/src/plugins/select2/css/select2.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="/src/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="/src/plugins/summernote/summernote-bs4.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/src/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 </head>
