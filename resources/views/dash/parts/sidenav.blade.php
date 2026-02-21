@@ -163,3 +163,33 @@
      </div>
      <!--end::Sidebar Wrapper-->
  </aside>
+
+ <!-- For making sure the active link is highlighted -->
+ <script>
+     document.addEventListener("DOMContentLoaded", function() {
+
+         let currentUrl = window.location.href;
+         let navLinks = document.querySelectorAll(".sidebar-menu .nav-link");
+
+         navLinks.forEach(function(link) {
+
+             if (link.href === currentUrl) {
+
+                 // Add active class to clicked link
+                 link.classList.add("active");
+
+                 // If inside treeview, open parent menu
+                 let parentTree = link.closest(".nav-treeview");
+                 if (parentTree) {
+                     let parentItem = parentTree.closest(".nav-item");
+                     parentItem.classList.add("menu-open");
+
+                     let parentLink = parentItem.querySelector(".nav-link");
+                     parentLink.classList.add("active");
+                 }
+             }
+
+         });
+
+     });
+ </script>
