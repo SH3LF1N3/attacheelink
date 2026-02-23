@@ -356,22 +356,7 @@
         $(this).bootstrapSwitch('state', $(this).prop('checked'));
     })
 </script>
-<script>
-    // Check every 30 seconds if user is still authenticated
-    setInterval(function() {
 
-        //alert("hey log out");
-        fetch('/check-auth') // Create this route
-            .then(response => {
-                if (response.status === 401) {
-                    console.log('Not authenticated, redirecting...');
-                    window.location.href = '/';
-                } else {
-                    console.log('Logged Out');
-                }
-            });
-    }, 30000);
-</script>
 <script>
     $(function() {
         //Initialize Select2 Elements
