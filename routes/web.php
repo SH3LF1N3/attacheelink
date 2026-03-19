@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Alink;
+use App\Http\Controllers\Home;
 use App\Http\Controllers\dash\Dashboard;
 use App\Http\Controllers\dash\Opportunity;
 use App\Http\Controllers\dash\Apps;
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/', [Alink::class, 'index'])->name('login');
+Route::get('/', [Home::class, 'index'])->name('home');
+Route::get('/login', [Alink::class, 'index'])->name('login');
 Route::get('/register', [Alink::class, 'register'])->name('register');
 
 
