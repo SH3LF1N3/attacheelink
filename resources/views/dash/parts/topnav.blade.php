@@ -1,165 +1,116 @@
- <nav class="app-header navbar navbar-expand bg-body">
-     <!--begin::Container-->
-     <div class="container-fluid">
-         <!--begin::Start Navbar Links-->
-         <ul class="navbar-nav">
-             <li class="nav-item">
-                 <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
-                     <i class="bi bi-list"></i>
-                 </a>
-             </li>
-           
-         </ul>
-         <!--end::Start Navbar Links-->
+<nav class="app-header navbar navbar-expand bg-body"
+     style="background-color: #fff !important; border-bottom: 1px solid #e8edf3;">
+    <div class="container-fluid">
 
-         <!--begin::End Navbar Links-->
-         <ul class="navbar-nav ms-auto">
-             <!--begin::Navbar Search-->
-             <li class="nav-item">
-                 <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                     <i class="bi bi-search"></i>
-                 </a>
-             </li>
-             <!--end::Navbar Search-->
+        {{-- Sidebar toggle --}}
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"
+                   style="color: var(--navy-700);">
+                    <i class="bi bi-list" style="font-size:1.3rem;"></i>
+                </a>
+            </li>
+        </ul>
 
-             <!--begin::Messages Dropdown Menu-->
-             <li class="nav-item dropdown">
-                 <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                     <i class="bi bi-chat-text"></i>
-                     <span class="navbar-badge badge text-bg-danger">3</span>
-                 </a>
-                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                     <a href="#" class="dropdown-item">
-                         <!--begin::Message-->
-                         <div class="d-flex">
-                             <div class="flex-shrink-0">
-                                 <img
-                                     src="/src/assets/img/user1-128x128.jpg"
-                                     alt="User Avatar"
-                                     class="img-size-50 rounded-circle me-3" />
-                             </div>
-                             <div class="flex-grow-1">
-                                 <h3 class="dropdown-item-title">
-                                     Brad Diesel
-                                     <span class="float-end fs-7 text-danger"><i class="bi bi-star-fill"></i></span>
-                                 </h3>
-                                 <p class="fs-7">Call me whenever you can...</p>
-                                 <p class="fs-7 text-secondary">
-                                     <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                                 </p>
-                             </div>
-                         </div>
-                         <!--end::Message-->
-                     </a>
-                     <div class="dropdown-divider"></div>
-                     <a href="#" class="dropdown-item">
-                         <!--begin::Message-->
-                         <div class="d-flex">
-                             <div class="flex-shrink-0">
-                                 <img
-                                     src="/src/assets/img/user8-128x128.jpg"
-                                     alt="User Avatar"
-                                     class="img-size-50 rounded-circle me-3" />
-                             </div>
-                             <div class="flex-grow-1">
-                                 <h3 class="dropdown-item-title">
-                                     John Pierce
-                                     <span class="float-end fs-7 text-secondary">
-                                         <i class="bi bi-star-fill"></i>
-                                     </span>
-                                 </h3>
-                                 <p class="fs-7">I got your message bro</p>
-                                 <p class="fs-7 text-secondary">
-                                     <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                                 </p>
-                             </div>
-                         </div>
-                         <!--end::Message-->
-                     </a>
-                     <div class="dropdown-divider"></div>
-                     <a href="#" class="dropdown-item">
-                         <!--begin::Message-->
-                         <div class="d-flex">
-                             <div class="flex-shrink-0">
-                                 <img
-                                     src="/src/assets/img/user3-128x128.jpg"
-                                     alt="User Avatar"
-                                     class="img-size-50 rounded-circle me-3" />
-                             </div>
-                             <div class="flex-grow-1">
-                                 <h3 class="dropdown-item-title">
-                                     Nora Silvester
-                                     <span class="float-end fs-7 text-warning">
-                                         <i class="bi bi-star-fill"></i>
-                                     </span>
-                                 </h3>
-                                 <p class="fs-7">The subject goes here</p>
-                                 <p class="fs-7 text-secondary">
-                                     <i class="bi bi-clock-fill me-1"></i> 4 Hours Ago
-                                 </p>
-                             </div>
-                         </div>
-                         <!--end::Message-->
-                     </a>
-                     <div class="dropdown-divider"></div>
-                     <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                 </div>
-             </li>
-             <!--end::Messages Dropdown Menu-->
+        {{-- Right side --}}
+        <ul class="navbar-nav ms-auto align-items-center">
 
-             <!--begin::Notifications Dropdown Menu-->
-             
-             <!--end::Notifications Dropdown Menu-->
+            {{-- Fullscreen --}}
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-lte-toggle="fullscreen"
+                   style="color: var(--navy-700);">
+                    <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+                    <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display:none;"></i>
+                </a>
+            </li>
 
-             <!--begin::Fullscreen Toggle-->
-             <li class="nav-item">
-                 <a class="nav-link" href="#" data-lte-toggle="fullscreen">
-                     <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
-                     <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
-                 </a>
-             </li>
-             <!--end::Fullscreen Toggle-->
+            {{-- Notifications bell --}}
+            @if($permit->not)
+            <li class="nav-item">
+                <a class="nav-link position-relative" href="{{ route('notifications') }}"
+                   style="color: var(--navy-700);">
+                    <i class="bi bi-bell-fill" style="font-size:1.1rem;"></i>
+                </a>
+            </li>
+            @endif
 
-             <!--begin::User Menu Dropdown-->
-             <li class="nav-item dropdown user-menu">
-                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                     <img
-                         src="/src/assets/img/Pinnacle.jpeg"
-                         class="user-image rounded-circle shadow"
-                         alt="User Image" />
-                     <span class="d-none d-md-inline">Sherry Obare</span>
-                 </a>
-                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                     <!--begin::User Image-->
-                     <li class="user-header text-bg-primary">
-                         <img
-                             src="/src/assets/img/Pinnacle.jpeg"
-                             class="rounded-circle shadow"
-                             alt="User Image" />
-                         <p>
-                             Sherry Obare - Web Developer
-                             <small>Member since Nov. 2023</small>
-                         </p>
-                     </li>
-                     <!--end::User Image-->
-                     <!--begin::Menu Body-->
-                     <li class="user-body">
-                         <!--begin::Row-->
-                        
-                         <!--end::Row-->
-                     </li>
-                     <!--end::Menu Body-->
-                     <!--begin::Menu Footer-->
-                     <li class="user-footer">
-                         <a href="{{url('/profile')}}" class="btn btn-outline-secondary">Profile</a>
-                         <a href="{{url('/') }}" class="btn btn-outline-danger float-end">Sign out</a>
-                     </li>
-                     <!--end::Menu Footer-->
-                 </ul>
-             </li>
-             <!--end::User Menu Dropdown-->
-         </ul>
-         <!--end::End Navbar Links-->
-     </div>
-     <!--end::Container-->
- </nav>
+            {{-- User dropdown --}}
+            <li class="nav-item dropdown user-menu ms-2">
+                <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2"
+                   data-bs-toggle="dropdown" style="color: var(--navy-800);">
+                    {{-- Avatar initial --}}
+                    <div style="width:32px;height:32px;border-radius:50%;
+                                background:var(--navy-700);color:#fff;
+                                display:flex;align-items:center;justify-content:center;
+                                font-weight:700;font-size:0.8rem;flex-shrink:0;">
+                        {{ strtoupper(substr(auth()->user()->fname ?? auth()->user()->uname, 0, 1)) }}
+                    </div>
+                    <span class="d-none d-md-inline fw-600" style="font-size:0.9rem;">
+                        {{ auth()->user()->fname ?? auth()->user()->uname }}
+                    </span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end shadow-sm"
+                    style="border:1px solid #e8edf3; min-width:220px;">
+
+                    {{-- Header --}}
+                    <li style="background:var(--navy-700); padding:1rem; border-radius:6px 6px 0 0;">
+                        <div class="d-flex align-items-center gap-2">
+                            <div style="width:42px;height:42px;border-radius:50%;
+                                        background:var(--gold-400);color:var(--navy-800);
+                                        display:flex;align-items:center;justify-content:center;
+                                        font-weight:700;font-size:1rem;flex-shrink:0;">
+                                {{ strtoupper(substr(auth()->user()->fname ?? auth()->user()->uname, 0, 1)) }}
+                            </div>
+                            <div>
+                                <div style="color:#fff;font-weight:700;font-size:0.875rem;">
+                                    {{ auth()->user()->fname ?? auth()->user()->uname }}
+                                </div>
+                                <div style="color:var(--gold-400);font-size:0.75rem;text-transform:capitalize;">
+                                    {{ auth()->user()->role }}
+                                </div>
+                                <div style="color:#9ca3af;font-size:0.7rem;">
+                                    {{ auth()->user()->email }}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li><hr class="dropdown-divider my-0"></li>
+
+                    <li>
+                        <a class="dropdown-item py-2" href="{{ route('profile') }}"
+                           style="color:var(--navy-800);">
+                            <i class="bi bi-person-circle me-2" style="color:var(--navy-600);"></i>
+                            My Profile
+                        </a>
+                    </li>
+
+                    @if($permit->set)
+                    <li>
+                        <a class="dropdown-item py-2" href="{{ route('general_settings') }}"
+                           style="color:var(--navy-800);">
+                            <i class="bi bi-gear-fill me-2" style="color:var(--navy-600);"></i>
+                            Settings
+                        </a>
+                    </li>
+                    @endif
+
+                    <li><hr class="dropdown-divider my-0"></li>
+
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item py-2 border-0 bg-transparent w-100 text-start"
+                                    style="color:#dc2626;">
+                                <i class="bi bi-box-arrow-right me-2"></i>
+                                Sign Out
+                            </button>
+                        </form>
+                    </li>
+
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+</nav>
