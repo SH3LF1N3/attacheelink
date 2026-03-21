@@ -17,9 +17,9 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url('/opportunities') }}"
-                   class="{{ request()->is('opportunities*') ? 'active' : '' }}">
-                    Opportunities
+                <a href="{{ url('/contact') }}"
+                   class="{{ request()->is('contact') ? 'active' : '' }}">
+                    Contact Us
                 </a>
             </li>
         </ul>

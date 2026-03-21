@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Alink;
 use App\Http\Controllers\Home;
+use App\Http\Controllers\AboutUs;
+use App\Http\Controllers\ContactUs;
 use App\Http\Controllers\dash\Dashboard;
 use App\Http\Controllers\dash\Opportunity;
 use App\Http\Controllers\dash\Apps;
@@ -16,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 // ── Public ────────────────────────────────────────────────────────────────────
 
 Route::get('/', [Home::class, 'index'])->name('home');
+Route::get('/aboutus', [AboutUs::class, 'index'])->name('aboutus');
+Route::get('/contactus', [ContactUs::class, 'index'])->name('contactus');
+Route::post('/contactus', [ContactUs::class, 'send'])->name('contactus.send');
 
 // ── Guest only (redirect to dashboard if already logged in) ───────────────────
 
