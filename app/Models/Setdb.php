@@ -6,24 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Setdb extends Model
 {
-    use HasFactory;
+    protected $table = 'setdbs';
 
-    public $table = 'setdbs';
-    
     protected $fillable = [
-        'sname',
-        'logo',
-        'email',
-        'foth1',
-        'foth2',
-        'foth3',
-        'foth4',
-        'foth5',
-        'foth6',
-        'foth7',
-        'foth8',
-        'foth9',
-        'foth10',
-
+        'sname', 'logo', 'email',
+        'foth1','foth2','foth3','foth4','foth5',
+        'foth6','foth7','foth8','foth9','foth10',
     ];
 }

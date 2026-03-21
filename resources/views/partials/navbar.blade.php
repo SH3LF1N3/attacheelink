@@ -11,14 +11,14 @@
     <nav>
         <ul class="navbar-links">
             <li>
-                <a href="{{ url('/how-it-works') }}"
-                   class="{{ request()->is('how-it-works') ? 'active' : '' }}">
-                    How it Works
+                <a href="{{ url('/aboutus') }}"
+                   class="{{ request()->is('aboutus') ? 'active' : '' }}">
+                    About Us
                 </a>
             </li>
             <li>
-                <a href="{{ url('/contact') }}"
-                   class="{{ request()->is('contact') ? 'active' : '' }}">
+                <a href="{{ url('/contactus') }}"
+                   class="{{ request()->is('contactus') ? 'active' : '' }}">
                     Contact Us
                 </a>
             </li>

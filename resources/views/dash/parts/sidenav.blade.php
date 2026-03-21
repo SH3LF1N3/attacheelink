@@ -40,16 +40,21 @@
                 data-lte-toggle="treeview" role="navigation"
                 aria-label="Main navigation" data-accordion="false">
 
-                {{-- Dashboard — always visible --}}
+                {{-- Dashboard — visible to ALL roles, label adapts --}}
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link">
                         <i class="nav-icon bi bi-house-fill"></i>
-                        <p>Dashboard</p>
+                        <p>
+                            @if(auth()->user()->role === 'admin') Dashboard
+                            @elseif(auth()->user()->role === 'student') My Dashboard
+                            @else Company Dashboard
+                            @endif
+                        </p>
                     </a>
                 </li>
 
-                {{-- Opportunities --}}
-                @if($permit->oppo || $permit->soppo)
+                {{-- ADMIN / COMPANY: Manage Opportunities --}}
+                @if($permit->oppo)
                 <li class="nav-item">
                     <a href="{{ route('opportunities') }}" class="nav-link">
                         <i class="nav-icon bi bi-list-task"></i>
@@ -58,12 +63,32 @@
                 </li>
                 @endif
 
-                {{-- Applications --}}
-                @if($permit->app || $permit->sappo)
+                {{-- STUDENT: Browse Opportunities --}}
+                @if($permit->soppo && !$permit->oppo)
+                <li class="nav-item">
+                    <a href="{{ route('my_opportunities') }}" class="nav-link">
+                        <i class="nav-icon bi bi-list-task"></i>
+                        <p>Opportunities</p>
+                    </a>
+                </li>
+                @endif
+
+                {{-- ADMIN / COMPANY: Manage Applications --}}
+                @if($permit->app)
                 <li class="nav-item">
                     <a href="{{ route('applications') }}" class="nav-link">
                         <i class="nav-icon bi bi-file-earmark-text-fill"></i>
                         <p>Applications</p>
+                    </a>
+                </li>
+                @endif
+
+                {{-- STUDENT: My Applications --}}
+                @if($permit->sappo && !$permit->app)
+                <li class="nav-item">
+                    <a href="{{ route('my_applications') }}" class="nav-link">
+                        <i class="nav-icon bi bi-file-earmark-text-fill"></i>
+                        <p>My Applications</p>
                     </a>
                 </li>
                 @endif
@@ -171,7 +196,7 @@
                 </li>
                 @endif
 
-                {{-- Logout — POST form styled as nav item --}}
+                {{-- Logout --}}
                 <li class="nav-item mt-2" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top:0.5rem;">
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf

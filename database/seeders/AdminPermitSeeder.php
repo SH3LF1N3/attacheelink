@@ -9,30 +9,37 @@ class AdminPermitSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin role — all permissions ON
+        // Admin — full access 
         Permitdb::updateOrCreate(
             ['rname' => 'admin'],
             [
-                'oppo'  => true, 'app'   => true,
-                'soppo' => true, 'sappo' => true,
-                'ait'   => true, 'air'   => true, 'aia' => true,
-                'stud'  => true, 'org'   => true,
-                'not'   => true, 'rep'   => true,
-                'prof'  => true, 'set'   => true,
-                'astud' => true, 'estud' => true,
-                'aorg'  => true, 'eorg'  => true,
-                'aoppo' => true, 'eoppo' => true,
+                // Opportunity management
+                'oppo'  => true,  'app'   => true,
+                // Student-facing (not needed for admin but set for completeness)
+                'soppo' => false, 'sappo' => false,
+                // AI tools
+                'ait'   => true,  'air'   => true,  'aia' => true,
+                // Sections
+                'stud'  => true,  'org'   => true,
+                'not'   => true,  'rep'   => true,
+                'prof'  => true,  'set'   => true,
+                // CRUD
+                'astud' => true,  'estud' => true,
+                'aorg'  => true,  'eorg'  => true,
+                'aoppo' => true,  'eoppo' => true,
             ]
         );
 
-        // Student role — student-facing permissions only
+        // Student — personal access only 
+        // soppo = browse/view opportunities, sappo = manage own applications
         Permitdb::updateOrCreate(
             ['rname' => 'student'],
             [
-                'oppo'  => false, 'app'   => false,
-                'soppo' => true,  'sappo' => true,
-                'ait'   => false, 'air'   => false, 'aia' => false,
-                'stud'  => true,  'org'   => false,
+                'oppo'  => false, 'app'   => false,   // cannot manage others' content
+                'soppo' => true,  'sappo' => true,     // can browse & apply
+                'ait'   => false, 'air'   => true,     // can use resume checker
+                'aia'   => false,
+                'stud'  => false, 'org'   => false,
                 'not'   => true,  'rep'   => false,
                 'prof'  => true,  'set'   => false,
                 'astud' => false, 'estud' => false,
@@ -41,19 +48,20 @@ class AdminPermitSeeder extends Seeder
             ]
         );
 
-        // Company role — employer-facing permissions only
+        // Company — employer access 
+        // oppo = manage own listings, app = manage applications to their listings
         Permitdb::updateOrCreate(
             ['rname' => 'company'],
             [
                 'oppo'  => true,  'app'   => true,
                 'soppo' => false, 'sappo' => false,
                 'ait'   => false, 'air'   => false, 'aia' => false,
-                'stud'  => false, 'org'   => true,
+                'stud'  => false, 'org'   => true,   // can view org profile
                 'not'   => true,  'rep'   => false,
                 'prof'  => true,  'set'   => false,
                 'astud' => false, 'estud' => false,
-                'aorg'  => true,  'eorg'  => true,
-                'aoppo' => true,  'eoppo' => true,
+                'aorg'  => true,  'eorg'  => true,   // can edit own org
+                'aoppo' => true,  'eoppo' => true,   // can create/edit own opportunities
             ]
         );
     }

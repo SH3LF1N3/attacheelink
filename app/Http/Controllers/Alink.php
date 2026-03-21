@@ -31,7 +31,9 @@ class Alink extends Controller
             $request->boolean('remember')
         )) {
             $request->session()->regenerate();
-            return redirect()->intended(route('dashboard'));
+
+            // All roles land on /dashboard — the blade renders per-role content
+            return redirect()->route('dashboard');
         }
 
         return back()
@@ -61,7 +63,6 @@ class Alink extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Redirect to login with success flash — do NOT auto-login
         return redirect()->route('login')
             ->with('success', 'Account created successfully! Please sign in.');
     }
