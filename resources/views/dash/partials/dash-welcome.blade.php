@@ -1,26 +1,24 @@
-
-@php
-    $hour = now()->hour;
-    $greeting = $hour < 12 ? 'Good morning' : ($hour < 17 ? 'Good afternoon' : 'Good evening');
-    $name = $user->fname ?? $user->uname;
-
-    $roleLabel = ['admin' => 'Administrator', 'student' => 'Student', 'company' => 'Organisation'];
-    $roleColor = ['admin' => 'var(--navy-700)', 'student' => '#0f766e', 'company' => '#b45309'];
-    $label = $roleLabel[$user->role] ?? ucfirst($user->role);
-    $color = $roleColor[$user->role] ?? 'var(--navy-700)';
-@endphp
-
-<div class="rounded-3 mb-4 px-4 py-3 d-flex align-items-center justify-content-between flex-wrap gap-3"
-     style="background: {{ $color }};">
+{{-- Welcome strip — shared across all roles --}}
+<div style="background:var(--navy-700);border-radius:var(--radius-md);padding:1.5rem 2rem;
+            display:flex;align-items:center;justify-content:space-between;
+            margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
     <div>
-        <div style="color: rgba(255,255,255,0.75); font-size: 0.8rem; text-transform: uppercase;
-                    letter-spacing: 0.06em;">{{ $greeting }}</div>
-        <h4 class="mb-0 text-white fw-bold">{{ $name }}</h4>
-        <span class="badge mt-1" style="background: rgba(255,255,255,0.15);
-              color: #fff; font-size: 0.72rem; border-radius: 6px;">{{ $label }}</span>
+        <div style="color:var(--gold-400);font-size:0.8125rem;font-weight:600;margin-bottom:0.25rem;text-transform:uppercase;letter-spacing:0.06em;">
+            Welcome back
+        </div>
+        <div style="color:#fff;font-size:1.25rem;font-weight:700;">
+            {{ $user->fname ?? $user->uname }}
+        </div>
+        <div style="color:#9ca3af;font-size:0.8125rem;margin-top:0.2rem;text-transform:capitalize;">
+            {{ $user->role }} account
+            @if($user->role === 'student' && $user->foth2)
+                &nbsp;·&nbsp; {{ $user->foth2 }}
+            @elseif($user->role === 'company')
+                &nbsp;·&nbsp; {{ $user->email }}
+            @endif
+        </div>
     </div>
-    <div style="color: rgba(255,255,255,0.6); font-size: 0.8rem; text-align: right;">
-        <div><i class="bi bi-calendar3 me-1"></i>{{ now()->format('l, d M Y') }}</div>
-        <div class="mt-1"><i class="bi bi-envelope me-1"></i>{{ $user->email }}</div>
+    <div style="color:#6b7280;font-size:0.8125rem;">
+        {{ now()->format('l, d F Y') }}
     </div>
 </div>

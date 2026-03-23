@@ -1,153 +1,104 @@
+{{-- ── COMPANY DASHBOARD ── --}}
 
-{{--  Stat Cards --}}
-<div class="row g-3 mb-4">
-    @php
-    $cards = [
-        ['label' => 'Total Listings',    'value' => $stats['total_listings'],  'icon' => 'bi-list-task',               'color' => '#b45309'],
-        ['label' => 'Active Listings',   'value' => $stats['active_listings'], 'icon' => 'bi-check-circle-fill',       'color' => '#059669'],
-        ['label' => 'Total Applications','value' => $stats['total_apps'],      'icon' => 'bi-file-earmark-text-fill',  'color' => 'var(--navy-700)'],
-        ['label' => 'Pending Review',    'value' => $stats['pending_apps'],    'icon' => 'bi-hourglass-split',         'color' => '#dc2626'],
-    ];
-    @endphp
-    @foreach($cards as $card)
-    <div class="col-6 col-md-3">
-        <div class="card shadow-sm" style="border:none;border-radius:12px;overflow:hidden;">
-            <div class="card-body p-3">
-                <div style="width:40px;height:40px;border-radius:10px;margin-bottom:10px;
-                            background:{{ $card['color'] }}20;
-                            display:flex;align-items:center;justify-content:center;">
-                    <i class="bi {{ $card['icon'] }}" style="color:{{ $card['color'] }};font-size:1.1rem;"></i>
-                </div>
-                <div style="font-size:1.8rem;font-weight:700;color:var(--navy-800);line-height:1;">
-                    {{ $card['value'] }}
-                </div>
-                <div style="font-size:0.75rem;color:#6b7280;margin-top:4px;">{{ $card['label'] }}</div>
-            </div>
+{{-- Stat cards --}}
+<div class="dash-stats-grid" style="margin-bottom:1.5rem;">
+
+    <div class="dash-stat-card">
+        <div class="dash-stat-icon" style="background:rgba(30,58,95,0.1);color:var(--navy-700);">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                <path d="M8 21h8M12 17v4"/>
+            </svg>
         </div>
+        <div class="dash-stat-value">{{ $stats['total_listings'] }}</div>
+        <div class="dash-stat-label">Total Listings</div>
     </div>
-    @endforeach
+
+    <div class="dash-stat-card">
+        <div class="dash-stat-icon" style="background:#f0fdf4;color:#16a34a;">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+        </div>
+        <div class="dash-stat-value">{{ $stats['active_listings'] }}</div>
+        <div class="dash-stat-label">Active Listings</div>
+    </div>
+
+    <div class="dash-stat-card">
+        <div class="dash-stat-icon" style="background:#eff6ff;color:#3b82f6;">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+                <rect x="9" y="3" width="6" height="4" rx="2"/>
+            </svg>
+        </div>
+        <div class="dash-stat-value">{{ $stats['total_apps'] }}</div>
+        <div class="dash-stat-label">Total Applications</div>
+    </div>
+
+    <div class="dash-stat-card">
+        <div class="dash-stat-icon" style="background:#fef9ec;color:var(--gold-500);">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+        </div>
+        <div class="dash-stat-value">{{ $stats['pending_apps'] }}</div>
+        <div class="dash-stat-label">Pending Review</div>
+    </div>
+
 </div>
 
-<div class="row g-3">
+{{-- Two-column grid --}}
+<div class="dash-two-col">
 
-    {{-- My Opportunity Listings --}}
-    <div class="col-lg-5">
-        <div class="card shadow-sm h-100" style="border:none;border-radius:12px;">
-            <div class="card-header bg-white px-4 py-3 d-flex align-items-center justify-content-between"
-                 style="border-bottom:1px solid #f3f4f6;">
-                <h6 class="mb-0 fw-bold" style="color:var(--navy-800);">
-                    <i class="bi bi-list-task me-2" style="color:#b45309;"></i>My Listings
-                </h6>
-                <a href="{{ route('opportunities') }}" class="btn btn-sm"
-                   style="background:#b45309;color:#fff;border-radius:6px;font-size:0.75rem;">
-                    Manage
-                </a>
-            </div>
-            <div class="card-body p-0">
-                @forelse($stats['my_oppo'] as $oppo)
-                @php
-                    $oc = ['active'=>['#059669','#d1fae5'],'closed'=>['#6b7280','#f3f4f6'],
-                           'draft'=>['#1d4ed8','#dbeafe']];
-                    $os = $oc[$oppo->status] ?? ['#6b7280','#f3f4f6'];
-                @endphp
-                <div class="px-4 py-3" style="border-bottom:1px solid #f9fafb;">
-                    <div class="d-flex align-items-start justify-content-between gap-2">
-                        <div style="min-width:0;">
-                            <div class="fw-semibold text-truncate"
-                                 style="font-size:0.875rem;color:var(--navy-800);">
-                                {{ $oppo->oname ?? '—' }}
-                            </div>
-                            <div style="font-size:0.75rem;color:#6b7280;margin-top:2px;">
-                                @if($oppo->loc)
-                                    <i class="bi bi-geo-alt me-1"></i>{{ $oppo->loc }}
-                                @endif
-                                @if($oppo->duration)
-                                    &nbsp;·&nbsp;<i class="bi bi-clock me-1"></i>{{ $oppo->duration }}
-                                @endif
-                            </div>
-                        </div>
-                        <span class="badge text-capitalize text-nowrap"
-                              style="background:{{ $os[1] }};color:{{ $os[0] }};
-                                     font-size:0.7rem;border-radius:6px;flex-shrink:0;">
-                            {{ $oppo->status ?? '—' }}
-                        </span>
-                    </div>
-                    @if($oppo->dead)
-                    <div style="font-size:0.72rem;color:#dc2626;margin-top:4px;">
-                        <i class="bi bi-calendar-x me-1"></i>Deadline: {{ $oppo->dead }}
-                    </div>
-                    @endif
+    {{-- My Listings --}}
+    <div class="dash-card">
+        <div class="dash-card-header">
+            <span>My Opportunities</span>
+            <a href="{{ route('oppo.create') }}" class="dash-view-all" style="color:var(--gold-500);">
+                + Post New
+            </a>
+        </div>
+        <div class="dash-card-body">
+            @forelse($stats['my_oppo'] as $oppo)
+            <div class="dash-list-item">
+                <div>
+                    <div class="dash-list-title">{{ $oppo->oname }}</div>
+                    <div class="dash-list-sub">{{ $oppo->foth1 }} · {{ $oppo->loc }} · Deadline: {{ $oppo->dead }}</div>
                 </div>
-                @empty
-                <div class="text-center py-5 text-muted">
-                    <i class="bi bi-list-task" style="font-size:2rem;opacity:0.3;"></i>
-                    <p class="mt-2 mb-0 small">No listings posted yet.</p>
-                    
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                    <span class="dash-badge dash-badge-{{ $oppo->status }}">{{ ucfirst($oppo->status) }}</span>
+                    <a href="{{ route('oppo.edit', $oppo->id) }}" style="font-size:0.75rem;color:var(--navy-600);">Edit</a>
                 </div>
-                @endforelse
             </div>
+            @empty
+            <div class="dash-empty">
+                No opportunities posted yet.
+                <a href="{{ route('oppo.create') }}">Post your first →</a>
+            </div>
+            @endforelse
         </div>
     </div>
 
-    {{-- Recent Applicants --}}
-    <div class="col-lg-7">
-        <div class="card shadow-sm h-100" style="border:none;border-radius:12px;">
-            <div class="card-header bg-white px-4 py-3 d-flex align-items-center justify-content-between"
-                 style="border-bottom:1px solid #f3f4f6;">
-                <h6 class="mb-0 fw-bold" style="color:var(--navy-800);">
-                    <i class="bi bi-people me-2" style="color:#b45309;"></i>Recent Applicants
-                </h6>
-                <a href="{{ route('applications') }}" class="btn btn-sm"
-                   style="background:#b45309;color:#fff;border-radius:6px;font-size:0.75rem;">
-                    View All
-                </a>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0" style="font-size:0.8rem;">
-                        <thead style="background:#f9fafb;">
-                            <tr>
-                                <th class="px-4 py-3 text-muted fw-semibold">Student</th>
-                                <th class="py-3 text-muted fw-semibold">Role / Position</th>
-                                <th class="py-3 text-muted fw-semibold">Status</th>
-                                <th class="py-3 text-muted fw-semibold">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($stats['recent_apps'] as $app)
-                            @php
-                                $sc = ['pending'=>['#b45309','#fef3c7'],'review'=>['#1d4ed8','#dbeafe'],
-                                       'accepted'=>['#065f46','#d1fae5'],'rejected'=>['#991b1b','#fee2e2']];
-                                $s  = $sc[$app->status] ?? ['#6b7280','#f3f4f6'];
-                            @endphp
-                            <tr>
-                                <td class="px-4 py-3">
-                                    <div class="fw-semibold" style="color:var(--navy-800);font-size:0.875rem;">
-                                        {{ $app->stud ?? '—' }}
-                                    </div>
-                                </td>
-                                <td class="py-3 text-muted">{{ $app->role ?? '—' }}</td>
-                                <td class="py-3">
-                                    <span class="badge text-capitalize"
-                                          style="background:{{ $s[1] }};color:{{ $s[0] }};
-                                                 font-size:0.72rem;border-radius:6px;">
-                                        {{ $app->status ?? '—' }}
-                                    </span>
-                                </td>
-                                <td class="py-3 text-muted">{{ $app->date ?? '—' }}</td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="4" class="text-center py-5 text-muted">
-                                    <i class="bi bi-inbox" style="font-size:2rem;opacity:0.3;"></i>
-                                    <p class="mt-2 mb-0 small">No applications received yet.</p>
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+    {{-- Recent Applications received --}}
+    <div class="dash-card">
+        <div class="dash-card-header">
+            <span>Recent Applications</span>
+            <a href="{{ route('applications') }}" class="dash-view-all">View All →</a>
+        </div>
+        <div class="dash-card-body">
+            @forelse($stats['recent_apps'] as $app)
+            <div class="dash-list-item">
+                <div>
+                    <div class="dash-list-title">{{ $app->stud ?? 'Applicant' }}</div>
+                    <div class="dash-list-sub">Applied for: {{ $app->oname ?? '—' }}</div>
                 </div>
+                <span class="dash-badge dash-badge-{{ $app->status ?? 'pending' }}">
+                    {{ ucfirst($app->status ?? 'pending') }}
+                </span>
             </div>
+            @empty
+            <div class="dash-empty">No applications received yet.</div>
+            @endforelse
         </div>
     </div>
 

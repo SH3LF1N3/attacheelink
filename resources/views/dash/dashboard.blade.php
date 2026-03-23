@@ -18,7 +18,6 @@
                             @endif
                         </h3>
                     </div>
-                    
                 </div>
             </div>
         </div>
@@ -26,10 +25,8 @@
         <div class="app-content">
             <div class="container-fluid">
 
-                {{-- Welcome strip (shared across all roles) --}}
                 @include('dash.partials.dash-welcome')
 
-                {{-- Role-specific dashboard content --}}
                 @if($user->role === 'admin')
                     @include('dash.partials.dash-admin')
                 @elseif($user->role === 'student')

@@ -63,6 +63,16 @@
                 </li>
                 @endif
 
+                {{-- COMPANY ONLY: Post Opportunity --}}
+                @if($permit->aoppo && auth()->user()->role === 'company')
+                <li class="nav-item">
+                    <a href="{{ route('oppo.create') }}" class="nav-link">
+                        <i class="nav-icon bi bi-plus-circle-fill"></i>
+                        <p>Post Opportunity</p>
+                    </a>
+                </li>
+                @endif
+
                 {{-- STUDENT: Browse Opportunities --}}
                 @if($permit->soppo && !$permit->oppo)
                 <li class="nav-item">

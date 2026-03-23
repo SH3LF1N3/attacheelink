@@ -5,6 +5,7 @@ use App\Http\Controllers\Home;
 use App\Http\Controllers\AboutUs;
 use App\Http\Controllers\ContactUs;
 use App\Http\Controllers\dash\Dashboard;
+use App\Http\Controllers\dash\ProfileController;
 use App\Http\Controllers\dash\Opportunity;
 use App\Http\Controllers\dash\Apps;
 use App\Http\Controllers\dash\Students;
@@ -47,9 +48,17 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard');
 
     Route::get('/profile', [Dashboard::class, 'profile'])->name('profile');
+    Route::post('/update_profile',  [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/update_password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+
 
     // Core sections
-    Route::get('/opportunities',  [Opportunity::class,   'oppo'])->middleware('permission:oppo')->name('opportunities');
+    Route::get('/opportunities',              [Opportunity::class, 'oppo'])->middleware('permission:oppo')->name('opportunities');
+    Route::get('/opportunities/create',       [Opportunity::class, 'create'])->middleware('permission:aoppo')->name('oppo.create');
+    Route::post('/opportunities/store',       [Opportunity::class, 'store'])->middleware('permission:aoppo')->name('oppo.store');
+    Route::get('/opportunities/{oppo}/edit',  [Opportunity::class, 'edit'])->middleware('permission:eoppo')->name('oppo.edit');
+    Route::put('/opportunities/{oppo}',       [Opportunity::class, 'update'])->middleware('permission:eoppo')->name('oppo.update');
+    Route::delete('/opportunities/{oppo}',    [Opportunity::class, 'destroy'])->middleware('permission:eoppo')->name('oppo.destroy');
     Route::get('/applications',   [Apps::class,          'app'])->middleware('permission:app')->name('applications');
     Route::get('/students',       [Students::class,      'students'])->middleware('permission:stud')->name('students');
     Route::get('/notifications',  [Notifications::class, 'notify'])->middleware('permission:not')->name('notifications');
