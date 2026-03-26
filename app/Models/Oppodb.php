@@ -17,4 +17,12 @@ class Oppodb extends Model
         'foth1', 'foth2', 'foth3', 'foth4', 'foth5',
         'foth6', 'foth7', 'foth8', 'foth9', 'foth10',
     ];
+
+    /**
+     * All applications submitted for this opportunity.
+     */
+    public function applications()
+    {
+        return $this->hasMany(Application::class, 'oppodb_id');
+    }
 }

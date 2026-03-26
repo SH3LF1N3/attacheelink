@@ -15,19 +15,9 @@
     </div>
 
     <div class="dash-stat-card">
-        <div class="dash-stat-icon" style="background:#fef9ec;color:var(--gold-500);">
-            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
-        </div>
-        <div class="dash-stat-value">{{ $stats['pending'] }}</div>
-        <div class="dash-stat-label">Pending</div>
-    </div>
-
-    <div class="dash-stat-card">
         <div class="dash-stat-icon" style="background:#eff6ff;color:#3b82f6;">
             <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
             </svg>
         </div>
         <div class="dash-stat-value">{{ $stats['under_review'] }}</div>
@@ -40,8 +30,19 @@
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
             </svg>
         </div>
-        <div class="dash-stat-value">{{ $stats['accepted'] }}</div>
-        <div class="dash-stat-label">Accepted</div>
+        <div class="dash-stat-value">{{ $stats['shortlisted'] }}</div>
+        <div class="dash-stat-label">Shortlisted</div>
+    </div>
+
+    <div class="dash-stat-card">
+        <div class="dash-stat-icon" style="background:#fef2f2;color:#b91c1c;">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+        </div>
+        <div class="dash-stat-value">{{ $stats['rejected'] }}</div>
+        <div class="dash-stat-label">Rejected</div>
     </div>
 
 </div>
@@ -49,48 +50,82 @@
 {{-- Two-column grid --}}
 <div class="dash-two-col">
 
-    {{-- Recent Applications --}}
+    {{-- Recommended Opportunities --}}
     <div class="dash-card">
         <div class="dash-card-header">
-            <span>My Recent Applications</span>
-            <a href="{{ route('applications') }}" class="dash-view-all">View All →</a>
+            <span>Recommended for You</span>
+            <a href="{{ route('my_opportunities') }}" class="dash-view-all">View All →</a>
         </div>
         <div class="dash-card-body">
-            @forelse($stats['recent_apps'] as $app)
+            @forelse($stats['recommended'] as $oppo)
             <div class="dash-list-item">
-                <div>
-                    <div class="dash-list-title">{{ $app->oname ?? 'Unnamed Role' }}</div>
-                    <div class="dash-list-sub">{{ $app->org ?? '—' }} · {{ $app->loc ?? '' }}</div>
+                <div style="display:flex;align-items:center;gap:0.75rem;">
+                    {{-- Initial avatar --}}
+                    <div style="width:36px;height:36px;border-radius:8px;
+                                background:var(--navy-50);color:var(--navy-700);
+                                display:flex;align-items:center;justify-content:center;
+                                font-weight:700;font-size:0.85rem;flex-shrink:0;">
+                        {{ strtoupper(substr($oppo->org, 0, 1)) }}
+                    </div>
+                    <div>
+                        <div class="dash-list-title">{{ $oppo->oname }}</div>
+                        <div class="dash-list-sub">{{ $oppo->org }} · {{ $oppo->loc }}</div>
+                    </div>
                 </div>
-                <span class="dash-badge dash-badge-{{ $app->status ?? 'pending' }}">
-                    {{ ucfirst($app->status ?? 'pending') }}
-                </span>
+                <a href="{{ route('my_opportunities') }}"
+                   style="font-size:0.78rem;font-weight:600;color:var(--navy-700);
+                          border:1px solid var(--navy-200);padding:4px 12px;
+                          border-radius:6px;text-decoration:none;white-space:nowrap;">
+                    View
+                </a>
             </div>
             @empty
-            <div class="dash-empty">No applications yet. <a href="{{ route('opportunities') }}">Browse opportunities →</a></div>
+            <div class="dash-empty">
+                No new opportunities available.
+                <a href="{{ route('my_opportunities') }}">Browse all →</a>
+            </div>
             @endforelse
         </div>
     </div>
 
-    {{-- Open Opportunities --}}
+    {{-- Upcoming Deadlines --}}
     <div class="dash-card">
         <div class="dash-card-header">
-            <span>Open Opportunities</span>
-            <a href="{{ route('opportunities') }}" class="dash-view-all">View All →</a>
+            <span>Upcoming Deadlines</span>
+            <a href="{{ route('my_opportunities') }}" class="dash-view-all">View All →</a>
         </div>
         <div class="dash-card-body">
-            @forelse($stats['open_oppo'] as $oppo)
+            @forelse($stats['upcoming_deadlines'] as $oppo)
+            @php
+                $daysLeft = \Carbon\Carbon::today()->diffInDays(\Carbon\Carbon::parse($oppo->dead), false);
+                $urgentColor = $daysLeft <= 2 ? '#b91c1c' : '#b45309';
+                $urgentBg    = $daysLeft <= 2 ? '#fef2f2' : '#fef9ec';
+            @endphp
             <div class="dash-list-item">
-                <div>
-                    <div class="dash-list-title">{{ $oppo->oname }}</div>
-                    <div class="dash-list-sub">{{ $oppo->org }} · {{ $oppo->loc }}</div>
+                <div style="display:flex;align-items:center;gap:0.75rem;">
+                    <div style="width:32px;height:32px;border-radius:50%;
+                                background:{{ $urgentBg }};color:{{ $urgentColor }};
+                                display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="dash-list-title">{{ $oppo->oname }}</div>
+                        <div style="font-size:0.75rem;color:{{ $urgentColor }};font-weight:600;margin-top:2px;">
+                            @if($daysLeft === 0)
+                                Expires today
+                            @elseif($daysLeft === 1)
+                                Expires tomorrow
+                            @else
+                                Expires in {{ $daysLeft }} days
+                            @endif
+                        </div>
+                    </div>
                 </div>
-                <span style="font-size:0.75rem;color:var(--charcoal-400);">
-                    Deadline: {{ $oppo->dead }}
-                </span>
             </div>
             @empty
-            <div class="dash-empty">No open opportunities at the moment.</div>
+            <div class="dash-empty">No deadlines in the next 7 days.</div>
             @endforelse
         </div>
     </div>

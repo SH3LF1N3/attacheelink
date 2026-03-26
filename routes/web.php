@@ -16,14 +16,14 @@ use App\Http\Controllers\dash\Settings;
 use App\Http\Controllers\dash\Aitools;
 use Illuminate\Support\Facades\Route;
 
-// Public 
+// Public
 
 Route::get('/', [Home::class, 'index'])->name('home');
 Route::get('/aboutus', [AboutUs::class, 'index'])->name('aboutus');
 Route::get('/contactus', [ContactUs::class, 'index'])->name('contactus');
 Route::post('/contactus', [ContactUs::class, 'send'])->name('contactus.send');
 
-// Guest only 
+// Guest only
 
 Route::middleware('guest')->group(function () {
     Route::get( '/login',    [Alink::class, 'index'])->name('login');
@@ -38,7 +38,7 @@ Route::post('/logout', [Alink::class, 'logout'])
     ->name('logout')
     ->middleware('auth');
 
-// Protected 
+// Protected
 
 Route::middleware('auth')->group(function () {
 
@@ -51,7 +51,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/update_profile',  [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/update_password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 
-
     // Core sections
     Route::get('/opportunities',              [Opportunity::class, 'oppo'])->middleware('permission:oppo')->name('opportunities');
     Route::get('/opportunities/create',       [Opportunity::class, 'create'])->middleware('permission:aoppo')->name('oppo.create');
@@ -59,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/opportunities/{oppo}/edit',  [Opportunity::class, 'edit'])->middleware('permission:eoppo')->name('oppo.edit');
     Route::put('/opportunities/{oppo}',       [Opportunity::class, 'update'])->middleware('permission:eoppo')->name('oppo.update');
     Route::delete('/opportunities/{oppo}',    [Opportunity::class, 'destroy'])->middleware('permission:eoppo')->name('oppo.destroy');
+
     Route::get('/applications',   [Apps::class,          'app'])->middleware('permission:app')->name('applications');
     Route::get('/students',       [Students::class,      'students'])->middleware('permission:stud')->name('students');
     Route::get('/notifications',  [Notifications::class, 'notify'])->middleware('permission:not')->name('notifications');
@@ -69,28 +69,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/my_opportunities', [Opportunity::class, 'soppo'])->middleware('permission:soppo')->name('my_opportunities');
     Route::get('/my_applications',  [Apps::class,        'sappo'])->middleware('permission:sappo')->name('my_applications');
 
-    
     // Application modal routes (student)
     Route::get('/opportunities/{oppo}/apply-data', [Apps::class, 'show'])->middleware('permission:soppo')->name('oppo.apply.data');
     Route::post('/opportunities/{oppo}/apply',      [Apps::class, 'store'])->middleware('permission:soppo')->name('oppo.apply.store');
-    
-    
+
+    // Applicants modal + status update (company/admin)
+    Route::get('/opportunities/{oppo}/applicants',          [Apps::class, 'applicants'])->middleware('permission:app')->name('oppo.applicants');
+    Route::patch('/applications/{application}/status',      [Apps::class, 'updateStatus'])->middleware('permission:app')->name('application.status');
+
     // AI Tools
     Route::get('/ai_assistant',      [Aitools::class, 'ass'])->middleware('permission:ait')->name('ai_assistant');
     Route::get('/ai_resume_checker', [Aitools::class, 'check'])->middleware('permission:air')->name('ai_resume_checker');
 
-    // Settings (all require 'set' permission) 
+    // Settings (all require 'set' permission)
     Route::middleware('permission:set')->group(function () {
-
-        // Permission settings
         Route::get('/permission_settings',           [Settings::class, 'permit'])->name('permission_settings');
         Route::patch('/permission_settings/{id}',    [Settings::class, 'permitUpdate'])->name('permission_settings.update');
-
-        // System logs
         Route::get('/system_logs',                   [Settings::class, 'logs'])->name('system_logs');
         Route::delete('/system_logs/clear',          [Settings::class, 'logsClear'])->name('system_logs.clear');
-
-        // General settings
         Route::get('/general_settings',              [Settings::class, 'gen'])->name('general_settings');
         Route::patch('/general_settings',            [Settings::class, 'genUpdate'])->name('general_settings.update');
     });

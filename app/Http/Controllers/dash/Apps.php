@@ -7,29 +7,24 @@ use App\Models\Application;
 use App\Models\Oppodb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class Apps extends Controller
 {
     /**
-     * Admin / Company: manage all or their own received applications.
+     * Admin / Company: list opportunities with applicant counts.
      */
     public function app()
     {
         $user  = Auth::user();
-        $query = Application::with(['opportunity', 'student']);
+        $query = Oppodb::withCount('applications');
 
         if ($user->role === 'company') {
-            // Company sees only applications linked to their opportunities
-            $query->whereHas('opportunity', function ($q) use ($user) {
-                $q->where('org', $user->uname);
-            });
+            $query->where('org', $user->uname);
         }
-        // Admin falls through with no extra filter — sees everything
 
-        $applications = $query->latest()->paginate(20);
+        $opportunities = $query->latest()->paginate(20);
 
-        return view('dash.apps', compact('applications'));
+        return view('dash.apps', compact('opportunities'));
     }
 
     /**
@@ -47,7 +42,6 @@ class Apps extends Controller
 
     /**
      * Return opportunity data for the apply modal (AJAX).
-     * Also flags whether the authenticated student has already applied.
      */
     public function show(Oppodb $oppo)
     {
@@ -71,7 +65,6 @@ class Apps extends Controller
      */
     public function store(Request $request, Oppodb $oppo)
     {
-        // Prevent duplicate applications
         $exists = Application::where('user_id', Auth::id())
             ->where('oppodb_id', $oppo->id)
             ->exists();
@@ -101,5 +94,61 @@ class Apps extends Controller
         ]);
 
         return response()->json(['message' => 'Application submitted successfully.']);
+    }
+
+    /**
+     * AJAX: return applicants for a given opportunity (company/admin).
+     */
+    public function applicants(Oppodb $oppo)
+    {
+        $user = Auth::user();
+
+        if ($user->role === 'company' && $oppo->org !== $user->uname) {
+            abort(403);
+        }
+
+        $applicants = Application::with('student')
+            ->where('oppodb_id', $oppo->id)
+            ->latest()
+            ->get()
+            ->map(function ($app) {
+                return [
+                    'id'         => $app->id,
+                    'name'       => $app->student->fname ?? '—',
+                    'email'      => $app->student->email ?? '—',
+                    'phone'      => $app->student->phone ?? '—',
+                    'sid'        => $app->student->sid   ?? '—',
+                    'status'     => $app->status,
+                    'applied_at' => $app->created_at->format('M d, Y'),
+                ];
+            });
+
+        return response()->json([
+            'opportunity' => $oppo->oname,
+            'total'       => $applicants->count(),
+            'applicants'  => $applicants,
+        ]);
+    }
+
+    /**
+     * AJAX: update an application status (shortlisted / rejected / pending / review).
+     */
+    public function updateStatus(Request $request, Application $application)
+    {
+        $user = Auth::user();
+
+        if ($user->role === 'company') {
+            if ($application->opportunity->org !== $user->uname) {
+                abort(403);
+            }
+        }
+
+        $request->validate([
+            'status' => ['required', 'in:pending,review,shortlisted,rejected'],
+        ]);
+
+        $application->update(['status' => $request->status]);
+
+        return response()->json(['message' => 'Status updated.', 'status' => $application->status]);
     }
 }

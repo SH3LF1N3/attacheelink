@@ -47,20 +47,21 @@
                                 <thead style="background:#f9fafb;">
                                     <tr>
                                         <th class="px-4 py-3 text-muted fw-semibold">#</th>
-                                        <th class="py-3 text-muted fw-semibold">Organisation</th>
                                         <th class="py-3 text-muted fw-semibold">Role / Position</th>
-                                        <th class="py-3 text-muted fw-semibold">Status</th>
+                                        <th class="py-3 text-muted fw-semibold">Organisation</th>
                                         <th class="py-3 text-muted fw-semibold">Date Applied</th>
+                                        <th class="py-3 text-muted fw-semibold">Status</th>
+                                        <th class="py-3 text-muted fw-semibold">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($applications as $app)
+                                @forelse($applications as $app)
                                     @php
                                         $badges = [
-                                            'pending'  => ['#b45309', '#fef9ec'],
-                                            'review'   => ['#1d4ed8', '#eff6ff'],
-                                            'accepted' => ['#15803d', '#f0fdf4'],
-                                            'rejected' => ['#b91c1c', '#fef2f2'],
+                                            'pending'     => ['#b45309', '#fef9ec'],
+                                            'review'      => ['#1d4ed8', '#eff6ff'],
+                                            'shortlisted' => ['#15803d', '#f0fdf4'],
+                                            'rejected'    => ['#b91c1c', '#fef2f2'],
                                         ];
                                         $b = $badges[$app->status] ?? ['#52525b', '#f5f5f6'];
                                     @endphp
@@ -69,26 +70,31 @@
                                             {{ $applications->firstItem() + $loop->index }}
                                         </td>
                                         <td class="py-3 fw-semibold" style="color:var(--navy-800);">
-                                            {{ $app->org ?? '—' }}
+                                            {{ $app->opportunity->oname ?? '—' }}
                                         </td>
                                         <td class="py-3" style="color:var(--charcoal-500);">
-                                            {{ $app->role ?? $app->oname ?? '—' }}
+                                            {{ $app->opportunity->org ?? '—' }}
+                                        </td>
+                                        <td class="py-3" style="color:var(--charcoal-400);">
+                                            {{ $app->created_at->format('M d, Y') }}
                                         </td>
                                         <td class="py-3">
                                             <span style="background:{{ $b[1] }};color:{{ $b[0] }};
                                                          font-size:0.72rem;font-weight:700;
                                                          padding:3px 10px;border-radius:var(--radius-full);
                                                          text-transform:capitalize;">
-                                                {{ $app->status ?? '—' }}
+                                                {{ ucfirst($app->status) }}
                                             </span>
                                         </td>
-                                        <td class="py-3" style="color:var(--charcoal-400);">
-                                            {{ $app->created_at ? $app->created_at->format('d M Y') : ($app->date ?? '—') }}
+                                        <td class="py-3">
+                                            <span style="color:var(--charcoal-400);font-size:0.8rem;">
+                                                View Details
+                                            </span>
                                         </td>
                                     </tr>
-                                    @empty
+                                @empty
                                     <tr>
-                                        <td colspan="5" class="text-center py-5">
+                                        <td colspan="6" class="text-center py-5">
                                             <i class="bi bi-inbox"
                                                style="font-size:2.5rem;color:#d1d9e2;"></i>
                                             <p class="mt-2 mb-0"
@@ -105,7 +111,7 @@
                                             </a>
                                         </td>
                                     </tr>
-                                    @endforelse
+                                @endforelse
                                 </tbody>
                             </table>
                         </div>
