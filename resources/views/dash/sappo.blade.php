@@ -2,7 +2,6 @@
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
 <div class="app-wrapper">
-
     @include('dash.parts.topnav')
     @include('dash.parts.sidenav')
 
@@ -24,19 +23,24 @@
         <div class="app-content">
             <div class="container-fluid">
 
-                <div class="card shadow-sm" style="border:none;border-radius:12px;overflow:hidden;">
+                <div class="card shadow-sm" style="border:1px solid #e8edf3;border-radius:12px;overflow:hidden;">
+
+                    {{-- Card header --}}
                     <div class="card-header bg-white px-4 py-3 d-flex align-items-center justify-content-between"
-                         style="border-bottom:1px solid #f3f4f6;">
+                         style="border-bottom:1px solid #f0f4f8;">
                         <h6 class="mb-0 fw-bold" style="color:var(--navy-800);">
-                            <i class="bi bi-file-earmark-text me-2" style="color:#0f766e;"></i>
+                            <i class="bi bi-file-earmark-text me-2" style="color:var(--navy-600);"></i>
                             My Applications
-                            <span class="badge ms-2" style="background:#f3f4f6;color:#374151;font-size:0.75rem;">
+                            <span class="ms-2"
+                                  style="background:var(--navy-50);color:var(--navy-700);
+                                         font-size:0.75rem;font-weight:700;
+                                         padding:2px 10px;border-radius:var(--radius-full);">
                                 {{ $applications->total() }}
                             </span>
                         </h6>
-                        
                     </div>
 
+                    {{-- Table --}}
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover mb-0" style="font-size:0.875rem;">
@@ -52,13 +56,13 @@
                                 <tbody>
                                     @forelse($applications as $app)
                                     @php
-                                        $sc = [
-                                            'pending'  => ['#b45309', '#fef3c7'],
-                                            'review'   => ['#1d4ed8', '#dbeafe'],
-                                            'accepted' => ['#065f46', '#d1fae5'],
-                                            'rejected' => ['#991b1b', '#fee2e2'],
+                                        $badges = [
+                                            'pending'  => ['#b45309', '#fef9ec'],
+                                            'review'   => ['#1d4ed8', '#eff6ff'],
+                                            'accepted' => ['#15803d', '#f0fdf4'],
+                                            'rejected' => ['#b91c1c', '#fef2f2'],
                                         ];
-                                        $s = $sc[$app->status] ?? ['#6b7280', '#f3f4f6'];
+                                        $b = $badges[$app->status] ?? ['#52525b', '#f5f5f6'];
                                     @endphp
                                     <tr>
                                         <td class="px-4 py-3 text-muted">
@@ -67,23 +71,36 @@
                                         <td class="py-3 fw-semibold" style="color:var(--navy-800);">
                                             {{ $app->org ?? '—' }}
                                         </td>
-                                        <td class="py-3 text-muted">{{ $app->role ?? '—' }}</td>
+                                        <td class="py-3" style="color:var(--charcoal-500);">
+                                            {{ $app->role ?? $app->oname ?? '—' }}
+                                        </td>
                                         <td class="py-3">
-                                            <span class="badge text-capitalize"
-                                                  style="background:{{ $s[1] }};color:{{ $s[0] }};
-                                                         font-size:0.72rem;border-radius:6px;padding:4px 10px;">
+                                            <span style="background:{{ $b[1] }};color:{{ $b[0] }};
+                                                         font-size:0.72rem;font-weight:700;
+                                                         padding:3px 10px;border-radius:var(--radius-full);
+                                                         text-transform:capitalize;">
                                                 {{ $app->status ?? '—' }}
                                             </span>
                                         </td>
-                                        <td class="py-3 text-muted">{{ $app->date ?? '—' }}</td>
+                                        <td class="py-3" style="color:var(--charcoal-400);">
+                                            {{ $app->created_at ? $app->created_at->format('d M Y') : ($app->date ?? '—') }}
+                                        </td>
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td colspan="5" class="text-center py-5 text-muted">
-                                            <i class="bi bi-inbox" style="font-size:2.5rem;opacity:0.3;"></i>
-                                            <p class="mt-2 mb-0">You haven't applied to anything yet.</p>
-                                            <a href="{{ route('my_opportunities') }}" class="btn btn-sm mt-3"
-                                               style="background:#0f766e;color:#fff;border-radius:6px;">
+                                        <td colspan="5" class="text-center py-5">
+                                            <i class="bi bi-inbox"
+                                               style="font-size:2.5rem;color:#d1d9e2;"></i>
+                                            <p class="mt-2 mb-0"
+                                               style="color:var(--charcoal-400);font-size:0.875rem;">
+                                                You haven't applied to anything yet.
+                                            </p>
+                                            <a href="{{ route('my_opportunities') }}"
+                                               style="display:inline-block;margin-top:0.75rem;
+                                                      background:var(--navy-700);color:#fff;
+                                                      padding:0.45rem 1.1rem;border-radius:var(--radius-sm);
+                                                      font-size:0.875rem;font-weight:600;
+                                                      text-decoration:none;">
                                                 Browse Opportunities
                                             </a>
                                         </td>
@@ -95,10 +112,11 @@
                     </div>
 
                     @if($applications->hasPages())
-                    <div class="card-footer bg-white px-4 py-3" style="border-top:1px solid #f3f4f6;">
+                    <div class="card-footer bg-white px-4 py-3" style="border-top:1px solid #f0f4f8;">
                         {{ $applications->links() }}
                     </div>
                     @endif
+
                 </div>
 
             </div>
