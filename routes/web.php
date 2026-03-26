@@ -69,6 +69,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/my_opportunities', [Opportunity::class, 'soppo'])->middleware('permission:soppo')->name('my_opportunities');
     Route::get('/my_applications',  [Apps::class,        'sappo'])->middleware('permission:sappo')->name('my_applications');
 
+    
+    // Application modal routes (student)
+    Route::get('/opportunities/{oppo}/apply-data', [Apps::class, 'show'])->middleware('permission:soppo')->name('oppo.apply.data');
+    Route::post('/opportunities/{oppo}/apply',      [Apps::class, 'store'])->middleware('permission:soppo')->name('oppo.apply.store');
+    
+    
     // AI Tools
     Route::get('/ai_assistant',      [Aitools::class, 'ass'])->middleware('permission:ait')->name('ai_assistant');
     Route::get('/ai_resume_checker', [Aitools::class, 'check'])->middleware('permission:air')->name('ai_resume_checker');
