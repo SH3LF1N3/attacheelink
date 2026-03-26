@@ -1696,3 +1696,184 @@ body {
 .dash-badge-admin     { background: rgba(30,58,95,0.1); color: var(--navy-700); }
 .dash-badge-student   { background: #f0fdf4; color: #15803d; }
 .dash-badge-company   { background: #fef9ec; color: #b45309; }
+/* ─────────────────────────────────────────
+   OPPORTUNITIES LIST PAGE
+───────────────────────────────────────── */
+
+.oppo-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+}
+.oppo-filter-form {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    flex-wrap: wrap;
+}
+.oppo-filter-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.55rem 0.9rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+    color: var(--navy-800);
+    background: #fff;
+    border: 1.5px solid #d1d9e2;
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 0.15s;
+}
+.oppo-filter-input:focus { border-color: var(--navy-600); }
+
+.oppo-filter-select {
+    padding: 0.55rem 0.9rem;
+    font-size: 0.875rem;
+    font-family: inherit;
+    color: var(--navy-800);
+    background: #fff;
+    border: 1.5px solid #d1d9e2;
+    border-radius: var(--radius-sm);
+    outline: none;
+    cursor: pointer;
+    min-width: 150px;
+}
+.oppo-filter-select:focus { border-color: var(--navy-600); }
+
+.oppo-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--navy-700);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.55rem 1.1rem;
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+}
+.oppo-filter-btn:hover { background: var(--navy-800); }
+
+.oppo-filter-clear {
+    font-size: 0.8125rem;
+    color: var(--charcoal-400);
+    text-decoration: none;
+    white-space: nowrap;
+}
+.oppo-filter-clear:hover { color: #dc2626; }
+
+/* Cards grid */
+.oppo-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+@media (max-width: 1100px) { .oppo-cards-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .oppo-cards-grid { grid-template-columns: 1fr; } }
+
+/* Individual card */
+.oppo-card {
+    background: #fff;
+    border: 1px solid #e8edf3;
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.oppo-card:hover {
+    box-shadow: 0 6px 24px rgba(30,58,95,0.1);
+    transform: translateY(-2px);
+}
+
+.oppo-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+
+.oppo-card-icon {
+    width: 42px; height: 42px;
+    border-radius: 9px;
+    background: var(--navy-50);
+    color: var(--navy-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.oppo-card-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: var(--navy-700);
+    color: #fff;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-full);
+}
+
+.oppo-card-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--navy-800);
+}
+
+.oppo-card-org {
+    font-size: 0.8125rem;
+    color: var(--charcoal-500);
+}
+
+.oppo-card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-top: 0.25rem;
+}
+
+.oppo-card-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--charcoal-400);
+}
+
+.oppo-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f0f4f8;
+    flex-wrap: wrap;
+}
+
+.oppo-apply-btn { padding: 0.5rem 1.1rem; font-size: 0.875rem; }
+
+.oppo-edit-link {
+    font-size: 0.8125rem; font-weight: 600;
+    color: var(--navy-600); text-decoration: none;
+}
+.oppo-edit-link:hover { color: var(--gold-500); }
+
+.oppo-delete-link {
+    font-size: 0.8125rem; font-weight: 600;
+    color: #dc2626; background: none;
+    border: none; cursor: pointer; padding: 0;
+}
+.oppo-delete-link:hover { color: #b91c1c; }
+
+.oppo-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
