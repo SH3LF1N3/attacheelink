@@ -23,6 +23,59 @@
         <div class="app-content">
             <div class="container-fluid">
 
+                {{-- Search & Filter bar --}}
+                <form method="GET" action="{{ route('my_opportunities') }}"
+                      style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;margin-bottom:1.25rem;">
+
+                    <input type="text" name="q" value="{{ request('q') }}"
+                           placeholder="Search by title, organisation, or keyword..."
+                           style="flex:1;min-width:220px;border:1px solid #e2e8f0;border-radius:8px;
+                                  padding:0.5rem 0.85rem;font-size:0.875rem;color:#1e293b;
+                                  background:#fff;outline:none;">
+
+                    <select name="loc"
+                            style="border:1px solid #e2e8f0;border-radius:8px;
+                                   padding:0.5rem 0.85rem;font-size:0.875rem;
+                                   color:#1e293b;background:#fff;cursor:pointer;min-width:150px;">
+                        <option value="">All Counties</option>
+                        @foreach(['Nairobi','Mombasa','Kisumu','Nakuru','Eldoret','Meru','Embu','Tharaka-Nithi','Kisii','Nyeri'] as $county)
+                            <option value="{{ $county }}" {{ request('loc') === $county ? 'selected' : '' }}>
+                                {{ $county }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <select name="dept"
+                            style="border:1px solid #e2e8f0;border-radius:8px;
+                                   padding:0.5rem 0.85rem;font-size:0.875rem;
+                                   color:#1e293b;background:#fff;cursor:pointer;min-width:180px;">
+                        <option value="">All Departments</option>
+                        @foreach(['Data Science & Analytics','Software Engineering','Cybersecurity','IT & Systems','Product & Design','Front-End Development','Full Stack Development','AI & Machine Learning','Cloud Computing'] as $dept)
+                            <option value="{{ $dept }}" {{ request('dept') === $dept ? 'selected' : '' }}>
+                                {{ $dept }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <button type="submit"
+                            style="background:var(--navy-700);color:#fff;border:none;
+                                   border-radius:8px;padding:0.5rem 1.25rem;
+                                   font-size:0.875rem;font-weight:600;cursor:pointer;
+                                   display:flex;align-items:center;gap:6px;">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+
+                    @if(request()->hasAny(['q','loc','dept']))
+                    <a href="{{ route('my_opportunities') }}"
+                       style="font-size:0.82rem;color:var(--charcoal-400);text-decoration:none;
+                              padding:0.5rem 0.75rem;border:1px solid #e2e8f0;border-radius:8px;
+                              background:#fff;">
+                        &#x2715; Clear
+                    </a>
+                    @endif
+
+                </form>
+
                 {{-- Stats strip --}}
                 <div class="d-flex align-items-center gap-2 mb-4">
                     <span style="font-size:0.875rem;color:var(--charcoal-400);">
