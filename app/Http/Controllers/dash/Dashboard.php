@@ -86,15 +86,19 @@ class Dashboard extends Controller
 
     private function companyStats(object $user): array
     {
-        $myOppo = Oppodb::where('org', $user->uname)->pluck('oname');
+        $oppoIds = Oppodb::where('org', $user->uname)->pluck('id');
 
         return [
             'total_listings'  => Oppodb::where('org', $user->uname)->count(),
             'active_listings' => Oppodb::where('org', $user->uname)->where('status', 'active')->count(),
-            'total_apps'      => Appdb::where('org', $user->uname)->count(),
-            'pending_apps'    => Appdb::where('org', $user->uname)->where('status', 'pending')->count(),
+            'total_apps'      => Application::whereIn('oppodb_id', $oppoIds)->count(),
+            'pending_apps'    => Application::whereIn('oppodb_id', $oppoIds)->where('status', 'pending')->count(),
             'my_oppo'         => Oppodb::where('org', $user->uname)->latest()->take(6)->get(),
-            'recent_apps'     => Appdb::where('org', $user->uname)->latest()->take(8)->get(),
+            'recent_apps'     => Application::with(['opportunity', 'student'])
+                                    ->whereIn('oppodb_id', $oppoIds)
+                                    ->latest()
+                                    ->take(8)
+                                    ->get(),
         ];
     }
 }

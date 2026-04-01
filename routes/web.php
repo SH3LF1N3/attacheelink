@@ -96,6 +96,7 @@ Route::middleware('auth')->group(function () {
     // Applicants modal + status update (company/admin)
     Route::get('/opportunities/{oppo}/applicants', [Apps::class, 'applicants'])->middleware('permission:app')->name('oppo.applicants');
     Route::patch('/applications/{application}/status', [Apps::class, 'updateStatus'])->middleware('permission:app')->name('application.status');
+    Route::get('/applications/{application}/detail',       [Apps::class, 'detail'])->middleware('permission:app')->name('application.detail');
 
     // AI Tools
     Route::get('/ai_assistant', [Aitools::class, 'ass'])->middleware('permission:ait')->name('ai_assistant');

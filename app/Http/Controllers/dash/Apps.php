@@ -131,6 +131,40 @@ class Apps extends Controller
     }
 
     /**
+     * AJAX: return full application detail for the detail modal (company/admin).
+     */
+    public function detail(Application $application)
+    {
+        $user = Auth::user();
+
+        if ($user->role === 'company') {
+            if ($application->opportunity->org !== $user->uname) {
+                abort(403);
+            }
+        }
+
+        $application->load(['student', 'opportunity']);
+
+        return response()->json([
+            'id'              => $application->id,
+            'status'          => $application->status,
+            'applied_at'      => $application->created_at->format('M d, Y'),
+            'cover_letter'    => $application->cover_letter,
+            'additional_info' => $application->additional_info,
+            'cv_filename'     => $application->cv_path ? basename($application->cv_path) : null,
+            'student' => [
+                'name'  => $application->student->fname ?? '—',
+                'email' => $application->student->email ?? '—',
+                'phone' => $application->student->phone ?? '—',
+                'sid'   => $application->student->sid   ?? '—',
+            ],
+            'opportunity' => [
+                'oname' => $application->opportunity->oname ?? '—',
+            ],
+        ]);
+    }
+
+    /**
      * AJAX: update an application status (shortlisted / rejected / pending / review).
      */
     public function updateStatus(Request $request, Application $application)
