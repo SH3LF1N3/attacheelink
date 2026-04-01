@@ -1,5 +1,6 @@
 <footer class="app-footer"
         style="background-color: var(--navy-800) !important; color:#9ca3af; font-size:0.8125rem;">
+        
     <div class="float-end d-none d-sm-inline" style="color:#6b7280;">
         Designed by Sherry Obare
     </div>
@@ -11,7 +12,10 @@
     </strong>
     All rights reserved.
 </footer>
+@include('dash.partials.delete-modal')
 </div>{{-- end app-wrapper --}}
+
+
 
 {{-- Scripts --}}
 <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>AttachKE | @yield('title', 'Dashboard')</title>
+    <title>AttachKE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
