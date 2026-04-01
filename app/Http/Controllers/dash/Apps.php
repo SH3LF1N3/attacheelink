@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class Apps extends Controller
 {
-    /**
-     * Admin / Company: list opportunities with applicant counts.
-     */
     public function app()
     {
         $user  = Auth::user();
@@ -23,13 +20,9 @@ class Apps extends Controller
         }
 
         $opportunities = $query->latest()->paginate(20);
-
         return view('dash.apps', compact('opportunities'));
     }
 
-    /**
-     * Student: view their own submitted applications.
-     */
     public function sappo()
     {
         $applications = Application::with('opportunity')
@@ -40,9 +33,6 @@ class Apps extends Controller
         return view('dash.sappo', compact('applications'));
     }
 
-    /**
-     * Return opportunity data for the apply modal (AJAX).
-     */
     public function show(Oppodb $oppo)
     {
         $alreadyApplied = Application::where('user_id', Auth::id())
@@ -60,9 +50,6 @@ class Apps extends Controller
         ]);
     }
 
-    /**
-     * Submit a new application for an opportunity.
-     */
     public function store(Request $request, Oppodb $oppo)
     {
         $exists = Application::where('user_id', Auth::id())
@@ -96,9 +83,6 @@ class Apps extends Controller
         return response()->json(['message' => 'Application submitted successfully.']);
     }
 
-    /**
-     * AJAX: return applicants for a given opportunity (company/admin).
-     */
     public function applicants(Oppodb $oppo)
     {
         $user = Auth::user();
@@ -114,7 +98,7 @@ class Apps extends Controller
             ->map(function ($app) {
                 return [
                     'id'         => $app->id,
-                    'name'       => $app->student->fname ?? '—',
+                    'name'       => $app->student->fname ?? explode('@', $app->student->email)[0] ?? '—',
                     'email'      => $app->student->email ?? '—',
                     'phone'      => $app->student->phone ?? '—',
                     'sid'        => $app->student->sid   ?? '—',
@@ -130,17 +114,12 @@ class Apps extends Controller
         ]);
     }
 
-    /**
-     * AJAX: return full application detail for the detail modal (company/admin).
-     */
     public function detail(Application $application)
     {
         $user = Auth::user();
 
         if ($user->role === 'company') {
-            if ($application->opportunity->org !== $user->uname) {
-                abort(403);
-            }
+            if ($application->opportunity->org !== $user->uname) abort(403);
         }
 
         $application->load(['student', 'opportunity']);
@@ -152,11 +131,16 @@ class Apps extends Controller
             'cover_letter'    => $application->cover_letter,
             'additional_info' => $application->additional_info,
             'cv_filename'     => $application->cv_path ? basename($application->cv_path) : null,
+            'cv_url'          => null,
             'student' => [
-                'name'  => $application->student->fname ?? '—',
-                'email' => $application->student->email ?? '—',
-                'phone' => $application->student->phone ?? '—',
-                'sid'   => $application->student->sid   ?? '—',
+                'name'       => $application->student->fname  ?? '—',
+                'email'      => $application->student->email  ?? '—',
+                'phone'      => $application->student->phone  ?? '—',
+                'sid'        => $application->student->sid    ?? '—',
+                // Academic info from foth columns
+                'course'     => $application->student->foth1  ?? null, // Course/Programme
+                'university' => $application->student->foth2  ?? null, // University
+                'year'       => $application->student->foth5  ?? null, // Year of study
             ],
             'opportunity' => [
                 'oname' => $application->opportunity->oname ?? '—',
@@ -164,17 +148,12 @@ class Apps extends Controller
         ]);
     }
 
-    /**
-     * AJAX: update an application status (shortlisted / rejected / pending / review).
-     */
     public function updateStatus(Request $request, Application $application)
     {
         $user = Auth::user();
 
         if ($user->role === 'company') {
-            if ($application->opportunity->org !== $user->uname) {
-                abort(403);
-            }
+            if ($application->opportunity->org !== $user->uname) abort(403);
         }
 
         $request->validate([
@@ -183,6 +162,9 @@ class Apps extends Controller
 
         $application->update(['status' => $request->status]);
 
-        return response()->json(['message' => 'Status updated.', 'status' => $application->status]);
+        return response()->json([
+            'message' => 'Status updated.',
+            'status'  => $application->status,
+        ]);
     }
 }
