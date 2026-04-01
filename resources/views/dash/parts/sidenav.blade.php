@@ -1,14 +1,13 @@
-<aside class="app-sidebar shadow" data-bs-theme="dark"
-       style="background-color: var(--navy-800) !important;">
+<aside class="app-sidebar shadow" data-bs-theme="dark" style="background-color: var(--navy-800) !important;">
 
     {{-- Brand --}}
     <div class="sidebar-brand" style="border-bottom: 1px solid rgba(255,255,255,0.08);">
         <a href="{{ route('dashboard') }}" class="brand-link" style="text-decoration:none;">
-            <svg width="28" height="28" fill="none" stroke="var(--gold-400)" stroke-width="1.8"
-                 viewBox="0 0 24 24" class="brand-image opacity-75 shadow">
-                <rect x="2" y="3" width="20" height="14" rx="2"/>
-                <path d="M8 21h8M12 17v4"/>
-                <path d="M7 8h10M7 11h6"/>
+            <svg width="28" height="28" fill="none" stroke="var(--gold-400)" stroke-width="1.8" viewBox="0 0 24 24"
+                class="brand-image opacity-75 shadow">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <path d="M8 21h8M12 17v4" />
+                <path d="M7 8h10M7 11h6" />
             </svg>
             <span class="brand-text fw-bold ms-2" style="color:#fff; font-size:1.1rem;">AttachKE</span>
         </a>
@@ -36,8 +35,7 @@
 
     <div class="sidebar-wrapper">
         <nav class="mt-2">
-            <ul class="nav sidebar-menu flex-column"
-                data-lte-toggle="treeview" role="navigation"
+            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
                 aria-label="Main navigation" data-accordion="false">
 
                 {{-- Dashboard — visible to ALL roles, label adapts --}}
@@ -55,120 +53,128 @@
 
                 {{-- ADMIN / COMPANY: Manage Opportunities --}}
                 @if($permit->oppo)
-                <li class="nav-item">
-                    <a href="{{ route('opportunities') }}" class="nav-link">
-                        <i class="nav-icon bi bi-list-task"></i>
-                        <p>Opportunities</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('opportunities') }}" class="nav-link">
+                            <i class="nav-icon bi bi-list-task"></i>
+                            <p>Opportunities</p>
+                        </a>
+                    </li>
                 @endif
 
                 {{-- COMPANY ONLY: Post Opportunity --}}
                 @if($permit->aoppo && auth()->user()->role === 'company')
-                <li class="nav-item">
-                    <a href="{{ route('oppo.create') }}" class="nav-link">
-                        <i class="nav-icon bi bi-plus-circle-fill"></i>
-                        <p>Post Opportunity</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('oppo.create') }}" class="nav-link">
+                            <i class="nav-icon bi bi-plus-circle-fill"></i>
+                            <p>Post Opportunity</p>
+                        </a>
+                    </li>
                 @endif
 
                 {{-- STUDENT: Browse Opportunities --}}
                 @if($permit->soppo && !$permit->oppo)
-                <li class="nav-item">
-                    <a href="{{ route('my_opportunities') }}" class="nav-link">
-                        <i class="nav-icon bi bi-list-task"></i>
-                        <p>Opportunities</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('my_opportunities') }}" class="nav-link">
+                            <i class="nav-icon bi bi-list-task"></i>
+                            <p>Opportunities</p>
+                        </a>
+                    </li>
                 @endif
 
                 {{-- ADMIN / COMPANY: Manage Applications --}}
                 @if($permit->app)
-                <li class="nav-item">
-                    <a href="{{ route('applications') }}" class="nav-link">
-                        <i class="nav-icon bi bi-file-earmark-text-fill"></i>
-                        <p>Applications</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('applications') }}" class="nav-link">
+                            <i class="nav-icon bi bi-file-earmark-text-fill"></i>
+                            <p>Applications</p>
+                        </a>
+                    </li>
                 @endif
 
                 {{-- STUDENT: My Applications --}}
                 @if($permit->sappo && !$permit->app)
-                <li class="nav-item">
-                    <a href="{{ route('my_applications') }}" class="nav-link">
-                        <i class="nav-icon bi bi-file-earmark-text-fill"></i>
-                        <p>My Applications</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('my_applications') }}" class="nav-link">
+                            <i class="nav-icon bi bi-file-earmark-text-fill"></i>
+                            <p>My Applications</p>
+                        </a>
+                    </li>
                 @endif
 
                 {{-- Students — admin only --}}
                 @if($permit->stud)
-                <li class="nav-item">
-                    <a href="{{ route('students') }}" class="nav-link">
-                        <i class="nav-icon bi bi-people"></i>
-                        <p>All Students</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('students') }}" class="nav-link">
+                            <i class="nav-icon bi bi-people"></i>
+                            <p>All Students</p>
+                        </a>
+                    </li>
                 @endif
 
                 {{-- Organisations --}}
                 @if($permit->org)
-                <li class="nav-item">
-                    <a href="{{ route('organisations') }}" class="nav-link">
-                        <i class="nav-icon bi bi-building-fill"></i>
-                        <p>Organizations</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('organisations') }}" class="nav-link">
+                            <i class="nav-icon bi bi-building-fill"></i>
+                            <p>Organizations</p>
+                        </a>
+                    </li>
                 @endif
 
                 {{-- Notifications --}}
                 @if($permit->not)
-                <li class="nav-item">
-                    <a href="{{ route('notifications') }}" class="nav-link">
-                        <i class="nav-icon bi bi-bell-fill"></i>
-                        <p>Notifications</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('notifications') }}" class="nav-link">
+                            <i class="nav-icon bi bi-bell-fill"></i>
+                            <p>Notifications</p>
+                        </a>
+                    </li>
                 @endif
 
                 {{-- Reports --}}
                 @if($permit->rep)
-                <li class="nav-item">
-                    <a href="{{ route('reports') }}" class="nav-link">
-                        <i class="nav-icon bi bi-graph-up"></i>
-                        <p>Reports</p>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ route('reports') }}" class="nav-link">
+                            <i class="nav-icon bi bi-graph-up"></i>
+                            <p>Reports</p>
+                        </a>
+                    </li>
                 @endif
 
                 {{-- AI Tools --}}
                 @if($permit->ait || $permit->air)
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon bi bi-stars"></i>
-                        <p>AI Tools <i class="nav-arrow bi bi-chevron-right"></i></p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        @if($permit->air)
-                        <li class="nav-item">
-                            <a href="{{ route('ai_resume_checker') }}" class="nav-link">
-                                <i class="nav-icon bi bi-circle"></i>
-                                <p>AI Resume Checker</p>
-                            </a>
-                        </li>
-                        @endif
-                        @if($permit->ait)
-                        <li class="nav-item">
-                            <a href="{{ route('ai_assistant') }}" class="nav-link">
-                                <i class="nav-icon bi bi-circle"></i>
-                                <p>AI Assistant</p>
-                            </a>
-                        </li>
-                        @endif
-                    </ul>
-                </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon bi bi-stars"></i>
+                            <p>AI Tools <i class="nav-arrow bi bi-chevron-right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @if($permit->air)
+                                <li class="nav-item">
+                                    <a href="{{ route('ai_resume_checker') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>AI Resume Checker</p>
+                                    </a>
+                                </li>
+                            @endif
+                            @if($permit->ait)
+                                <li class="nav-item">
+                                    <a href="{{ route('ai_assistant') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>AI Assistant</p>
+                                    </a>
+                                </li>
+                            @endif
+                            @if($permit->aia)
+                                <li class="nav-item">
+                                    <a href="{{ route('ai_analytics') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>AI Analytics</p>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
                 @endif
 
                 {{-- Profile — always visible --}}
@@ -181,29 +187,32 @@
 
                 {{-- Settings — admin only --}}
                 @if($permit->set)
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon bi bi-gear-fill"></i>
-                        <p>Settings <i class="nav-arrow bi bi-chevron-right"></i></p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('permission_settings') }}" class="nav-link">
-                                <i class="nav-icon bi bi-circle"></i><p>Permissions</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('system_logs') }}" class="nav-link">
-                                <i class="nav-icon bi bi-circle"></i><p>System Logs</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('general_settings') }}" class="nav-link">
-                                <i class="nav-icon bi bi-circle"></i><p>General Settings</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon bi bi-gear-fill"></i>
+                            <p>Settings <i class="nav-arrow bi bi-chevron-right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('permission_settings') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p>Permissions</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('system_logs') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p>System Logs</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('general_settings') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p>General Settings</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
 
                 {{-- Logout --}}
@@ -211,7 +220,7 @@
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="nav-link w-100 text-start border-0 bg-transparent"
-                                style="color: #fc8181; cursor:pointer;">
+                            style="color: #fc8181; cursor:pointer;">
                             <i class="nav-icon bi bi-box-arrow-right"></i>
                             <p>Logout</p>
                         </button>

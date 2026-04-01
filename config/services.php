@@ -35,4 +35,14 @@ return [
         ],
     ],
 
+    'gemini' => [
+        'key' => env('GEMINI_API_KEY'),
+        'model' => env('GEMINI_MODEL', 'gemini-1.5-flash'),
+    ],
+
+    'ocr' => [
+        'language' => env('OCR_LANGUAGE', 'eng'),
+        'dpi' => (int) env('OCR_PDF_DPI', 200),
+    ],
+
 ];
