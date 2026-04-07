@@ -91,12 +91,15 @@ class Apps extends Controller
             'additional_info' => ['nullable', 'string', 'max:2000'],
         ]);
 
-        $cvPath = $request->file('cv')->store('cvs', 'local');
+        $cvFile = $request->file('cv');
+        $cvPath = $cvFile->store('cvs', 'local');
+        $cvOriginalName = $cvFile->getClientOriginalName();
 
         Application::create([
             'user_id'         => Auth::id(),
             'oppodb_id'       => $oppo->id,
             'cv_path'         => $cvPath,
+            'cv_original_name' => $cvOriginalName,
             'cover_letter'    => $request->cover_letter,
             'additional_info' => $request->additional_info,
             'status'          => 'pending',
@@ -178,7 +181,7 @@ class Apps extends Controller
             'applied_at'      => $application->created_at->format('M d, Y'),
             'cover_letter'    => $application->cover_letter,
             'additional_info' => $application->additional_info,
-            'cv_filename'     => $application->cv_path ? basename($application->cv_path) : null,
+            'cv_filename'     => $application->cv_original_name ?? ($application->cv_path ? basename($application->cv_path) : null),
             'cv_url'          => $application->cv_path
                                 ? route('cv.download', $application->id)
                                 : null,
@@ -334,13 +337,14 @@ class Apps extends Controller
             abort(404, 'CV file not found.');
         }
 
+        $downloadName = $application->cv_original_name ?? basename($application->cv_path);
         $isPreview = request()->query('preview') === 'true';
         
         if ($isPreview) {
             // Return file as inline (for preview in iframe)
             return Storage::disk('local')->response(
                 $application->cv_path,
-                basename($application->cv_path),
+                $downloadName,
                 ['Content-Type' => $this->getContentType($application->cv_path)],
                 'inline'  // Display inline instead of download
             );
@@ -348,7 +352,7 @@ class Apps extends Controller
             // Return file as download
             return Storage::disk('local')->download(
                 $application->cv_path,
-                basename($application->cv_path)
+                $downloadName
             );
         }
     }

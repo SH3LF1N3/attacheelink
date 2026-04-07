@@ -145,16 +145,16 @@
 {{-- ═══ APPLICANTS LIST MODAL ═══ --}}
 <div id="applicantsModal"
      style="display:none;position:fixed;inset:0;z-index:1050;
-            background:rgba(15,23,42,0.5);align-items:center;justify-content:center;">
-    <div style="background:#fff;border-radius:16px;width:100%;max-width:700px;
-                margin:1rem;max-height:88vh;display:flex;flex-direction:column;
+            background:rgba(15,23,42,0.5);align-items:center;justify-content:center;overflow-y:auto;padding:1rem;">
+    <div style="background:#fff;border-radius:16px;width:100%;max-width:780px;
+                margin:auto;display:flex;flex-direction:column;
                 box-shadow:0 24px 64px rgba(0,0,0,0.2);">
 
         {{-- Header --}}
         <div style="padding:1.4rem 1.75rem;border-bottom:1px solid #f0f4f8;
                     display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;">
-            <div>
-                <h5 id="modalTitle" class="mb-0 fw-bold" style="color:var(--navy-800);font-size:1.05rem;"></h5>
+            <div style="flex:1;min-width:0;">
+                <h5 id="modalTitle" class="mb-0 fw-bold" style="color:var(--navy-800);font-size:1.05rem;word-break:break-word;"></h5>
                 <p id="modalSubtitle" class="mb-0 mt-1" style="color:var(--charcoal-400);font-size:0.82rem;"></p>
                 {{-- Pipeline --}}
                 <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-top:0.65rem;">
@@ -168,7 +168,7 @@
                             ['key'=>'rejected',             'label'=>'Rejected',           'bg'=>'#fee2e2','color'=>'#991b1b'],
                         ];
                     @endphp
-                    <span style="font-size:0.72rem;color:var(--charcoal-400);margin-right:2px;">Pipeline:</span>
+                    <span style="font-size:0.72rem;color:var(--charcoal-400);margin-right:2px;white-space:nowrap;">Pipeline:</span>
                     @foreach($pipeline as $i => $stage)
                         <span style="background:{{ $stage['bg'] }};color:{{ $stage['color'] }};
                                      font-size:0.68rem;font-weight:700;padding:2px 9px;
@@ -184,7 +184,7 @@
                            color:var(--charcoal-400);cursor:pointer;line-height:1;padding:4px;flex-shrink:0;">&times;</button>
         </div>
 
-        <div style="overflow-y:auto;padding:1.25rem 1.75rem;flex:1;">
+        <div style="overflow-y:auto;padding:1.25rem 1.75rem;flex:1;max-height:65vh;">
             <div id="modalLoading" class="text-center py-5">
                 <div class="spinner-border spinner-border-sm" role="status" style="color:var(--navy-600);"></div>
                 <p class="mt-2 mb-0" style="color:var(--charcoal-400);font-size:0.85rem;">Loading applicants…</p>
@@ -197,10 +197,10 @@
 {{-- ═══ FULL DETAIL MODAL ═══ --}}
 <div id="detailModal"
      style="display:none;position:fixed;inset:0;z-index:1060;
-            background:rgba(15,23,42,0.55);align-items:center;justify-content:center;">
-    <div style="background:#fff;border-radius:16px;width:100%;max-width:580px;
-                margin:1rem;max-height:90vh;display:flex;flex-direction:column;
-                box-shadow:0 24px 64px rgba(0,0,0,0.22);">
+            background:rgba(15,23,42,0.55);align-items:center;justify-content:center;overflow-y:auto;padding:1rem;">
+    <div style="background:#fff;border-radius:16px;width:100%;max-width:680px;
+                min-height:auto;display:flex;flex-direction:column;
+                box-shadow:0 24px 64px rgba(0,0,0,0.22);margin:auto;">
 
         <div style="padding:1.25rem 1.5rem;border-bottom:1px solid #f0f4f8;
                     display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
@@ -226,22 +226,22 @@
                                     font-weight:700;font-size:1.1rem;"></div>
                         <div style="flex:1;min-width:0;">
                             <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.2rem;">
-                                <span id="detailName" style="font-weight:700;font-size:1.05rem;color:var(--navy-800);"></span>
+                                <span id="detailName" style="font-weight:700;font-size:1.05rem;color:var(--navy-800);word-break:break-word;"></span>
                                 <span id="detailStatusBadge"
                                       style="font-size:0.7rem;font-weight:700;padding:2px 10px;
-                                             border-radius:var(--radius-full);text-transform:capitalize;"></span>
+                                             border-radius:var(--radius-full);text-transform:capitalize;flex-shrink:0;"></span>
                             </div>
-                            <div id="detailCourse" style="font-size:0.8rem;color:var(--charcoal-400);margin-bottom:0.6rem;"></div>
-                            <div style="display:flex;flex-wrap:wrap;gap:1rem;">
-                                <div id="detailEmail" style="font-size:0.8rem;color:var(--charcoal-500);display:flex;align-items:center;gap:0.3rem;"></div>
-                                <div id="detailPhone" style="font-size:0.8rem;color:var(--charcoal-500);display:flex;align-items:center;gap:0.3rem;"></div>
+                            <div id="detailCourse" style="font-size:0.8rem;color:var(--charcoal-400);margin-bottom:0.6rem;word-break:break-word;"></div>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.6rem;">
+                                <div id="detailEmail" style="font-size:0.8rem;color:var(--charcoal-500);display:flex;align-items:center;gap:0.3rem;word-break:break-all;"></div>
+                                <div id="detailPhone" style="font-size:0.8rem;color:var(--charcoal-500);display:flex;align-items:center;gap:0.3rem;word-break:break-word;"></div>
                             </div>
                             <div style="margin-top:0.6rem;">
                                 <span id="detailYear"
                                       style="background:var(--navy-50);color:var(--navy-700);
                                              font-size:0.72rem;font-weight:600;
                                              padding:3px 10px;border-radius:var(--radius-full);
-                                             display:none;align-items:center;gap:4px;"></span>
+                                             display:none;align-items:center;gap:4px;white-space:nowrap;"></span>
                             </div>
                         </div>
                     </div>
@@ -253,38 +253,39 @@
                         <i class="bi bi-calendar-event me-1"></i>Interview Details
                     </h6>
                     <div style="background:#fefce8;border:1px solid #fef08a;border-radius:10px;padding:0.85rem 1rem;">
-                        <div id="detailInterviewInfo" style="font-size:0.85rem;color:#713f12;line-height:1.7;"></div>
+                        <div id="detailInterviewInfo" style="font-size:0.85rem;color:#713f12;line-height:1.7;word-break:break-word;"></div>
                     </div>
                 </div>
 
                 {{-- CV --}}
                 <div style="margin-bottom:1.25rem;">
                     <h6 style="font-weight:700;color:var(--navy-800);font-size:0.9rem;margin-bottom:0.6rem;">Resume / CV</h6>
-                    <div style="border:1px solid #e8edf3;border-radius:10px;padding:0.85rem 1rem;
-                                display:flex;align-items:center;justify-content:space-between;">
-                        <div style="display:flex;align-items:center;gap:0.65rem;">
-                            <div style="background:var(--navy-50);color:var(--navy-700);border-radius:8px;padding:8px;
-                                        display:flex;align-items:center;justify-content:center;">
-                                <i class="bi bi-file-earmark-text" style="font-size:1.1rem;"></i>
+                    <div style="border:1px solid #e8edf3;border-radius:10px;padding:0.85rem 1rem;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;">
+                            <div style="display:flex;align-items:center;gap:0.65rem;flex:1;min-width:200px;">
+                                <div style="background:var(--navy-50);color:var(--navy-700);border-radius:8px;padding:8px;
+                                            display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <i class="bi bi-file-earmark-text" style="font-size:1.1rem;"></i>
+                                </div>
+                                <div style="min-width:0;">
+                                    <div id="detailCVName" style="font-size:0.85rem;font-weight:600;color:var(--navy-800);word-break:break-word;"></div>
+                                    <div id="detailCVDate" style="font-size:0.75rem;color:var(--charcoal-400);"></div>
+                                </div>
                             </div>
-                            <div>
-                                <div id="detailCVName" style="font-size:0.85rem;font-weight:600;color:var(--navy-800);"></div>
-                                <div id="detailCVDate" style="font-size:0.75rem;color:var(--charcoal-400);"></div>
+                            <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;justify-content:flex-end;">
+                                <button id="detailCVPreview" onclick="event.preventDefault(); const url = document.getElementById('detailCVDownload').href; if(url && url !== '#') openCVPreview(url, document.getElementById('detailCVName').textContent);"
+                                   style="background:var(--navy-50);border:1px solid var(--navy-100);border-radius:8px;
+                                          padding:7px 12px;font-size:0.8rem;font-weight:600;color:var(--navy-700);
+                                          text-decoration:none;display:flex;align-items:center;gap:4px;cursor:pointer;white-space:nowrap;">
+                                    <i class="bi bi-eye"></i> Preview
+                                </button>
+                                <a id="detailCVDownload" href="#" target="_blank" download
+                                   style="background:var(--navy-50);border:1px solid var(--navy-100);border-radius:8px;
+                                          padding:7px 14px;font-size:0.8rem;font-weight:600;color:var(--navy-700);
+                                          text-decoration:none;display:flex;align-items:center;gap:5px;white-space:nowrap;">
+                                    <i class="bi bi-download"></i> Download
+                                </a>
                             </div>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:0.5rem;">
-                            <button id="detailCVPreview" onclick="event.preventDefault(); const url = document.getElementById('detailCVDownload').href; if(url && url !== '#') openCVPreview(url, document.getElementById('detailCVName').textContent);"
-                               style="background:var(--navy-50);border:1px solid var(--navy-100);border-radius:8px;
-                                      padding:5px 10px;font-size:0.75rem;font-weight:600;color:var(--navy-700);
-                                      text-decoration:none;display:flex;align-items:center;gap:4px;cursor:pointer;">
-                                <i class="bi bi-eye"></i> Preview
-                            </button>
-                            <a id="detailCVDownload" href="#" target="_blank" download
-                               style="background:var(--navy-50);border:1px solid var(--navy-100);border-radius:8px;
-                                      padding:5px 14px;font-size:0.78rem;font-weight:600;color:var(--navy-700);
-                                      text-decoration:none;display:flex;align-items:center;gap:5px;">
-                                <i class="bi bi-download"></i> Download
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -294,7 +295,7 @@
                     <h6 style="font-weight:700;color:var(--navy-800);font-size:0.9rem;margin-bottom:0.6rem;">Cover Letter</h6>
                     <div id="detailCL"
                          style="background:#f9fafb;border:1px solid #e8edf3;border-radius:10px;
-                                padding:0.85rem 1rem;font-size:0.85rem;color:var(--charcoal-500);line-height:1.65;"></div>
+                                padding:0.85rem 1rem;font-size:0.85rem;color:var(--charcoal-500);line-height:1.65;word-break:break-word;overflow-wrap:break-word;"></div>
                 </div>
 
                 {{-- Additional Info --}}
@@ -302,14 +303,14 @@
                     <h6 style="font-weight:700;color:var(--navy-800);font-size:0.9rem;margin-bottom:0.6rem;">Additional Information</h6>
                     <div id="detailAI"
                          style="background:#f9fafb;border:1px solid #e8edf3;border-radius:10px;
-                                padding:0.85rem 1rem;font-size:0.85rem;color:var(--charcoal-500);line-height:1.65;"></div>
+                                padding:0.85rem 1rem;font-size:0.85rem;color:var(--charcoal-500);line-height:1.65;word-break:break-word;overflow-wrap:break-word;"></div>
                 </div>
             </div>
         </div>
 
         {{-- Dynamic footer buttons --}}
         <div id="detailFooter" style="padding:1rem 1.5rem;border-top:1px solid #f0f4f8;
-                    display:flex;align-items:center;gap:0.75rem;flex-shrink:0;flex-wrap:wrap;">
+                    display:flex;align-items:center;gap:0.75rem;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;">
         </div>
     </div>
 </div>
@@ -317,9 +318,9 @@
 {{-- ═══ INTERVIEW SCHEDULE MODAL ═══ --}}
 <div id="interviewModal"
      style="display:none;position:fixed;inset:0;z-index:1070;
-            background:rgba(15,23,42,0.6);align-items:center;justify-content:center;">
-    <div style="background:#fff;border-radius:16px;width:100%;max-width:500px;
-                margin:1rem;box-shadow:0 24px 64px rgba(0,0,0,0.24);">
+            background:rgba(15,23,42,0.6);align-items:center;justify-content:center;overflow-y:auto;padding:1rem;">
+    <div style="background:#fff;border-radius:16px;width:100%;max-width:520px;
+                margin:auto;box-shadow:0 24px 64px rgba(0,0,0,0.24);">
 
         <div style="padding:1.25rem 1.5rem;border-bottom:1px solid #f0f4f8;
                     display:flex;align-items:center;justify-content:space-between;">
@@ -330,7 +331,7 @@
                     style="background:none;border:none;font-size:1.5rem;color:var(--charcoal-400);cursor:pointer;line-height:1;">&times;</button>
         </div>
 
-        <div style="padding:1.5rem;">
+        <div style="padding:1.5rem;max-height:calc(90vh - 120px);overflow-y:auto;">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
                 <div>
                     <label style="font-size:0.82rem;font-weight:600;color:#374151;display:block;margin-bottom:5px;">
@@ -338,7 +339,7 @@
                     </label>
                     <input type="date" id="iDate"
                            style="width:100%;border:1px solid #e2e8f0;border-radius:8px;
-                                  padding:0.5rem 0.75rem;font-size:0.85rem;color:#1e293b;">
+                                  padding:0.5rem 0.75rem;font-size:0.85rem;color:#1e293b;box-sizing:border-box;">
                 </div>
                 <div>
                     <label style="font-size:0.82rem;font-weight:600;color:#374151;display:block;margin-bottom:5px;">
@@ -346,7 +347,7 @@
                     </label>
                     <input type="time" id="iTime"
                            style="width:100%;border:1px solid #e2e8f0;border-radius:8px;
-                                  padding:0.5rem 0.75rem;font-size:0.85rem;color:#1e293b;">
+                                  padding:0.5rem 0.75rem;font-size:0.85rem;color:#1e293b;box-sizing:border-box;">
                 </div>
             </div>
 
@@ -378,7 +379,7 @@
                 </label>
                 <input type="text" id="iLocation" placeholder="e.g. Office address or Google Meet link"
                        style="width:100%;border:1px solid #e2e8f0;border-radius:8px;
-                              padding:0.5rem 0.75rem;font-size:0.85rem;color:#1e293b;">
+                              padding:0.5rem 0.75rem;font-size:0.85rem;color:#1e293b;box-sizing:border-box;">
             </div>
 
             <div style="margin-bottom:1.25rem;">
@@ -388,22 +389,22 @@
                 <textarea id="iNotes" rows="2" placeholder="Any preparation instructions for the candidate..."
                           style="width:100%;border:1px solid #e2e8f0;border-radius:8px;
                                  padding:0.5rem 0.75rem;font-size:0.85rem;color:#1e293b;
-                                 resize:vertical;font-family:inherit;"></textarea>
+                                 resize:vertical;font-family:inherit;box-sizing:border-box;"></textarea>
             </div>
 
             <div id="iError" style="display:none;background:#fef2f2;border:1px solid #fecaca;
                                      border-radius:8px;padding:0.6rem 0.9rem;font-size:0.8rem;
                                      color:#dc2626;margin-bottom:0.75rem;"></div>
 
-            <div style="display:flex;gap:0.75rem;justify-content:flex-end;">
+            <div style="display:flex;gap:0.75rem;justify-content:flex-end;flex-wrap:wrap;">
                 <button onclick="closeInterviewModal()"
                         style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;
-                               padding:0.5rem 1.25rem;font-size:0.85rem;font-weight:600;
-                               color:#374151;cursor:pointer;">Cancel</button>
+                               padding:0.6rem 1.5rem;font-size:0.85rem;font-weight:600;
+                               color:#374151;cursor:pointer;white-space:nowrap;">Cancel</button>
                 <button onclick="submitInterview()"
                         style="background:var(--navy-700);color:#fff;border:none;border-radius:8px;
-                               padding:0.5rem 1.25rem;font-size:0.85rem;font-weight:600;cursor:pointer;
-                               display:flex;align-items:center;gap:6px;">
+                               padding:0.6rem 1.5rem;font-size:0.85rem;font-weight:600;cursor:pointer;
+                               display:flex;align-items:center;gap:6px;white-space:nowrap;">
                     <i class="bi bi-calendar-check"></i> Confirm Interview
                 </button>
             </div>
@@ -482,20 +483,20 @@ function renderApplicants(applicants) {
                 <div style="width:42px;height:42px;border-radius:50%;background:var(--navy-700);
                             color:#fff;flex-shrink:0;display:flex;align-items:center;
                             justify-content:center;font-weight:700;font-size:0.85rem;">${initials}</div>
-                <div style="flex:1;">
+                <div style="flex:1;min-width:0;">
                     <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
-                        <span style="font-weight:700;font-size:0.9375rem;color:var(--navy-800);">${a.name}</span>
+                        <span style="font-weight:700;font-size:0.9375rem;color:var(--navy-800);word-break:break-word;overflow-wrap:break-word;">${a.name}</span>
                         <span id="badge-${a.id}" style="background:${s.bg};color:${s.color};font-size:0.7rem;
-                                     font-weight:700;padding:2px 10px;border-radius:20px;">${s.label}</span>
+                                     font-weight:700;padding:2px 10px;border-radius:20px;white-space:nowrap;">${s.label}</span>
                     </div>
-                    ${courseStr ? `<div style="font-size:0.78rem;color:var(--charcoal-400);margin-top:2px;">${courseStr}</div>` : ''}
+                    ${courseStr ? `<div style="font-size:0.78rem;color:var(--charcoal-400);margin-top:2px;word-break:break-word;overflow-wrap:break-word;">${courseStr}</div>` : ''}
                     <div style="font-size:0.78rem;color:var(--charcoal-400);margin-top:2px;">Student</div>
                 </div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.35rem;margin-bottom:0.75rem;">
-                <div style="font-size:0.8rem;color:var(--charcoal-500);"><i class="bi bi-envelope me-1"></i>${a.email}</div>
-                <div style="font-size:0.8rem;color:var(--charcoal-500);"><i class="bi bi-telephone me-1"></i>${a.phone}</div>
-                ${a.year ? `<div style="font-size:0.8rem;color:var(--charcoal-400);"><i class="bi bi-mortarboard me-1"></i>${a.year}</div>` : ''}
+                <div style="font-size:0.8rem;color:var(--charcoal-500);word-break:break-all;"><i class="bi bi-envelope me-1"></i>${a.email}</div>
+                <div style="font-size:0.8rem;color:var(--charcoal-500);word-break:break-word;"><i class="bi bi-telephone me-1"></i>${a.phone}</div>
+                ${a.year ? `<div style="font-size:0.8rem;color:var(--charcoal-400);""><i class="bi bi-mortarboard me-1"></i>${a.year}</div>` : ''}
                 <div style="font-size:0.8rem;color:var(--charcoal-400);"><i class="bi bi-calendar me-1"></i>Applied: ${a.applied_at}</div>
             </div>
             ${interviewInfo}
@@ -509,15 +510,15 @@ function renderApplicants(applicants) {
 function renderActionButtons(id, status, interview = null) {
     const viewBtn = `<button onclick="openDetailModal(${id})"
         style="background:var(--navy-50);color:var(--navy-700);border:1.5px solid var(--navy-100);
-               border-radius:8px;padding:5px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;
-               display:flex;align-items:center;gap:5px;">
+               border-radius:8px;padding:6px 16px;font-size:0.8rem;font-weight:600;cursor:pointer;
+               display:flex;align-items:center;gap:5px;white-space:nowrap;">
         <i class="bi bi-eye"></i> View Application
     </button>`;
 
     const rejectBtn = `<button onclick="listUpdateStatus(${id}, 'rejected')"
         style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;border-radius:8px;
-               padding:5px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;
-               display:flex;align-items:center;gap:5px;">
+               padding:6px 16px;font-size:0.8rem;font-weight:600;cursor:pointer;
+               display:flex;align-items:center;gap:5px;white-space:nowrap;">
         <i class="bi bi-x-circle"></i> Reject
     </button>`;
 
@@ -528,8 +529,8 @@ function renderActionButtons(id, status, interview = null) {
         return viewBtn + `
         <button onclick="selectCandidate(${id})"
             style="background:#15803d;color:#fff;border:none;border-radius:8px;
-                   padding:5px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;
-                   display:flex;align-items:center;gap:5px;">
+                   padding:6px 16px;font-size:0.8rem;font-weight:600;cursor:pointer;
+                   display:flex;align-items:center;gap:5px;white-space:nowrap;">
             <i class="bi bi-person-check-fill"></i> Select Candidate
         </button>` + rejectBtn;
     }
@@ -538,8 +539,8 @@ function renderActionButtons(id, status, interview = null) {
         const interviewBtn = `
         <button onclick="openInterviewModal(${id})"
             style="background:${hasInterview ? '#0891b2' : '#d97706'};color:#fff;border:none;border-radius:8px;
-                   padding:5px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;
-                   display:flex;align-items:center;gap:5px;">
+                   padding:6px 16px;font-size:0.8rem;font-weight:600;cursor:pointer;
+                   display:flex;align-items:center;gap:5px;white-space:nowrap;">
             <i class="bi bi-${hasInterview ? 'pencil-square' : 'calendar-plus'}"></i> ${hasInterview ? 'Edit Interview' : 'Schedule Interview'}
         </button>`;
         return viewBtn + interviewBtn + rejectBtn;
@@ -548,8 +549,8 @@ function renderActionButtons(id, status, interview = null) {
     return viewBtn + `
     <button onclick="listUpdateStatus(${id}, 'shortlisted')"
         style="background:var(--navy-700);color:#fff;border:none;border-radius:8px;
-               padding:5px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;
-               display:flex;align-items:center;gap:5px;">
+               padding:6px 16px;font-size:0.8rem;font-weight:600;cursor:pointer;
+               display:flex;align-items:center;gap:5px;white-space:nowrap;">
         <i class="bi bi-person-check"></i> Shortlist
     </button>` + rejectBtn;
 }
@@ -638,47 +639,47 @@ function openDetailModal(applicationId) {
 function renderDetailFooter(id, status) {
     const closeBtn = `<button onclick="closeDetailModal()"
         style="margin-left:auto;background:#fff;color:var(--charcoal-500);border:1px solid #e2e8f0;
-               border-radius:8px;padding:0.5rem 1.25rem;font-size:0.875rem;font-weight:600;cursor:pointer;">Close</button>`;
+               border-radius:8px;padding:0.6rem 1.5rem;font-size:0.875rem;font-weight:600;cursor:pointer;white-space:nowrap;">Close</button>`;
 
     if (status === 'selected' || status === 'rejected') return closeBtn;
 
     if (status === 'interview_scheduled') {
         return `<button onclick="detailSelectCandidate()"
-            style="background:#15803d;color:#fff;border:none;border-radius:8px;padding:0.5rem 1.25rem;
-                   font-size:0.875rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;">
+            style="background:#15803d;color:#fff;border:none;border-radius:8px;padding:0.6rem 1.5rem;
+                   font-size:0.875rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;">
             <i class="bi bi-person-check-fill"></i> Select Candidate
         </button>
         <button onclick="detailUpdateStatus('rejected')"
             style="background:#fff;color:#b91c1c;border:1px solid #fecaca;border-radius:8px;
-                   padding:0.5rem 1.25rem;font-size:0.875rem;font-weight:600;cursor:pointer;
-                   display:flex;align-items:center;gap:6px;">
+                   padding:0.6rem 1.5rem;font-size:0.875rem;font-weight:600;cursor:pointer;
+                   display:flex;align-items:center;gap:6px;white-space:nowrap;">
             <i class="bi bi-x-circle"></i> Reject
         </button>` + closeBtn;
     }
 
     if (status === 'shortlisted') {
         return `<button onclick="openInterviewModal(${id}); closeDetailModal();"
-            style="background:#d97706;color:#fff;border:none;border-radius:8px;padding:0.5rem 1.25rem;
-                   font-size:0.875rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;">
+            style="background:#d97706;color:#fff;border:none;border-radius:8px;padding:0.6rem 1.5rem;
+                   font-size:0.875rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;">
             <i class="bi bi-calendar-plus"></i> Schedule Interview
         </button>
         <button onclick="detailUpdateStatus('rejected')"
             style="background:#fff;color:#b91c1c;border:1px solid #fecaca;border-radius:8px;
-                   padding:0.5rem 1.25rem;font-size:0.875rem;font-weight:600;cursor:pointer;
-                   display:flex;align-items:center;gap:6px;">
+                   padding:0.6rem 1.5rem;font-size:0.875rem;font-weight:600;cursor:pointer;
+                   display:flex;align-items:center;gap:6px;white-space:nowrap;">
             <i class="bi bi-x-circle"></i> Reject
         </button>` + closeBtn;
     }
 
     return `<button onclick="detailUpdateStatus('shortlisted')"
-        style="background:var(--navy-700);color:#fff;border:none;border-radius:8px;padding:0.5rem 1.25rem;
-               font-size:0.875rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;">
+        style="background:var(--navy-700);color:#fff;border:none;border-radius:8px;padding:0.6rem 1.5rem;
+               font-size:0.875rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;">
         <i class="bi bi-person-check"></i> Shortlist Candidate
     </button>
     <button onclick="detailUpdateStatus('rejected')"
         style="background:#fff;color:#b91c1c;border:1px solid #fecaca;border-radius:8px;
-               padding:0.5rem 1.25rem;font-size:0.875rem;font-weight:600;cursor:pointer;
-               display:flex;align-items:center;gap:6px;">
+               padding:0.6rem 1.5rem;font-size:0.875rem;font-weight:600;cursor:pointer;
+               display:flex;align-items:center;gap:6px;white-space:nowrap;">
         <i class="bi bi-x-circle"></i> Reject
     </button>` + closeBtn;
 }

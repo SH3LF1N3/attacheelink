@@ -10,6 +10,7 @@ class Application extends Model
         'user_id',
         'oppodb_id',
         'cv_path',
+        'cv_original_name',
         'cover_letter',
         'additional_info',
         'status',
