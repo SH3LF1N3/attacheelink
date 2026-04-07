@@ -257,21 +257,53 @@ class Aitools extends Controller
         $gemini = new GeminiService();
         $data = $this->buildAnalyticsData($user);
         $s = $data['by_status'];
+        $m = $data['metrics'];
+
+        // Build organization performance context
+        $orgPerf = [];
+        foreach ($data['org_status_breakdown'] as $org => $breakdown) {
+            $rate = $breakdown['total'] > 0 ? round(($breakdown['selected'] / $breakdown['total']) * 100, 1) : 0;
+            $orgPerf[] = "{$org}: {$breakdown['total']} apps, {$breakdown['selected']} selected ({$rate}%)";
+        }
+        $orgPerfText = !empty($orgPerf) ? implode('; ', array_slice($orgPerf, 0, 5)) : 'No org data';
+
+        // Build opportunity performance context
+        $oppoPerf = [];
+        foreach ($data['oppo_status_breakdown'] as $oppo => $breakdown) {
+            $rate = $breakdown['total'] > 0 ? round(($breakdown['selected'] / $breakdown['total']) * 100, 1) : 0;
+            $oppoPerf[] = substr((string)$oppo, 0, 30) . ": {$breakdown['total']} apps, {$breakdown['selected']} selected ({$rate}%)";
+        }
+        $oppoPerfText = !empty($oppoPerf) ? implode('; ', array_slice($oppoPerf, 0, 5)) : 'No oppo data';
 
         $systemCtx = "You are a data analyst for AttachKE, a Kenyan university attachment platform.\n\n"
-            . "Stats: students={$data['total_students']}, orgs={$data['total_orgs']}, "
+            . "Overall Stats: students={$data['total_students']}, orgs={$data['total_orgs']}, "
             . "opportunities={$data['total_oppo']}, applications={$data['total_apps']}.\n"
-            . "By status: pending={$s['pending']}, review={$s['review']}, shortlisted={$s['shortlisted']}, rejected={$s['rejected']}.\n"
-            . "Top orgs: {$data['top_orgs_text']}. Top opportunities: {$data['top_oppo_text']}.\n\n"
-            . "Return ONLY plain text using this exact structure and headings:\n"
-            . "Insight Score: <number>/100\n"
+            . "By status: pending={$s['pending']}, review={$s['review']}, shortlisted={$s['shortlisted']}, "
+            . "interview_scheduled={$s['interview_scheduled']}, selected={$s['selected']}, rejected={$s['rejected']}.\n\n"
+            . "Performance Metrics:\n"
+            . "- Conversion Rate (applied→selected): {$m['avg_conversion_rate']}%\n"
+            . "- Advancement Rate (any progress): {$m['avg_advancement_rate']}%\n"
+            . "- Interview-to-Selection Rate: {$m['interview_to_selection']}%\n"
+            . "- Rejection Rate: {$m['avg_rejection_rate']}%\n\n"
+            . "Top Organizations: {$orgPerfText}\n"
+            . "Top Opportunities: {$oppoPerfText}\n\n"
+            . "CRITICAL INSTRUCTIONS:\n"
+            . "Return ONLY plain text with these EXACT four sections. Each section is REQUIRED.\n"
+            . "Do NOT skip any section. Do NOT use markdown. Do NOT use bold or italics.\n"
+            . "Separate each bullet with a new line. Always use - for bullets.\n\n"
+            . "Insight Score: <number>/100\n\n"
             . "Key Findings:\n"
-            . "- <3 to 5 concise findings based on the data>\n"
+            . "- Finding 1\n"
+            . "- Finding 2\n"
+            . "- Finding 3\n\n"
             . "Risks and Gaps:\n"
-            . "- <2 to 4 specific risks or concerns>\n"
+            . "- Risk 1\n"
+            . "- Risk 2\n\n"
             . "Recommended Actions:\n"
-            . "- <3 to 5 concrete actions in priority order>\n"
-            . "Plain text only. No markdown tables. No JSON. No intro text. No outro text.";
+            . "- Action 1\n"
+            . "- Action 2\n"
+            . "- Action 3\n\n"
+            . "Follow this format EXACTLY. Include all sections ALWAYS.";
 
         $insight = $gemini->askWithContext($systemCtx, $question);
         Logsdb::record('ai_analytics', $user);
@@ -303,6 +335,9 @@ class Aitools extends Controller
                 ->map(fn($o) => \sprintf('%s: %d', (string) data_get($o, 'name', '?'), (int) data_get($o, 'count', 0)))
                 ->implode(', '),
             'daily_apps' => $this->buildDailyApplicationCounts($apps),
+            'org_status_breakdown' => $this->buildOrgStatusBreakdown($apps),
+            'oppo_status_breakdown' => $this->buildOppoStatusBreakdown($apps),
+            'metrics' => $this->buildPerformanceMetrics($apps),
         ];
     }
 
@@ -345,6 +380,8 @@ class Aitools extends Controller
             'pending' => $apps->where('status', 'pending')->count(),
             'review' => $apps->where('status', 'review')->count(),
             'shortlisted' => $apps->where('status', 'shortlisted')->count(),
+            'interview_scheduled' => $apps->where('status', 'interview_scheduled')->count(),
+            'selected' => $apps->where('status', 'selected')->count(),
             'rejected' => $apps->where('status', 'rejected')->count(),
         ];
     }
@@ -489,5 +526,57 @@ class Aitools extends Controller
         $process->run();
 
         return $process->isSuccessful();
+    }
+
+    private function buildOrgStatusBreakdown(Collection $apps): array
+    {
+        $breakdown = [];
+        foreach ($apps->groupBy(fn($a) => (string) data_get($a, 'opportunity.org', '?')) as $org => $orgApps) {
+            $breakdown[$org] = [
+                'pending' => $orgApps->where('status', 'pending')->count(),
+                'review' => $orgApps->where('status', 'review')->count(),
+                'shortlisted' => $orgApps->where('status', 'shortlisted')->count(),
+                'interview_scheduled' => $orgApps->where('status', 'interview_scheduled')->count(),
+                'selected' => $orgApps->where('status', 'selected')->count(),
+                'rejected' => $orgApps->where('status', 'rejected')->count(),
+                'total' => $orgApps->count(),
+            ];
+        }
+        return $breakdown;
+    }
+
+    private function buildOppoStatusBreakdown(Collection $apps): array
+    {
+        $breakdown = [];
+        foreach ($apps->groupBy('oppodb_id') as $oppoId => $oppoApps) {
+            $oppoName = (string) data_get($oppoApps->first(), 'opportunity.oname', 'Unknown');
+            $breakdown[$oppoName] = [
+                'pending' => $oppoApps->where('status', 'pending')->count(),
+                'review' => $oppoApps->where('status', 'review')->count(),
+                'shortlisted' => $oppoApps->where('status', 'shortlisted')->count(),
+                'interview_scheduled' => $oppoApps->where('status', 'interview_scheduled')->count(),
+                'selected' => $oppoApps->where('status', 'selected')->count(),
+                'rejected' => $oppoApps->where('status', 'rejected')->count(),
+                'total' => $oppoApps->count(),
+            ];
+        }
+        return $breakdown;
+    }
+
+    private function buildPerformanceMetrics(Collection $apps): array
+    {
+        $totalApps = max($apps->count(), 1);
+        $totalAdvanced = $apps->whereIn('status', ['shortlisted', 'interview_scheduled', 'selected'])->count();
+        $totalSelected = $apps->where('status', 'selected')->count();
+        $totalRejected = $apps->where('status', 'rejected')->count();
+
+        return [
+            'avg_conversion_rate' => round(($totalSelected / $totalApps) * 100, 1),
+            'avg_advancement_rate' => round(($totalAdvanced / $totalApps) * 100, 1),
+            'avg_rejection_rate' => round(($totalRejected / $totalApps) * 100, 1),
+            'interview_to_selection' => $apps->where('status', 'interview_scheduled')->count() > 0 
+                ? round(($totalSelected / ($apps->where('status', 'interview_scheduled')->count() + $totalSelected)) * 100, 1)
+                : 0,
+        ];
     }
 }

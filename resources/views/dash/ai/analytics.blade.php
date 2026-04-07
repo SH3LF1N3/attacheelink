@@ -67,10 +67,12 @@
                             <div class="card-body px-4 py-4">
                                 @php
                                 $statuses = [
-                                    ['Pending',     $data['by_status']['pending'],     '#fef9ec', '#b45309'],
-                                    ['Under Review',$data['by_status']['review'],      '#dbeafe', '#1d4ed8'],
-                                    ['Shortlisted', $data['by_status']['shortlisted'], '#d1fae5', '#065f46'],
-                                    ['Rejected',    $data['by_status']['rejected'],    '#fee2e2', '#991b1b'],
+                                    ['Pending',          $data['by_status']['pending'],             '#fef9ec', '#b45309'],
+                                    ['Under Review',     $data['by_status']['review'],              '#dbeafe', '#1d4ed8'],
+                                    ['Shortlisted',      $data['by_status']['shortlisted'],         '#d1fae5', '#065f46'],
+                                    ['Interviewed',      $data['by_status']['interview_scheduled'], '#f3e8ff', '#7c3aed'],
+                                    ['Selected',         $data['by_status']['selected'],            '#d1fae5', '#059669'],
+                                    ['Rejected',         $data['by_status']['rejected'],            '#fee2e2', '#991b1b'],
                                 ];
                                 $total = max($data['total_apps'], 1);
                                 @endphp
@@ -172,6 +174,128 @@
                     </div>
                 </div>
 
+                {{-- Performance Metrics --}}
+                <div class="row g-3 mb-4">
+                    @php
+                    $metrics = $data['metrics'];
+                    $metricCards = [
+                        ['Conversion Rate', $metrics['avg_conversion_rate'] . '%', 'bi-percent', '#059669'],
+                        ['Advancement Rate', $metrics['avg_advancement_rate'] . '%', 'bi-arrow-up-right', '#0284c7'],
+                        ['Rejection Rate', $metrics['avg_rejection_rate'] . '%', 'bi-x-circle', '#991b1b'],
+                        ['Interview-to-Selection', $metrics['interview_to_selection'] . '%', 'bi-person-check', '#7c3aed'],
+                    ];
+                    @endphp
+                    @foreach($metricCards as [$label, $value, $icon, $color])
+                    <div class="col-6 col-md-3">
+                        <div class="card shadow-sm" style="border:none;border-radius:12px;">
+                            <div class="card-body p-3">
+                                <div style="font-size:.75rem;color:#6b7280;margin-bottom:8px;font-weight:600;">
+                                    {{ $label }}
+                                </div>
+                                <div style="display:flex;align-items:baseline;gap:.5rem;">
+                                    <div style="font-size:1.5rem;font-weight:700;color:{{ $color }};line-height:1;">
+                                        {{ $value }}
+                                    </div>
+                                </div>
+                                <div style="margin-top:8px;height:4px;background:#f3f4f6;border-radius:999px;overflow:hidden;">
+                                    <div style="height:100%;width:{{ str_replace('%', '', $value) }}%;background:{{ $color }};border-radius:999px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+                {{-- Organization Status Breakdown --}}
+                <div class="card shadow-sm mb-4" style="border:none;border-radius:12px;">
+                    <div class="card-header bg-white px-4 py-3" style="border-bottom:1px solid #f3f4f6;">
+                        <h6 class="mb-0 fw-bold" style="color:var(--navy-800);">
+                            Status Breakdown by Organization
+                        </h6>
+                    </div>
+                    <div class="card-body px-4 py-3">
+                        @if(count($data['org_status_breakdown']) > 0)
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%;border-collapse:collapse;font-size:.8125rem;">
+                                <thead style="background:#f9fafb;border-bottom:1px solid #e5e7eb;">
+                                    <tr>
+                                        <th style="padding:.75rem;text-align:left;font-weight:700;color:var(--navy-800);">Organization</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:#b45309;">Pending</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:#1d4ed8;">Under Review</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:#065f46;">Shortlisted</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:#7c3aed;">Interviewed</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:#059669;">Selected</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:#991b1b;">Rejected</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:var(--navy-800);">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($data['org_status_breakdown'] as $org => $breakdown)
+                                    <tr style="border-bottom:1px solid #f3f4f6;hover:{background:#fafbfc;}">
+                                        <td style="padding:.75rem;color:var(--navy-800);font-weight:600;">{{ $org }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:#b45309;">{{ $breakdown['pending'] }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:#1d4ed8;">{{ $breakdown['review'] }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:#065f46;">{{ $breakdown['shortlisted'] }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:#7c3aed;">{{ $breakdown['interview_scheduled'] }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:#059669;">{{ $breakdown['selected'] }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:#991b1b;">{{ $breakdown['rejected'] }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:var(--navy-800);font-weight:700;">{{ $breakdown['total'] }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        @else
+                        <div class="text-center py-4 text-muted small">No organization data available.</div>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- Opportunity Status Breakdown --}}
+                <div class="card shadow-sm mb-4" style="border:none;border-radius:12px;">
+                    <div class="card-header bg-white px-4 py-3" style="border-bottom:1px solid #f3f4f6;">
+                        <h6 class="mb-0 fw-bold" style="color:var(--navy-800);">
+                            Status Breakdown by Opportunity
+                        </h6>
+                    </div>
+                    <div class="card-body px-4 py-3">
+                        @if(count($data['oppo_status_breakdown']) > 0)
+                        <div style="overflow-x:auto;">
+                            <table style="width:100%;border-collapse:collapse;font-size:.8125rem;">
+                                <thead style="background:#f9fafb;border-bottom:1px solid #e5e7eb;">
+                                    <tr>
+                                        <th style="padding:.75rem;text-align:left;font-weight:700;color:var(--navy-800);">Opportunity</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:#b45309;">Pending</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:#1d4ed8;">Under Review</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:#065f46;">Shortlisted</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:#7c3aed;">Interviewed</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:#059669;">Selected</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:#991b1b;">Rejected</th>
+                                        <th style="padding:.75rem;text-align:center;font-weight:700;color:var(--navy-800);">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($data['oppo_status_breakdown'] as $oppo => $breakdown)
+                                    <tr style="border-bottom:1px solid #f3f4f6;">
+                                        <td style="padding:.75rem;color:var(--navy-800);font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $oppo }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:#b45309;">{{ $breakdown['pending'] }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:#1d4ed8;">{{ $breakdown['review'] }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:#065f46;">{{ $breakdown['shortlisted'] }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:#7c3aed;">{{ $breakdown['interview_scheduled'] }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:#059669;">{{ $breakdown['selected'] }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:#991b1b;">{{ $breakdown['rejected'] }}</td>
+                                        <td style="padding:.75rem;text-align:center;color:var(--navy-800);font-weight:700;">{{ $breakdown['total'] }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        @else
+                        <div class="text-center py-4 text-muted small">No opportunity data available.</div>
+                        @endif
+                    </div>
+                </div>
+
                 {{-- Ask AI --}}
                 <div class="card shadow-sm" style="border:none;border-radius:12px;overflow:hidden;">
                     <div class="card-header py-3 px-4"
@@ -251,27 +375,56 @@ function parseInsightSections(rawText) {
         raw: rawText,
     };
 
-    const lines = String(rawText || '').split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+    const rawLines = String(rawText || '').split(/\r?\n/);
+    const lines = [];
+    
+    // Keep lines but track structure
+    for (const line of rawLines) {
+        const trimmed = line.trim();
+        if (trimmed) {
+            lines.push(trimmed);
+        }
+    }
+
     let current = '';
 
     const detectHeading = (line) => {
-        const clean = line.toLowerCase().replace(/[*_]/g, '').trim();
-        if (clean.startsWith('insight score')) return 'score';
-        if (clean.startsWith('key findings')) return 'findings';
-        if (clean.startsWith('risks and gaps')) return 'risks';
-        if (clean.startsWith('recommended actions')) return 'actions';
+        const clean = line.toLowerCase();
+        if (clean.includes('insight score')) return 'score';
+        if (clean.includes('key findings')) return 'findings';
+        if (clean.includes('risks and gaps') || clean.includes('risks')) return 'risks';
+        if (clean.includes('recommended actions') || clean.includes('actions')) return 'actions';
         return '';
+    };
+
+    const stripBullet = (text) => {
+        // Remove leading bullet characters and whitespace more aggressively
+        let result = text;
+        // Remove leading - * • characters with optional dots/parens
+        result = result.replace(/^[\s\-\*•]+/g, '');
+        // Remove leading numbers followed by . or )
+        result = result.replace(/^\d+[.)]\s*/g, '');
+        // Final trim
+        return result.trim();
     };
 
     for (const line of lines) {
         const heading = detectHeading(line);
+        
         if (heading) {
             current = heading;
-            const maybeInline = line.split(':').slice(1).join(':').trim();
-            if (heading === 'score' && maybeInline) {
-                sections.score = maybeInline;
-            } else if (maybeInline && current !== 'score') {
-                sections[current].push(maybeInline.replace(/^[-*\u2022\d.)\s]+/, '').trim());
+            // Extract inline content after colon
+            const colonIdx = line.indexOf(':');
+            if (colonIdx !== -1) {
+                const afterColon = line.substring(colonIdx + 1).trim();
+                if (afterColon && heading === 'score') {
+                    sections.score = afterColon;
+                } else if (afterColon && heading !== 'score') {
+                    const cleaned = stripBullet(afterColon);
+                    if (cleaned && cleaned.length > 3) {
+                        sections[current].push(cleaned);
+                    }
+                }
             }
             continue;
         }
@@ -280,19 +433,27 @@ function parseInsightSections(rawText) {
             continue;
         }
 
-        if (current === 'score' && !sections.score) {
-            sections.score = line;
-            continue;
-        }
-
-        if (current !== 'score') {
-            sections[current].push(line.replace(/^[-*\u2022\d.)\s]+/, '').trim());
+        // Process content under current section
+        if (current === 'score') {
+            if (!sections.score && line && !detectHeading(line)) {
+                sections.score = line;
+            }
+        } else {
+            // For findings, risks, actions - extract bullet content
+            const text = line.trim();
+            if (text && !detectHeading(text)) {
+                const cleaned = stripBullet(text);
+                if (cleaned && cleaned.length > 3) {
+                    sections[current].push(cleaned);
+                }
+            }
         }
     }
 
-    sections.findings = sections.findings.filter(Boolean);
-    sections.risks = sections.risks.filter(Boolean);
-    sections.actions = sections.actions.filter(Boolean);
+    // Trim empty entries but keep content even if short
+    sections.findings = sections.findings.filter(s => s && s.length > 0);
+    sections.risks = sections.risks.filter(s => s && s.length > 0);
+    sections.actions = sections.actions.filter(s => s && s.length > 0);
 
     return sections;
 }
@@ -392,9 +553,13 @@ document.getElementById('insight-form').addEventListener('submit', async functio
             body: JSON.stringify({ question: q }),
         });
         const data = await res.json();
+        console.log('AI Response:', data.insight);
+        const parsed = parseInsightSections(data.insight || 'No insight generated.');
+        console.log('Parsed sections:', { findings: parsed.findings.length, risks: parsed.risks.length, actions: parsed.actions.length });
         document.getElementById('insight-result').innerHTML = renderInsight(data.insight || 'No insight generated.');
         document.getElementById('insight-result').classList.remove('d-none');
-    } catch {
+    } catch (error) {
+        console.error('Error:', error);
         alert('An error occurred. Please try again.');
     } finally {
         document.getElementById('insight-label').classList.remove('d-none');
