@@ -29,6 +29,16 @@ class Apps extends Controller
 
     public function sappo()
     {
+        // ── Check profile completion ──
+        $user = auth()->user();
+        $isProfileComplete = $user->fname && $user->foth1 && $user->foth2 && $user->foth3 && $user->phone && $user->gender;
+        
+        if (!$isProfileComplete) {
+            return redirect()->route('profile')
+                           ->with('redirected_incomplete', true)
+                           ->with('message', 'Please complete your profile before managing applications.');
+        }
+
         $applications = Application::with('opportunity')
             ->where('user_id', Auth::id())
             ->latest()

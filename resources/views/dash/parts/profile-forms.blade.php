@@ -1,4 +1,5 @@
 {{-- Single form wrapping ALL sections — one POST saves everything --}}
+<div class="profile-forms-section">
 <form action="{{ route('profile.update') }}" method="POST" id="mainProfileForm">
 @csrf
 
@@ -191,3 +192,4 @@
         </form>
     </div>
 </div>
+</div> {{-- /.profile-forms-section --}}

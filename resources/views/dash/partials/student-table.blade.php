@@ -28,13 +28,23 @@
                                         background:var(--navy-700);color:#fff;font-weight:700;
                                         display:flex;align-items:center;justify-content:center;
                                         font-size:0.8rem;">
-                                {{ strtoupper(substr($student->fname ?? $student->uname, 0, 1)) }}
+                                {{ strtoupper(substr($student->fname ?? $student->email, 0, 1)) }}
                             </div>
-                            <div>
+                            <div style="flex:1;">
                                 <div class="fw-semibold" style="color:var(--navy-800);">
-                                    {{ $student->fname ?? '—' }}
+                                    @if($student->fname)
+                                        {{ $student->fname }}
+                                    @else
+                                        <span style="color:#9ca3af;font-weight:500;">{{ $student->email }}</span>
+                                    @endif
                                 </div>
+                                @if($student->fname)
                                 <div style="font-size:0.75rem;color:#9ca3af;">{{ $student->email }}</div>
+                                @else
+                                <div style="font-size:0.75rem;color:#ea580c;font-weight:500;">
+                                    <i class="bi bi-exclamation-circle me-1"></i>Incomplete Profile
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </td>

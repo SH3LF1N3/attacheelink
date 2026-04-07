@@ -1,5 +1,54 @@
 {{-- ── STUDENT DASHBOARD ── --}}
 
+{{-- Profile Completion Alert --}}
+@php
+    $isComplete = $user->fname && $user->foth1 && $user->foth2 && $user->foth3 && $user->phone && $user->gender;
+    if (!$isComplete) {
+        $completedFields = 0;
+        $totalFields = 6;
+        if ($user->fname) $completedFields++;
+        if ($user->foth1) $completedFields++;
+        if ($user->foth2) $completedFields++;
+        if ($user->foth3) $completedFields++;
+        if ($user->phone) $completedFields++;
+        if ($user->gender) $completedFields++;
+        $completion = round(($completedFields / $totalFields) * 100);
+    }
+@endphp
+
+@if (!$isComplete)
+<div style="background:#fef9ec;border:1.5px solid #fbbf24;border-radius:12px;padding:1.5rem;
+            margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:1.25rem;">
+    <div style="flex-shrink:0;">
+        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:#d97706;">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+    </div>
+    <div style="flex:1;">
+        <div style="font-weight:700;color:#92400e;margin-bottom:0.75rem;font-size:1.05rem;">
+            Complete Your Profile to Continue
+        </div>
+        <p style="margin:0 0 1rem;color:#b45309;font-size:0.95rem;line-height:1.6;">
+            Your profile is {{ $completion }}% complete. Organizations need your complete information to match you with internship opportunities. You cannot browse or apply for opportunities until your profile is complete.
+        </p>
+        <div style="background:#fff;border-radius:8px;overflow:hidden;height:10px;margin-bottom:0.75rem;">
+            <div style="background:#d97706;height:100%;width:{{ $completion }}%;transition:width 0.3s;"></div>
+        </div>
+        <div style="font-size:0.85rem;color:#b45309;margin-bottom:1rem;">
+            {{ $totalFields - $completedFields }} field{{ $totalFields - $completedFields != 1 ? 's' : '' }} remaining
+        </div>
+    </div>
+    <a href="{{ route('profile') }}" 
+       style="background:#d97706;color:#fff;border:none;padding:0.75rem 1.5rem;
+              border-radius:6px;font-weight:600;cursor:pointer;white-space:nowrap;
+              font-size:0.9rem;text-decoration:none;display:inline-block;flex-shrink:0;">
+        Complete Profile
+    </a>
+</div>
+@endif
+
 {{-- Stat cards --}}
 <div class="dash-stats-grid" style="margin-bottom:1.5rem;">
 
