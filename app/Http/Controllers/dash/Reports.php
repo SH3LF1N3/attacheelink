@@ -84,7 +84,44 @@ class Reports extends Controller
 
     private function orgStats(): array
     {
-        $orgs       = User::where('role', 'company')->latest()->get();
+        $orgs = User::where('role', 'company')->latest()->get();
+        
+        // Process organizations to detect and correct data issues
+        $orgs = $orgs->map(function ($org) {
+            // Check if fields might be swapped
+            // If foth1 (org name) looks like a person name and fname looks like an organization name
+            $fname = trim($org->fname ?? '');
+            $foth1 = trim($org->foth1 ?? '');
+            
+            // Heuristic: if foth1 is empty but fname has value, might be incomplete
+            // If foth1 has 1-2 words and fname has similar pattern, they might be swapped
+            if (!empty($foth1) && !empty($fname)) {
+                $foth1Words = count(explode(' ', $foth1));
+                $fnameWords = count(explode(' ', $fname));
+                
+                // If fname is longer and contains typical organization keywords, they might be swapped
+                $orgKeywords = ['tech', 'africa', 'labs', 'hub', 'code', 'group', 'media', 'consulting', 'solutions', 'innovative'];
+                $fnameHasOrgKeyword = false;
+                foreach ($orgKeywords as $keyword) {
+                    if (stripos($fname, $keyword) !== false) {
+                        $fnameHasOrgKeyword = true;
+                        break;
+                    }
+                }
+                
+                // If fname clearly looks like an org name (has org keywords or is very long)
+                // and foth1 looks like a person name (short, 2 words usually), they're probably swapped
+                if ($fnameHasOrgKeyword && $fnameWords > $foth1Words && strlen($fname) > strlen($foth1)) {
+                    // Swap them
+                    $temp = $org->fname;
+                    $org->fname = $org->foth1;
+                    $org->foth1 = $temp;
+                }
+            }
+            
+            return $org;
+        });
+        
         $oppoCounts = Oppodb::selectRaw('org, count(*) as total')
             ->groupBy('org')->pluck('total', 'org');
 
