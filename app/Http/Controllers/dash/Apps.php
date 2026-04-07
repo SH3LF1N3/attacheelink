@@ -255,7 +255,11 @@ class Apps extends Controller
             'notes'            => ['nullable', 'string', 'max:1000'],
         ]);
 
-        Interview::updateOrCreate(
+        // Check if interview already exists
+        $existingInterview = Interview::where('application_id', $application->id)->first();
+        $isNewInterview = !$existingInterview;
+
+        $interview = Interview::updateOrCreate(
             ['application_id' => $application->id],
             [
                 'interview_date'   => $request->interview_date,
@@ -268,37 +272,38 @@ class Apps extends Controller
 
         $application->update(['status' => 'interview_scheduled']);
 
-        // Build rich notification message with interview details
-        $interview       = Interview::where('application_id', $application->id)->first();
-        $typeLabel       = $request->type === 'physical' ? 'Physical' : 'Online';
-        $locationLabel   = $request->type === 'physical' ? 'Location' : 'Meeting Link';
-        $locationValue   = $request->location_or_link ?? 'TBD';
-        $notifMessage    = "Your interview for \"{$application->opportunity->oname}\" at {$application->opportunity->org} has been scheduled."
-            . "\n📅 Date: {$request->interview_date}"
-            . "\n🕐 Time: {$request->interview_time}"
-            . "\n📌 Type: {$typeLabel}"
-            . ($request->location_or_link ? "\n{$locationLabel}: {$request->location_or_link}" : "")
-            . ($request->notes ? "\n📝 Notes: {$request->notes}" : "");
+        // Only send notifications if this is a NEW interview (not an update)
+        if ($isNewInterview) {
+            $typeLabel       = $request->type === 'physical' ? 'Physical' : 'Online';
+            $locationLabel   = $request->type === 'physical' ? 'Location' : 'Meeting Link';
+            $locationValue   = $request->location_or_link ?? 'TBD';
+            $notifMessage    = "Your interview for \"{$application->opportunity->oname}\" at {$application->opportunity->org} has been scheduled."
+                . "\n📅 Date: {$request->interview_date}"
+                . "\n🕐 Time: {$request->interview_time}"
+                . "\n📌 Type: {$typeLabel}"
+                . ($request->location_or_link ? "\n{$locationLabel}: {$request->location_or_link}" : "")
+                . ($request->notes ? "\n📝 Notes: {$request->notes}" : "");
 
-        // Send in-app notification
-        \App\Models\Notifydb::send(
-            $application->student->uname,
-            'Interview Scheduled 📅',
-            $notifMessage,
-            $user->uname
-        );
+            // Send in-app notification
+            \App\Models\Notifydb::send(
+                $application->student->uname,
+                'Interview Scheduled 📅',
+                $notifMessage,
+                $user->uname
+            );
 
-        // Send email notification with interview details
-        NotificationService::interviewScheduled(
-            $application->student,
-            $application->opportunity->oname,
-            $application->opportunity->org,
-            $request->interview_date,
-            $request->interview_time,
-            $request->type,
-            $request->location_or_link,
-            $request->notes,
-        );
+            // Send email notification with interview details
+            NotificationService::interviewScheduled(
+                $application->student,
+                $application->opportunity->oname,
+                $application->opportunity->org,
+                $request->interview_date,
+                $request->interview_time,
+                $request->type,
+                $request->location_or_link,
+                $request->notes,
+            );
+        }
 
         return response()->json(['message' => 'Interview scheduled.', 'status' => 'interview_scheduled']);
     }

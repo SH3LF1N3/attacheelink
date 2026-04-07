@@ -658,7 +658,7 @@ function renderDetailFooter(id, status) {
     }
 
     if (status === 'shortlisted') {
-        return `<button onclick="openInterviewModal(${id}); closeDetailModal();"
+        return `<button onclick="openInterviewModal(${id});"
             style="background:#d97706;color:#fff;border:none;border-radius:8px;padding:0.6rem 1.5rem;
                    font-size:0.875rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;">
             <i class="bi bi-calendar-plus"></i> Schedule Interview
@@ -721,15 +721,24 @@ function submitInterview() {
     const location = document.getElementById('iLocation').value;
     const notes    = document.getElementById('iNotes').value;
     const errEl    = document.getElementById('iError');
+    const confirmBtn = event.target; // Get the button being clicked
+    
+    // Prevent duplicate submissions
+    if (confirmBtn.disabled) return;
+    confirmBtn.disabled = true;
 
     if (!date || !time || !typeEl) {
         errEl.textContent    = 'Please fill in date, time and interview type.';
         errEl.style.display  = 'block';
+        confirmBtn.disabled = false;
         return;
     }
     errEl.style.display = 'none';
+    confirmBtn.innerHTML = '<i class="bi bi-hourglass-split me-1"></i> Confirming...';
 
-    fetch(`/applications/${scheduleTargetId}/schedule`, {
+    const id = scheduleTargetId; // Save ID before closing modal
+    
+    fetch(`/applications/${id}/schedule`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -740,18 +749,23 @@ function submitInterview() {
     })
     .then(r => r.json())
     .then(data => {
-        closeInterviewModal();
         // Store the interview data so button updates immediately
-        applicantInterviews[scheduleTargetId] = {
+        applicantInterviews[id] = {
             date: date,
             time: time,
             type: typeEl.value,
             location_or_link: location,
             notes: notes
         };
-        updateCardStatus(scheduleTargetId, 'interview_scheduled');
+        updateCardStatus(id, 'interview_scheduled');
+        closeInterviewModal();
     })
-    .catch(() => { errEl.textContent = 'Failed to schedule interview.'; errEl.style.display = 'block'; });
+    .catch(() => { 
+        errEl.textContent = 'Failed to schedule interview.'; 
+        errEl.style.display = 'block';
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = '<i class="bi bi-calendar-check"></i> Confirm Interview';
+    });
 }
 
 // ── Select candidate ──────────────────────────────────────────────
@@ -818,13 +832,38 @@ function callUpdateStatus(id, status, onSuccess) {
     .catch(err => console.error('Status update failed', err));
 }
 
+function renderInterviewInfoBox(interview) {
+    if (!interview) return '';
+    return `<div style="background:#fefce8;border:1px solid #fef08a;border-radius:8px;
+                       padding:6px 10px;font-size:0.78rem;color:#713f12;margin-bottom:0.6rem;">
+            <i class="bi bi-calendar-event me-1"></i>
+            ${interview.date || ''} at ${interview.time || ''} — ${interview.type === 'physical' ? '📍' : '💻'} ${interview.location_or_link || ''}
+           </div>`;
+}
+
 function updateCardStatus(id, status) {
     updateBadgeAndButtons(id, status);
+    // Update interview info box if interview exists
+    updateInterviewInfoOnCard(id);
     if (currentDetailId === id) {
         const badge = document.getElementById('detailStatusBadge');
         if (badge) {
             const s = statusLabels[status] || statusLabels.pending;
             badge.textContent = s.label; badge.style.background = s.bg; badge.style.color = s.color;
+        }
+        // Update interview section in detail modal
+        if (status === 'interview_scheduled') {
+            const interview = applicantInterviews[id];
+            if (interview) {
+                const iSection = document.getElementById('detailInterviewSection');
+                const typeIcon = interview.type === 'physical' ? '📍' : '💻';
+                document.getElementById('detailInterviewInfo').innerHTML =
+                    `<strong>Date:</strong> ${interview.date} at ${interview.time}<br>
+                     <strong>Type:</strong> ${typeIcon} ${interview.type === 'physical' ? 'Physical' : 'Online'}<br>
+                     ${interview.location_or_link ? `<strong>${interview.type === 'physical' ? 'Location' : 'Link'}:</strong> ${interview.location_or_link}<br>` : ''}
+                     ${interview.notes ? `<strong>Notes:</strong> ${interview.notes}` : ''}`;
+                iSection.style.display = 'block';
+            }
         }
         document.getElementById('detailFooter').innerHTML = renderDetailFooter(id, status);
     }
@@ -838,6 +877,29 @@ function updateBadgeAndButtons(id, status) {
     }
     const actions = document.getElementById('actions-' + id);
     if (actions) actions.innerHTML = renderActionButtons(id, status, applicantInterviews[id]);
+}
+
+function updateInterviewInfoOnCard(id) {
+    const card = document.getElementById('card-' + id);
+    if (!card) return;
+    
+    const interview = applicantInterviews[id];
+    const interviewBox = card.querySelector('div[style*="background:#fefce8"]');
+    
+    if (interview) {
+        const newHTML = renderInterviewInfoBox(interview);
+        if (interviewBox) {
+            interviewBox.outerHTML = newHTML;
+        } else {
+            // Insert interview box after contact info, before action buttons
+            const actionsDiv = card.querySelector('[id^="actions-"]');
+            if (actionsDiv) {
+                actionsDiv.insertAdjacentHTML('beforebegin', newHTML);
+            }
+        }
+    } else if (interviewBox) {
+        interviewBox.remove();
+    }
 }
 
 // ── CV Preview Modal ──────────────────────────────────────────────
