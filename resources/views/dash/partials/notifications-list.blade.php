@@ -57,8 +57,12 @@
                     <div class="fw-semibold" style="color:var(--navy-800);font-size:0.875rem;">
                         {{ $n->title ?? 'Notification' }}
                     </div>
-                    <div style="font-size:0.8125rem;color:#374151;margin-top:2px;">
-                        {{ $n->mess }}
+                    <div style="font-size:0.8125rem;color:#374151;margin-top:2px;white-space:pre-line;">
+                        {!! nl2br(preg_replace(
+                            '/(https?:\/\/[^\s]+)/',
+                            '<a href="$1" target="_blank" style="color:var(--navy-700);word-break:break-all;">$1</a>',
+                            e($n->mess)
+                        )) !!}
                     </div>
                     <div style="font-size:0.72rem;color:#9ca3af;margin-top:4px;">
                         <i class="bi bi-clock me-1"></i>{{ $n->created_at?->diffForHumans() }}
@@ -105,8 +109,12 @@
                     <div class="fw-semibold" style="color:var(--navy-800);font-size:0.875rem;">
                         {{ $n->title ?? 'Notification' }}
                     </div>
-                    <div style="font-size:0.8125rem;color:var(--navy-600);margin-top:2px;">
-                        {{ $n->mess }}
+                    <div style="font-size:0.8125rem;color:var(--navy-600);margin-top:2px;white-space:pre-line;">
+                        {!! nl2br(preg_replace(
+                            '/(https?:\/\/[^\s]+)/',
+                            '<a href="$1" target="_blank" style="color:var(--navy-700);word-break:break-all;">$1</a>',
+                            e($n->mess)
+                        )) !!}
                     </div>
                     <div style="font-size:0.72rem;color:var(--navy-400);margin-top:4px;">
                         <i class="bi bi-clock me-1"></i>{{ $n->created_at?->diffForHumans() }}

@@ -140,19 +140,6 @@
                             </div>
 
                             <div class="oppo-form-actions">
-                                <form action="{{ route('oppo.destroy', $oppo->id) }}" method="POST"
-                                      onsubmit="return confirm('Delete this opportunity? This cannot be undone.');"
-                                      style="margin:0;">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="btn-delete">
-                                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                            <polyline points="3 6 5 6 21 6"/>
-                                            <path d="M19 6l-1 14H6L5 6"/>
-                                            <path d="M10 11v6M14 11v6M9 6V4h6v2"/>
-                                        </svg>
-                                        Delete
-                                    </button>
-                                </form>
                                 <div style="display:flex;gap:0.75rem;">
                                     <a href="{{ route('opportunities') }}" class="btn-cancel">Cancel</a>
                                     <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -160,6 +147,23 @@
                             </div>
 
                         </form>
+
+                        {{-- Delete form — outside the update form to avoid nesting --}}
+                        <div style="margin-top:1rem;">
+                        <form action="{{ route('oppo.destroy', $oppo->id) }}" method="POST"
+                              onsubmit="return confirm('Delete this opportunity? This cannot be undone.');"
+                              style="margin:0;">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="btn-delete">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6l-1 14H6L5 6"/>
+                                    <path d="M10 11v6M14 11v6M9 6V4h6v2"/>
+                                </svg>
+                                Delete Opportunity
+                            </button>
+                        </form>
+                        </div>
                     </div>
                 </div>
             </div>

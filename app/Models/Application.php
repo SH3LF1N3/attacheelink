@@ -24,4 +24,9 @@ class Application extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
+
+    public function interview()
+    {
+        return $this->hasOne(\App\Models\Interview::class);
+    }
 }

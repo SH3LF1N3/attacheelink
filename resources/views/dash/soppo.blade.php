@@ -140,10 +140,26 @@
                                         @endif
                                     </div>
 
-                                    {{-- Description --}}
+                                    {{-- Description with Read More toggle --}}
                                     @if($oppo->descr)
-                                    <p style="font-size:0.8rem;color:var(--charcoal-400);line-height:1.5;"
-                                       class="mb-3 text-truncate">{{ $oppo->descr }}</p>
+                                    <div class="oppo-description-wrapper" style="position:relative;">
+                                        <p class="oppo-description" 
+                                           style="font-size:0.8rem;color:var(--charcoal-400);line-height:1.6;
+                                                  margin:0;max-height:3.2rem;overflow:hidden;
+                                                  transition:max-height 0.3s ease;"
+                                           data-full-text="{{ $oppo->descr }}">
+                                            {{ $oppo->descr }}
+                                        </p>
+                                        <button type="button" 
+                                                class="oppo-read-more-btn"
+                                                onclick="toggleDescription(this)"
+                                                style="background:none;border:none;color:var(--navy-700);
+                                                       font-size:0.765rem;font-weight:600;cursor:pointer;
+                                                       padding:0.25rem 0;margin-top:0.3rem;
+                                                       text-decoration:underline;transition:color 0.2s;">
+                                            Read More
+                                        </button>
+                                    </div>
                                     @endif
 
                                     {{-- Footer: deadline + apply --}}
@@ -470,6 +486,25 @@
     successClose.addEventListener('click', () => {
         successOv.style.display = 'none';
     });
+
+    // Read More / Read Less toggle for descriptions
+    window.toggleDescription = function(btn) {
+        const wrapper = btn.closest('.oppo-description-wrapper');
+        const descEl = wrapper.querySelector('.oppo-description');
+        const isExpanded = btn.classList.contains('expanded');
+
+        if (isExpanded) {
+            // Collapse
+            descEl.style.maxHeight = '3.2rem';
+            btn.textContent = 'Read More';
+            btn.classList.remove('expanded');
+        } else {
+            // Expand
+            descEl.style.maxHeight = 'none';
+            btn.textContent = 'Show Less';
+            btn.classList.add('expanded');
+        }
+    };
 })();
 </script>
 </body>

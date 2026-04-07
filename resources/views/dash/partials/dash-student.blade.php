@@ -25,13 +25,25 @@
     </div>
 
     <div class="dash-stat-card">
+        <div class="dash-stat-icon" style="background:var(--navy-50);color:var(--navy-700);">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <polyline points="23 11 17 17 14 14"/>
+            </svg>
+        </div>
+        <div class="dash-stat-value">{{ $stats['shortlisted'] }}</div>
+        <div class="dash-stat-label">Shortlisted</div>
+    </div>
+
+    <div class="dash-stat-card">
         <div class="dash-stat-icon" style="background:#f0fdf4;color:#16a34a;">
             <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
             </svg>
         </div>
-        <div class="dash-stat-value">{{ $stats['shortlisted'] }}</div>
-        <div class="dash-stat-label">Shortlisted</div>
+        <div class="dash-stat-value">{{ $stats['selected'] }}</div>
+        <div class="dash-stat-label">Selected</div>
     </div>
 
     <div class="dash-stat-card">
@@ -60,7 +72,6 @@
             @forelse($stats['recommended'] as $oppo)
             <div class="dash-list-item">
                 <div style="display:flex;align-items:center;gap:0.75rem;">
-                    {{-- Initial avatar --}}
                     <div style="width:36px;height:36px;border-radius:8px;
                                 background:var(--navy-50);color:var(--navy-700);
                                 display:flex;align-items:center;justify-content:center;
@@ -97,7 +108,7 @@
         <div class="dash-card-body">
             @forelse($stats['upcoming_deadlines'] as $oppo)
             @php
-                $daysLeft = \Carbon\Carbon::today()->diffInDays(\Carbon\Carbon::parse($oppo->dead), false);
+                $daysLeft    = \Carbon\Carbon::today()->diffInDays(\Carbon\Carbon::parse($oppo->dead), false);
                 $urgentColor = $daysLeft <= 2 ? '#b91c1c' : '#b45309';
                 $urgentBg    = $daysLeft <= 2 ? '#fef2f2' : '#fef9ec';
             @endphp
@@ -113,12 +124,9 @@
                     <div>
                         <div class="dash-list-title">{{ $oppo->oname }}</div>
                         <div style="font-size:0.75rem;color:{{ $urgentColor }};font-weight:600;margin-top:2px;">
-                            @if($daysLeft === 0)
-                                Expires today
-                            @elseif($daysLeft === 1)
-                                Expires tomorrow
-                            @else
-                                Expires in {{ $daysLeft }} days
+                            @if($daysLeft === 0) Expires today
+                            @elseif($daysLeft === 1) Expires tomorrow
+                            @else Expires in {{ $daysLeft }} days
                             @endif
                         </div>
                     </div>

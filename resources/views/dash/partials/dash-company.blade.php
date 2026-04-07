@@ -46,6 +46,16 @@
         <div class="dash-stat-label">Pending Review</div>
     </div>
 
+    <div class="dash-stat-card">
+        <div class="dash-stat-icon" style="background:#f0fdf4;color:#16a34a;">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+        </div>
+        <div class="dash-stat-value">{{ $stats['selected_apps'] ?? 0 }}</div>
+        <div class="dash-stat-label">Selected</div>
+    </div>
+
 </div>
 
 {{-- Two-column grid --}}
@@ -115,10 +125,12 @@
                 </div>
                 @php
                     $badges = [
-                        'pending'     => ['#b45309', '#fef9ec'],
-                        'review'      => ['#1d4ed8', '#eff6ff'],
-                        'shortlisted' => ['#15803d', '#f0fdf4'],
-                        'rejected'    => ['#b91c1c', '#fef2f2'],
+                        'pending'              => ['#b45309', '#fef9ec'],
+                        'review'               => ['#1d4ed8', '#eff6ff'],
+                        'shortlisted'          => ['#15803d', '#f0fdf4'],
+                        'interview_scheduled'  => ['#78350f', '#fef3c7'],
+                        'selected'             => ['#14532d', '#dcfce7'],
+                        'rejected'             => ['#b91c1c', '#fef2f2'],
                     ];
                     $b = $badges[$app->status] ?? ['#52525b', '#f5f5f6'];
                 @endphp
@@ -126,7 +138,7 @@
                              font-size:0.7rem;font-weight:700;
                              padding:2px 10px;border-radius:var(--radius-full);
                              text-transform:capitalize;">
-                    {{ ucfirst($app->status) }}
+                    {{ str_replace('_', ' ', ucwords($app->status)) }}
                 </span>
             </div>
             @empty

@@ -183,21 +183,49 @@ class Aitools extends Controller
             }
         }
 
-        $prompt = "You are an expert CV reviewer for attachment applications in Kenya. Be specific, practical, and professional.\n\n"
-            . "{$oppoCtx}\n\nCV:\n---\n{$cvText}\n---\n\n"
-            . "Return ONLY plain text using this exact structure and headings:\n"
-            . "Overall Score: <number>/100\n"
+        $prompt = "You are a professional CV reviewer. Your ONLY task is to provide structured feedback in the exact format below.\n\n"
+            . "DO NOT ADD ANY TEXT BEFORE, BETWEEN, OR AFTER THESE FOUR SECTIONS.\n\n"
+            . "{$oppoCtx}\n\n"
+            . "===== CV TO REVIEW =====\n"
+            . "{$cvText}\n"
+            . "===== END CV =====\n\n"
+            . "===== RESPOND WITH ONLY THESE FOUR SECTIONS BELOW - NO OTHER TEXT =====\n"
+            . "Overall Score: [INSERT A NUMBER BETWEEN 0-100 HERE]\n\n"
             . "Strengths:\n"
-            . "- <3 to 5 concise bullet points>\n"
+            . "[INSERT 3-5 STRENGTHS HERE, EACH ON A NEW LINE STARTING WITH A DASH]\n"
+            . "- Example strength 1\n"
+            . "- Example strength 2\n\n"
             . "Weaknesses:\n"
-            . "- <3 to 5 concise bullet points>\n"
+            . "[INSERT 3-5 WEAKNESSES HERE, EACH ON A NEW LINE STARTING WITH A DASH. CVMUST HAVE WEAKNESSES, ALWAYS IDENTIFY THEM]\n"
+            . "- Example weakness 1\n"
+            . "- Example weakness 2\n\n"
             . "Recommendations:\n"
-            . "- <4 to 6 concrete changes to make, prioritized>\n"
+            . "[INSERT 4-6 ACTIONABLE RECOMMENDATIONS HERE, EACH ON A NEW LINE STARTING WITH A DASH]\n"
+            . "- Example recommendation 1\n"
+            . "- Example recommendation 2\n\n"
             . "ATS Keywords:\n"
-            . "- <8 to 12 relevant keywords/phrases>\n\n"
-            . "Rules: no markdown tables, no JSON, no intro text, no outro text.";
+            . "[INSERT 8-12 RELEVANT KEYWORDS HERE, EACH ON A NEW LINE STARTING WITH A DASH]\n"
+            . "- Keyword 1\n"
+            . "- Keyword 2\n\n"
+            . "FORMATTING RULES (CRITICAL):\n"
+            . "- Use ONLY plain text\n"
+            . "- Each bullet point MUST start with a dash (-)\n"
+            . "- NO markdown, NO bold, NO italics, NO special characters\n"
+            . "- Each section heading must be EXACTLY as shown\n"
+            . "- Include all four sections with NO exceptions\n"
+            . "- Every CV has weaknesses - you must identify them\n"
+            . "- After 'ATS Keywords:' section, stop - do not add any closing text";
 
-        $feedback = $gemini->ask($prompt);
+        $feedback = $gemini->analyzeCV($prompt);
+        
+        // Log the response for debugging
+        Log::info('CV Analysis Response', [
+            'length' => strlen($feedback),
+            'has_weaknesses' => stripos($feedback, 'Weaknesses:') !== false,
+            'has_recommendations' => stripos($feedback, 'Recommendations:') !== false,
+            'first_200_chars' => substr($feedback, 0, 200),
+        ]);
+        
         Logsdb::record('ai_resume_checker', $user);
 
         return response()->json(['feedback' => $feedback]);

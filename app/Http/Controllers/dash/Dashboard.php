@@ -75,12 +75,13 @@ class Dashboard extends Controller
                                 ->get();
 
         return [
-            'total_apps'        => (clone $base)->count(),
-            'under_review'      => (clone $base)->where('status', 'review')->count(),
-            'shortlisted'       => (clone $base)->where('status', 'shortlisted')->count(),
-            'rejected'          => (clone $base)->where('status', 'rejected')->count(),
-            'recommended'       => $recommended,
-            'upcoming_deadlines'=> $upcomingDeadlines,
+            'total_apps'         => (clone $base)->count(),
+            'under_review'       => (clone $base)->where('status', 'review')->count(),
+            'shortlisted'        => (clone $base)->whereIn('status', ['shortlisted', 'interview_scheduled'])->count(),
+            'selected'           => (clone $base)->where('status', 'selected')->count(),
+            'rejected'           => (clone $base)->where('status', 'rejected')->count(),
+            'recommended'        => $recommended,
+            'upcoming_deadlines' => $upcomingDeadlines,
         ];
     }
 
@@ -93,6 +94,7 @@ class Dashboard extends Controller
             'active_listings' => Oppodb::where('org', $user->uname)->where('status', 'active')->count(),
             'total_apps'      => Application::whereIn('oppodb_id', $oppoIds)->count(),
             'pending_apps'    => Application::whereIn('oppodb_id', $oppoIds)->where('status', 'pending')->count(),
+            'selected_apps'   => Application::whereIn('oppodb_id', $oppoIds)->where('status', 'selected')->count(),
             'my_oppo'         => Oppodb::where('org', $user->uname)->latest()->take(6)->get(),
             'recent_apps'     => Application::with(['opportunity', 'student'])
                                     ->whereIn('oppodb_id', $oppoIds)

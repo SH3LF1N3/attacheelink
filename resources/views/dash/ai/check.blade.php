@@ -141,50 +141,60 @@ function parseFeedbackSections(rawText) {
         raw: rawText,
     };
 
-    const lines = String(rawText || '').split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-    let current = '';
-
-    const detectHeading = (line) => {
-        const clean = line.toLowerCase().replace(/[*_]/g, '').trim();
-        if (clean.startsWith('overall score')) return 'score';
-        if (clean.startsWith('strengths')) return 'strengths';
-        if (clean.startsWith('weaknesses')) return 'weaknesses';
-        if (clean.startsWith('recommendations')) return 'recommendations';
-        if (clean.startsWith('ats keywords')) return 'keywords';
-        return '';
+    const text = String(rawText || '');
+    
+    // More lenient section detection
+    const sectionPatterns = {
+        score: /overall\s+score\s*:\s*(\d+)/i,
+        strengths: /strengths\s*:\s*/i,
+        weaknesses: /weaknesses\s*:\s*/i,
+        recommendations: /recommendations\s*:\s*/i,
+        keywords: /(ats\s+)?keywords\s*:\s*/i,
     };
 
-    for (const line of lines) {
-        const heading = detectHeading(line);
-        if (heading) {
-            current = heading;
-            const maybeInline = line.split(':').slice(1).join(':').trim();
-            if (heading === 'score' && maybeInline) {
-                sections.score = maybeInline;
-            } else if (maybeInline && current !== 'score') {
-                sections[current].push(maybeInline.replace(/^[-*\u2022\d.)\s]+/, '').trim());
-            }
-            continue;
-        }
-
-        if (!current) {
-            continue;
-        }
-
-        if (current === 'score' && !sections.score) {
-            sections.score = line;
-            continue;
-        }
-
-        if (current !== 'score') {
-            sections[current].push(line.replace(/^[-*\u2022\d.)\s]+/, '').trim());
-        }
+    // Extract score using regex
+    const scoreMatch = text.match(sectionPatterns.score);
+    if (scoreMatch) {
+        sections.score = scoreMatch[1];
     }
 
-    sections.strengths = sections.strengths.filter(Boolean);
-    sections.weaknesses = sections.weaknesses.filter(Boolean);
-    sections.recommendations = sections.recommendations.filter(Boolean);
-    sections.keywords = sections.keywords.filter(Boolean);
+    // Helper to extract content between two markers
+    const extractBetween = (startPattern, endPattern) => {
+        const startMatch = text.match(startPattern);
+        if (!startMatch) return '';
+        
+        const startIndex = text.indexOf(startMatch[0]) + startMatch[0].length;
+        let endIndex = text.length;
+        
+        if (endPattern) {
+            const endMatch = text.substring(startIndex).match(endPattern);
+            if (endMatch) {
+                endIndex = startIndex + text.substring(startIndex).indexOf(endMatch[0]);
+            }
+        }
+        
+        return text.substring(startIndex, endIndex).trim();
+    };
+
+    // Extract each section
+    const strengthsRaw = extractBetween(sectionPatterns.strengths, sectionPatterns.weaknesses);
+    const weaknessesRaw = extractBetween(sectionPatterns.weaknesses, sectionPatterns.recommendations);
+    const recommendationsRaw = extractBetween(sectionPatterns.recommendations, sectionPatterns.keywords);
+    const keywordsRaw = extractBetween(sectionPatterns.keywords, null);
+
+    const parseBulletPoints = (text) => {
+        return text
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => /^[-*•]/.test(line) || /^\d+[.)]\s/.test(line))
+            .map(line => line.replace(/^[-*•\d.)\s]+/, '').trim())
+            .filter(line => line.length > 0);
+    };
+
+    sections.strengths = parseBulletPoints(strengthsRaw);
+    sections.weaknesses = parseBulletPoints(weaknessesRaw);
+    sections.recommendations = parseBulletPoints(recommendationsRaw);
+    sections.keywords = parseBulletPoints(keywordsRaw);
 
     return sections;
 }
@@ -254,10 +264,30 @@ function renderFeedback(rawText) {
         ? parsed.keywords.map((word) => '<span class="badge" style="background:#eaf2ff;color:#1d4ed8;border-radius:999px;padding:.4rem .65rem;margin:0 .35rem .35rem 0;font-weight:500;">' + escapeHtml(word) + '</span>').join('')
         : '<div style="font-size:.82rem;color:#9ca3af;">No ATS keywords were provided.</div>';
 
-    const hasSections = parsed.strengths.length || parsed.weaknesses.length || parsed.recommendations.length || parsed.keywords.length || parsed.score;
+    // Check if we have essential sections
+    const hasScore = !!parsed.score;
+    const hasStrengths = parsed.strengths.length > 0;
+    const hasWeaknesses = parsed.weaknesses.length > 0;
+    const hasRecommendations = parsed.recommendations.length > 0;
+    const hasKeywords = parsed.keywords.length > 0;
+    
+    const allSectionsPresent = hasScore && hasStrengths && hasWeaknesses && hasRecommendations && hasKeywords;
 
-    if (!hasSections) {
-        return '<div style="white-space:pre-wrap;font-size:.875rem;line-height:1.7;color:#374151;">' + escapeHtml(parsed.raw) + '</div>';
+    // If critical sections are completely missing, show raw feedback with warning
+    if (!hasWeaknesses || !hasRecommendations) {
+        let html = '<div style="background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;padding:1rem;margin-bottom:1.5rem;">'
+            + '<div style="display:flex;gap:0.75rem;font-size:.875rem;color:#92400e;">'
+            + '<i class="bi bi-info-circle" style="font-size:1rem;flex-shrink:0;margin-top:.1rem;"></i>'
+            + '<div>'
+            + '<strong>Incomplete Analysis:</strong> The AI is having difficulty generating all sections. '
+            + 'Please try again, or try a shorter/clearer CV text for more detailed feedback.'
+            + '</div></div></div>';
+        
+        html += scoreRingHtml(score, 'Overall Score');
+        html += sectionCard('Strengths', 'bi-check-circle-fill', listHtml(parsed.strengths, 'No strengths identified.'), '#065f46');
+        html += sectionCard('Raw Feedback', 'bi-text-left', '<div style="white-space:pre-wrap;font-size:.82rem;color:#374151;line-height:1.6;">' + escapeHtml(parsed.raw) + '</div>', '#64748b');
+        
+        return html;
     }
 
     return ''

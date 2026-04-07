@@ -56,6 +56,11 @@ class Opportunity extends Controller
 
     public function soppo(Request $request)
     {
+        // Auto-close opportunities past their deadline
+        Oppodb::where('status', 'active')
+              ->whereDate('dead', '<', now()->toDateString())
+              ->update(['status' => 'closed']);
+
         $query = Oppodb::where('status', 'active');
 
         if ($request->filled('q')) {
@@ -141,7 +146,16 @@ class Opportunity extends Controller
             'status'   => ['required', 'in:active,closed,draft'],
         ]);
 
-        $oppo->update($validated);
+        $oppo->update([
+            'oname'    => $validated['oname'],
+            'foth1'    => $validated['foth1'],
+            'loc'      => $validated['loc'],
+            'descr'    => $validated['descr'],
+            'dead'     => $validated['dead'],
+            'slot'     => $validated['slot'],
+            'duration' => $validated['duration'] ?? $oppo->duration,
+            'status'   => $validated['status'],
+        ]);
 
         return redirect()->route('opportunities')
             ->with('success', 'Opportunity updated successfully.');

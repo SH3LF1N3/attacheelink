@@ -1,10 +1,283 @@
-@include('dash.parts.head')
+  <warning> WARNING </warning> Attempt to read property "uname" on null in storage\framework\views\7735d5d49b101a974389d147418a360f.php on line 58.
+  <warning> DEPRECATED </warning> substr(): Passing null to parameter #1 ($string) of type string is deprecated in storage\framework\views\7735d5d49b101a974389d147418a360f.php on line 58.
+  <warning> WARNING </warning> Attempt to read property "uname" on null in storage\framework\views\7735d5d49b101a974389d147418a360f.php on line 62.
+  <warning> WARNING </warning> Attempt to read property "uname" on null in storage\framework\views\7735d5d49b101a974389d147418a360f.php on line 75.
+  <warning> DEPRECATED </warning> substr(): Passing null to parameter #1 ($string) of type string is deprecated in storage\framework\views\7735d5d49b101a974389d147418a360f.php on line 75.
+  <warning> WARNING </warning> Attempt to read property "uname" on null in storage\framework\views\7735d5d49b101a974389d147418a360f.php on line 80.
+  <warning> WARNING </warning> Attempt to read property "role" on null in storage\framework\views\7735d5d49b101a974389d147418a360f.php on line 84.
+  <warning> WARNING </warning> Attempt to read property "email" on null in storage\framework\views\7735d5d49b101a974389d147418a360f.php on line 88.
+  <warning> WARNING </warning> Attempt to read property "uname" on null in storage\framework\views\a02c43e121eab42e2b70400a14f91612.php on line 22.
+  <warning> DEPRECATED </warning> substr(): Passing null to parameter #1 ($string) of type string is deprecated in storage\framework\views\a02c43e121eab42e2b70400a14f91612.php on line 22.
+  <warning> WARNING </warning> Attempt to read property "uname" on null in storage\framework\views\a02c43e121eab42e2b70400a14f91612.php on line 28.
+  <warning> WARNING </warning> Attempt to read property "role" on null in storage\framework\views\a02c43e121eab42e2b70400a14f91612.php on line 32.
+  <warning> WARNING </warning> Attempt to read property "role" on null in storage\framework\views\a02c43e121eab42e2b70400a14f91612.php on line 49.
+  <warning> WARNING </warning> Attempt to read property "role" on null in storage\framework\views\a02c43e121eab42e2b70400a14f91612.php on line 50.
+  <warning> WARNING </warning> Attempt to read property "role" on null in storage\framework\views\1bc846365b9e881727492a72df40c83a.php on line 31.
+  <warning> WARNING </warning> Attempt to read property "role" on null in storage\framework\views\1bc846365b9e881727492a72df40c83a.php on line 41.
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>AttachKE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="csrf-token" content="">
 
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+          crossorigin="anonymous" />
+
+    
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
+          crossorigin="anonymous" />
+
+    
+    <link rel="stylesheet" href="/src/css/adminlte.css" />
+
+    
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
+          crossorigin="anonymous" />
+
+    
+    <link rel="preload" as="style" href="http://localhost:8000/build/assets/app-hNkti9d_.css" /><link rel="stylesheet" href="http://localhost:8000/build/assets/app-hNkti9d_.css" />
+    
+    <style>
+        /* Sidebar active link uses gold */
+        .app-sidebar .nav-sidebar .nav-link.active,
+        .app-sidebar .nav-sidebar .nav-link:hover {
+            background-color: rgba(212, 168, 67, 0.15) !important;
+            color: var(--gold-400) !important;
+        }
+        .app-sidebar .nav-sidebar .nav-link.active .nav-icon,
+        .app-sidebar .nav-sidebar .nav-link:hover .nav-icon {
+            color: var(--gold-400) !important;
+        }
+        /* Top nav brand color */
+        .app-header { background-color: #fff !important; }
+        /* Footer */
+        .app-footer {
+            background-color: var(--navy-800) !important;
+            color: #9ca3af !important;
+            font-size: 0.8125rem;
+        }
+        .app-footer a { color: var(--gold-400) !important; }
+    </style>
+
+    </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
 <div class="app-wrapper">
-    @include('dash.parts.topnav')
-    @include('dash.parts.sidenav')
+    <nav class="app-header navbar navbar-expand bg-body"
+     style="background-color: #fff !important; border-bottom: 1px solid #e8edf3;">
+    <div class="container-fluid">
 
+        
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"
+                   style="color: var(--navy-700);">
+                    <i class="bi bi-list" style="font-size:1.3rem;"></i>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto align-items-center">
+
+            
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-lte-toggle="fullscreen"
+                   style="color: var(--navy-700);">
+                    <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+                    <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display:none;"></i>
+                </a>
+            </li>
+
+            
+            
+            
+            <li class="nav-item dropdown user-menu ms-2">
+                <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2"
+                   data-bs-toggle="dropdown" style="color: var(--navy-800);">
+                    <div style="width:32px;height:32px;border-radius:50%;
+                                background:var(--navy-700);color:#fff;
+                                display:flex;align-items:center;justify-content:center;
+                                font-weight:700;font-size:0.8rem;flex-shrink:0;">
+                        
+                    </div>
+                    <span class="d-none d-md-inline fw-600" style="font-size:0.9rem;">
+                        
+                    </span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end shadow-sm"
+                    style="border:1px solid #e8edf3; min-width:220px;">
+
+                    <li style="background:var(--navy-700); padding:1rem; border-radius:6px 6px 0 0;">
+                        <div class="d-flex align-items-center gap-2">
+                            <div style="width:42px;height:42px;border-radius:50%;
+                                        background:var(--gold-400);color:var(--navy-800);
+                                        display:flex;align-items:center;justify-content:center;
+                                        font-weight:700;font-size:1rem;flex-shrink:0;">
+                                
+                            </div>
+                            <div>
+                                <div style="color:#fff;font-weight:700;font-size:0.875rem;">
+                                    
+                                </div>
+                                <div style="color:var(--gold-400);font-size:0.75rem;text-transform:capitalize;">
+                                    
+                                </div>
+                                <div style="color:#9ca3af;font-size:0.7rem;">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li><hr class="dropdown-divider my-0"></li>
+
+                    <li>
+                        <a class="dropdown-item py-2" href="http://localhost:8000/profile"
+                           style="color:var(--navy-800);">
+                            <i class="bi bi-person-circle me-2" style="color:var(--navy-600);"></i>
+                            My Profile
+                        </a>
+                    </li>
+
+                    
+                    <li><hr class="dropdown-divider my-0"></li>
+
+                    <li>
+                        <form action="http://localhost:8000/logout" method="POST">
+                            <input type="hidden" name="_token" value="" autocomplete="off">                            <button type="submit"
+                                    class="dropdown-item py-2 border-0 bg-transparent w-100 text-start"
+                                    style="color:#dc2626;">
+                                <i class="bi bi-box-arrow-right me-2"></i>Sign Out
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+</nav>    <aside class="app-sidebar shadow" data-bs-theme="dark" style="background-color: var(--navy-800) !important;">
+
+    
+    <div class="sidebar-brand" style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+        <a href="http://localhost:8000/dashboard" class="brand-link" style="text-decoration:none;">
+            <svg width="28" height="28" fill="none" stroke="var(--gold-400)" stroke-width="1.8" viewBox="0 0 24 24"
+                class="brand-image opacity-75 shadow">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <path d="M8 21h8M12 17v4" />
+                <path d="M7 8h10M7 11h6" />
+            </svg>
+            <span class="brand-text fw-bold ms-2" style="color:#fff; font-size:1.1rem;">AttachKE</span>
+        </a>
+    </div>
+
+    
+    <div class="px-3 py-3" style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+        <div class="d-flex align-items-center gap-2">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--gold-400);
+                        display:flex;align-items:center;justify-content:center;
+                        font-weight:700;color:var(--navy-800);font-size:0.9rem;flex-shrink:0;">
+                
+            </div>
+            <div style="overflow:hidden;">
+                <div style="color:#fff;font-size:0.8125rem;font-weight:600;
+                            white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                    
+                </div>
+                <div style="color:var(--gold-400);font-size:0.7rem;text-transform:capitalize;">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar-wrapper">
+        <nav class="mt-2">
+            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
+                aria-label="Main navigation" data-accordion="false">
+
+                
+                <li class="nav-item">
+                    <a href="http://localhost:8000/dashboard" class="nav-link">
+                        <i class="nav-icon bi bi-house-fill"></i>
+                        <p>
+                             Company Dashboard
+                                                    </p>
+                    </a>
+                </li>
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li class="nav-item">
+                    <a href="http://localhost:8000/profile" class="nav-link">
+                        <i class="nav-icon bi bi-person-circle"></i>
+                        <p>Profile</p>
+                    </a>
+                </li>
+
+                
+                
+                
+                <li class="nav-item mt-2" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top:0.5rem;">
+                    <form action="http://localhost:8000/logout" method="POST">
+                        <input type="hidden" name="_token" value="" autocomplete="off">                        <button type="submit" class="nav-link w-100 text-start border-0 bg-transparent"
+                            style="color: #fc8181; cursor:pointer;">
+                            <i class="nav-icon bi bi-box-arrow-right"></i>
+                            <p>Logout</p>
+                        </button>
+                    </form>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</aside>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentUrl = window.location.href;
+        document.querySelectorAll(".sidebar-menu .nav-link").forEach(function (link) {
+            if (link.href === currentUrl) {
+                link.classList.add("active");
+                const parentTree = link.closest(".nav-treeview");
+                if (parentTree) {
+                    const parentItem = parentTree.closest(".nav-item");
+                    parentItem.classList.add("menu-open");
+                    parentItem.querySelector(":scope > .nav-link")?.classList.add("active");
+                }
+            }
+        });
+    });
+</script>
     <main class="app-main">
         <div class="app-content-header">
             <div class="container-fluid">
@@ -12,7 +285,7 @@
                     <div class="col-sm-6"><h3 class="mb-0">Applications</h3></div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="http://localhost:8000/dashboard">Home</a></li>
                             <li class="breadcrumb-item active">Applications</li>
                         </ol>
                     </div>
@@ -28,21 +301,15 @@
                          style="border-bottom:1px solid #f0f4f8;">
                         <h6 class="mb-0 fw-bold" style="color:var(--navy-800);">
                             <i class="bi bi-briefcase me-2" style="color:var(--navy-600);"></i>
-                            {{ Auth::user()->role === 'admin' ? 'All Opportunities' : 'Your Opportunities' }}
+                            Your Opportunities
                             <span class="ms-2"
                                   style="background:var(--navy-50);color:var(--navy-700);
                                          font-size:0.75rem;font-weight:700;
                                          padding:2px 10px;border-radius:var(--radius-full);">
-                                {{ $opportunities->total() }}
+                                5
                             </span>
                         </h6>
-                        @if(Auth::user()->role === 'company')
-                        <a href="{{ route('oppo.create') }}"
-                           style="background:var(--navy-700);color:#fff;padding:0.45rem 1.1rem;
-                                  border-radius:var(--radius-sm);font-size:0.875rem;font-weight:600;
-                                  text-decoration:none;">+ Post New</a>
-                        @endif
-                    </div>
+                                            </div>
 
                     <div class="card-body p-0">
                         <div class="table-responsive">
@@ -59,55 +326,34 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @forelse($opportunities as $oppo)
-                                    @php
-                                        $sc = [
-                                            'active' => ['var(--navy-700)', 'var(--navy-50)'],
-                                            'closed' => ['#b91c1c',         '#fef2f2'],
-                                            'draft'  => ['var(--charcoal-500)', '#f5f7fa'],
-                                        ][$oppo->status] ?? ['var(--charcoal-500)', '#f5f7fa'];
-                                    @endphp
-                                    <tr>
-                                        <td class="px-4 py-3 fw-semibold" style="color:var(--navy-800);">{{ $oppo->oname }}</td>
-                                        <td class="py-3" style="color:var(--charcoal-500);">{{ $oppo->foth1 ?? 'Attachment' }}</td>
-                                        <td class="py-3" style="color:var(--charcoal-500);">{{ $oppo->loc ?? '—' }}</td>
+                                                                                                        <tr>
+                                        <td class="px-4 py-3 fw-semibold" style="color:var(--navy-800);">Cybersecurity Intern</td>
+                                        <td class="py-3" style="color:var(--charcoal-500);">Cybersecurity</td>
+                                        <td class="py-3" style="color:var(--charcoal-500);">Kisii</td>
                                         <td class="py-3" style="color:var(--charcoal-400);">
-                                            {{ $oppo->dead ? \Carbon\Carbon::parse($oppo->dead)->format('M d, Y') : '—' }}
+                                            Apr 01, 2026
                                         </td>
                                         <td class="py-3">
-                                            @if($oppo->applications_count > 0)
-                                                <button class="btn-applicants-link"
-                                                        data-oppo-id="{{ $oppo->id }}"
-                                                        data-oppo-name="{{ $oppo->oname }}"
-                                                        style="background:none;border:none;padding:0;
-                                                               color:var(--navy-700);font-weight:700;
-                                                               font-size:0.875rem;cursor:pointer;
-                                                               text-decoration:underline;">
-                                                    {{ $oppo->applications_count }}
-                                                </button>
-                                            @else
-                                                <span style="color:var(--charcoal-400);">0</span>
-                                            @endif
-                                        </td>
+                                                                                            <span style="color:var(--charcoal-400);">0</span>
+                                                                                    </td>
                                         <td class="py-3">
-                                            <span style="background:{{ $sc[1] }};color:{{ $sc[0] }};
+                                            <span style="background:var(--navy-50);color:var(--navy-700);
                                                          font-size:0.72rem;font-weight:700;
                                                          padding:3px 12px;border-radius:var(--radius-full);
                                                          text-transform:capitalize;">
-                                                {{ ucfirst($oppo->status) }}
+                                                Active
                                             </span>
                                         </td>
                                         <td class="py-3">
                                             <div class="d-flex gap-2">
-                                                <a href="{{ route('oppo.edit', $oppo) }}"
+                                                <a href="http://localhost:8000/opportunities/2/edit"
                                                    style="background:var(--navy-50);color:var(--navy-700);
                                                           border:1px solid var(--navy-100);padding:4px 12px;
                                                           border-radius:6px;font-size:0.78rem;font-weight:600;
                                                           text-decoration:none;">Edit</a>
-                                                <form method="POST" action="{{ route('oppo.destroy', $oppo) }}"
+                                                <form method="POST" action="http://localhost:8000/opportunities/2"
                                                       onsubmit="return confirm('Delete this opportunity?')">
-                                                    @csrf @method('DELETE')
-                                                    <button type="submit"
+                                                    <input type="hidden" name="_token" value="" autocomplete="off"> <input type="hidden" name="_method" value="DELETE">                                                    <button type="submit"
                                                             style="background:#fef2f2;color:#b91c1c;
                                                                    border:1px solid #fecaca;padding:4px 12px;
                                                                    border-radius:6px;font-size:0.78rem;
@@ -116,33 +362,203 @@
                                             </div>
                                         </td>
                                     </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="text-center py-5">
-                                            <i class="bi bi-inbox" style="font-size:2.5rem;color:#d1d9e2;"></i>
-                                            <p class="mt-2 mb-0" style="color:var(--charcoal-400);font-size:0.875rem;">No opportunities found.</p>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                                </tbody>
+                                                                </tbody>
                             </table>
                         </div>
                     </div>
 
-                    @if($opportunities->hasPages())
-                    <div class="card-footer bg-white px-4 py-3" style="border-top:1px solid #f0f4f8;">
-                        {{ $opportunities->links() }}
+                                        <div class="card-footer bg-white px-4 py-3" style="border-top:1px solid #f0f4f8;">
+                        <nav role="navigation" aria-label="Pagination Navigation">
+
+        <div class="flex gap-2 items-center justify-between sm:hidden">
+
+                            <span class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 cursor-not-allowed leading-5 rounded-md dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600">
+                    &laquo; Previous
+                </span>
+            
+                            <a href="http://localhost:8000?page=2" rel="next" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-800 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-800 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-gray-200">
+                    Next &raquo;
+                </a>
+            
+        </div>
+
+        <div class="hidden sm:flex-1 sm:flex sm:gap-2 sm:items-center sm:justify-between">
+
+            <div>
+                <p class="text-sm text-gray-700 leading-5 dark:text-gray-600">
+                    Showing
+                                            <span class="font-medium">1</span>
+                        to
+                        <span class="font-medium">1</span>
+                                        of
+                    <span class="font-medium">5</span>
+                    results
+                </p>
+            </div>
+
+            <div>
+                <span class="inline-flex rtl:flex-row-reverse shadow-sm rounded-md">
+
+                    
+                                            <span aria-disabled="true" aria-label="&amp;laquo; Previous">
+                            <span class="inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-not-allowed rounded-l-md leading-5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" aria-hidden="true">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                        </span>
+                    
+                    
+                                            
+                        
+                        
+                                                                                                                        <span aria-current="page">
+                                        <span class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 cursor-default leading-5 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">1</span>
+                                    </span>
+                                                                                                                                <a href="http://localhost:8000?page=2" class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800 hover:bg-gray-100 dark:hover:bg-gray-900" aria-label="Go to page 2">
+                                        2
+                                    </a>
+                                                                                                                                <a href="http://localhost:8000?page=3" class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800 hover:bg-gray-100 dark:hover:bg-gray-900" aria-label="Go to page 3">
+                                        3
+                                    </a>
+                                                                                                                                <a href="http://localhost:8000?page=4" class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800 hover:bg-gray-100 dark:hover:bg-gray-900" aria-label="Go to page 4">
+                                        4
+                                    </a>
+                                                                                                                                <a href="http://localhost:8000?page=5" class="inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-700 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:focus:border-blue-800 hover:bg-gray-100 dark:hover:bg-gray-900" aria-label="Go to page 5">
+                                        5
+                                    </a>
+                                                                                                        
+                    
+                                            <a href="http://localhost:8000?page=2" rel="next" class="inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:active:bg-gray-700 dark:focus:border-blue-800 dark:text-gray-300 dark:hover:bg-gray-900 dark:hover:text-gray-300" aria-label="Next &amp;raquo;">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                                    </span>
+            </div>
+        </div>
+    </nav>
+
                     </div>
-                    @endif
-                </div>
+                                    </div>
             </div>
         </div>
     </main>
 
-    @include('dash.parts.footer')
+    <footer class="app-footer"
+        style="background-color: var(--navy-800) !important; color:#9ca3af; font-size:0.8125rem;">
+        
+    <div class="float-end d-none d-sm-inline" style="color:#6b7280;">
+        Designed by Sherry Obare
+    </div>
+    <strong style="color:#9ca3af;">
+        Copyright &copy; 2026
+        <a href="http://localhost:8000" class="text-decoration-none" style="color:var(--gold-400);">
+            AttachKE
+        </a>.
+    </strong>
+    All rights reserved.
+</footer>
+<div class="modal fade" id="deleteModal" tabindex="-1"
+     aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:420px;">
+        <div class="modal-content" style="border:none;border-radius:14px;overflow:hidden;">
+
+            
+            <div class="modal-header px-4 py-3"
+                 style="background:var(--navy-700);border-bottom:1px solid #fecaca;">
+                <div class="d-flex align-items-center gap-2">
+                    <div style="width:36px;height:36px;border-radius:50%;background:#fee2e2;
+                                display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-exclamation-triangle-fill" style="color:#dc2626;font-size:1rem;"></i>
+                    </div>
+                    <h5 class="modal-title mb-0 fw-bold" id="deleteModalLabel"
+                        style="color:#991b1b;font-size:1rem;">
+                        Confirm Delete
+                    </h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        style="filter:invert(27%) sepia(90%) saturate(600%) hue-rotate(330deg);"></button>
+            </div>
+
+            
+            <div class="modal-body px-4 py-4 text-center">
+                <p style="color:#374151;font-size:0.9375rem;line-height:1.6;margin:0;">
+                    Are you sure you want to delete
+                    <strong id="deleteModalName" style="color:var(--navy-800);"></strong>?
+                </p>
+                <p class="mt-2 mb-0" style="font-size:0.8125rem;color:#9ca3af;">
+                    This action is permanent and cannot be undone.
+                </p>
+            </div>
+
+            
+            <div class="modal-footer px-4 py-3 justify-content-center gap-3"
+                 style="border-top:1px solid #f3f4f6;background:#fafafa;">
+                <button type="button" class="btn btn-sm btn-outline-secondary"
+                        data-bs-dismiss="modal" style="border-radius:8px;min-width:100px;">
+                    Cancel
+                </button>
+                <form id="deleteModalForm" method="POST" style="margin:0;">
+                    <input type="hidden" name="_token" value="" autocomplete="off">                    <input type="hidden" name="_method" id="deleteModalMethod" value="DELETE">
+                    <button type="submit" class="btn btn-sm"
+                            style="background:#dc2626;color:#fff;border-radius:8px;
+                                   min-width:100px;font-weight:600;">
+                        <i class="bi bi-trash-fill me-1"></i>Yes, Delete
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
 </div>
 
-{{-- ═══ APPLICANTS LIST MODAL ═══ --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.btn-confirm-delete');
+        if (!btn) return;
+
+        document.getElementById('deleteModalName').textContent  = btn.dataset.name   || 'this item';
+        document.getElementById('deleteModalForm').action       = btn.dataset.action || '#';
+        document.getElementById('deleteModalMethod').value      = btn.dataset.method || 'DELETE';
+
+        // Compatible with Bootstrap 5.0 → 5.3
+        const el = document.getElementById('deleteModal');
+        (bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el)).show();
+    });
+});
+</script></div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+<script src="/src/js/adminlte.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
+        crossorigin="anonymous"></script>
+
+<script>
+    // OverlayScrollbars
+    document.addEventListener('DOMContentLoaded', function () {
+        const sidebarWrapper = document.querySelector('.sidebar-wrapper');
+        if (sidebarWrapper && OverlayScrollbarsGlobal?.OverlayScrollbars && window.innerWidth > 992) {
+            OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+                scrollbars: { theme: 'os-theme-light', autoHide: 'leave', clickScroll: true },
+            });
+        }
+    });
+</script>
+
+</body>
+</html></div>
+
+
 <div id="applicantsModal"
      style="display:none;position:fixed;inset:0;z-index:1050;
             background:rgba(15,23,42,0.5);align-items:center;justify-content:center;">
@@ -150,34 +566,39 @@
                 margin:1rem;max-height:88vh;display:flex;flex-direction:column;
                 box-shadow:0 24px 64px rgba(0,0,0,0.2);">
 
-        {{-- Header --}}
+        
         <div style="padding:1.4rem 1.75rem;border-bottom:1px solid #f0f4f8;
                     display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;">
             <div>
                 <h5 id="modalTitle" class="mb-0 fw-bold" style="color:var(--navy-800);font-size:1.05rem;"></h5>
                 <p id="modalSubtitle" class="mb-0 mt-1" style="color:var(--charcoal-400);font-size:0.82rem;"></p>
-                {{-- Pipeline --}}
+                
                 <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-top:0.65rem;">
-                    @php
-                        $pipeline = [
-                            ['key'=>'pending',              'label'=>'New',                'bg'=>'#1e293b','color'=>'#fff'],
-                            ['key'=>'review',               'label'=>'Under Review',       'bg'=>'#fef3c7','color'=>'#92400e'],
-                            ['key'=>'shortlisted',          'label'=>'Shortlisted',        'bg'=>'#e0f2fe','color'=>'#075985'],
-                            ['key'=>'interview_scheduled',  'label'=>'Interview Scheduled','bg'=>'#fef3c7','color'=>'#78350f'],
-                            ['key'=>'selected',             'label'=>'Selected',           'bg'=>'#dcfce7','color'=>'#14532d'],
-                            ['key'=>'rejected',             'label'=>'Rejected',           'bg'=>'#fee2e2','color'=>'#991b1b'],
-                        ];
-                    @endphp
-                    <span style="font-size:0.72rem;color:var(--charcoal-400);margin-right:2px;">Pipeline:</span>
-                    @foreach($pipeline as $i => $stage)
-                        <span style="background:{{ $stage['bg'] }};color:{{ $stage['color'] }};
+                                        <span style="font-size:0.72rem;color:var(--charcoal-400);margin-right:2px;">Pipeline:</span>
+                                            <span style="background:#1e293b;color:#fff;
                                      font-size:0.68rem;font-weight:700;padding:2px 9px;
-                                     border-radius:20px;">{{ $stage['label'] }}</span>
-                        @if(!$loop->last && $stage['key'] !== 'rejected')
-                            <span style="color:var(--charcoal-300);font-size:0.7rem;">→</span>
-                        @endif
-                    @endforeach
-                </div>
+                                     border-radius:20px;">New</span>
+                                                    <span style="color:var(--charcoal-300);font-size:0.7rem;">→</span>
+                                                                    <span style="background:#fef3c7;color:#92400e;
+                                     font-size:0.68rem;font-weight:700;padding:2px 9px;
+                                     border-radius:20px;">Under Review</span>
+                                                    <span style="color:var(--charcoal-300);font-size:0.7rem;">→</span>
+                                                                    <span style="background:#e0f2fe;color:#075985;
+                                     font-size:0.68rem;font-weight:700;padding:2px 9px;
+                                     border-radius:20px;">Shortlisted</span>
+                                                    <span style="color:var(--charcoal-300);font-size:0.7rem;">→</span>
+                                                                    <span style="background:#fef3c7;color:#78350f;
+                                     font-size:0.68rem;font-weight:700;padding:2px 9px;
+                                     border-radius:20px;">Interview Scheduled</span>
+                                                    <span style="color:var(--charcoal-300);font-size:0.7rem;">→</span>
+                                                                    <span style="background:#dcfce7;color:#14532d;
+                                     font-size:0.68rem;font-weight:700;padding:2px 9px;
+                                     border-radius:20px;">Selected</span>
+                                                    <span style="color:var(--charcoal-300);font-size:0.7rem;">→</span>
+                                                                    <span style="background:#fee2e2;color:#991b1b;
+                                     font-size:0.68rem;font-weight:700;padding:2px 9px;
+                                     border-radius:20px;">Rejected</span>
+                                                            </div>
             </div>
             <button onclick="closeApplicantsModal()"
                     style="background:none;border:none;font-size:1.5rem;
@@ -194,7 +615,7 @@
     </div>
 </div>
 
-{{-- ═══ FULL DETAIL MODAL ═══ --}}
+
 <div id="detailModal"
      style="display:none;position:fixed;inset:0;z-index:1060;
             background:rgba(15,23,42,0.55);align-items:center;justify-content:center;">
@@ -216,7 +637,7 @@
             </div>
             <div id="detailContent" style="display:none;">
 
-                {{-- Profile card --}}
+                
                 <div style="border:1px solid #e8edf3;border-radius:12px;padding:1.25rem;margin-bottom:1.25rem;">
                     <div style="display:flex;align-items:flex-start;gap:1rem;">
                         <div id="detailAvatar"
@@ -247,7 +668,7 @@
                     </div>
                 </div>
 
-                {{-- Interview details (shown when scheduled) --}}
+                
                 <div id="detailInterviewSection" style="display:none;margin-bottom:1.25rem;">
                     <h6 style="font-weight:700;color:var(--navy-800);font-size:0.9rem;margin-bottom:0.6rem;">
                         <i class="bi bi-calendar-event me-1"></i>Interview Details
@@ -257,7 +678,7 @@
                     </div>
                 </div>
 
-                {{-- CV --}}
+                
                 <div style="margin-bottom:1.25rem;">
                     <h6 style="font-weight:700;color:var(--navy-800);font-size:0.9rem;margin-bottom:0.6rem;">Resume / CV</h6>
                     <div style="border:1px solid #e8edf3;border-radius:10px;padding:0.85rem 1rem;
@@ -272,24 +693,16 @@
                                 <div id="detailCVDate" style="font-size:0.75rem;color:var(--charcoal-400);"></div>
                             </div>
                         </div>
-                        <div style="display:flex;align-items:center;gap:0.5rem;">
-                            <button id="detailCVPreview" onclick="event.preventDefault(); const url = document.getElementById('detailCVDownload').href; if(url && url !== '#') openCVPreview(url, document.getElementById('detailCVName').textContent);"
-                               style="background:var(--navy-50);border:1px solid var(--navy-100);border-radius:8px;
-                                      padding:5px 10px;font-size:0.75rem;font-weight:600;color:var(--navy-700);
-                                      text-decoration:none;display:flex;align-items:center;gap:4px;cursor:pointer;">
-                                <i class="bi bi-eye"></i> Preview
-                            </button>
-                            <a id="detailCVDownload" href="#" target="_blank" download
-                               style="background:var(--navy-50);border:1px solid var(--navy-100);border-radius:8px;
-                                      padding:5px 14px;font-size:0.78rem;font-weight:600;color:var(--navy-700);
-                                      text-decoration:none;display:flex;align-items:center;gap:5px;">
-                                <i class="bi bi-download"></i> Download
-                            </a>
-                        </div>
+                        <a id="detailCVDownload" href="#" target="_blank"
+                           style="background:var(--navy-50);border:1px solid var(--navy-100);border-radius:8px;
+                                  padding:5px 14px;font-size:0.78rem;font-weight:600;color:var(--navy-700);
+                                  text-decoration:none;display:flex;align-items:center;gap:5px;">
+                            <i class="bi bi-download"></i> Download
+                        </a>
                     </div>
                 </div>
 
-                {{-- Cover Letter --}}
+                
                 <div id="detailCLSection" style="margin-bottom:1.25rem;">
                     <h6 style="font-weight:700;color:var(--navy-800);font-size:0.9rem;margin-bottom:0.6rem;">Cover Letter</h6>
                     <div id="detailCL"
@@ -297,7 +710,7 @@
                                 padding:0.85rem 1rem;font-size:0.85rem;color:var(--charcoal-500);line-height:1.65;"></div>
                 </div>
 
-                {{-- Additional Info --}}
+                
                 <div id="detailAISection" style="margin-bottom:0.5rem;">
                     <h6 style="font-weight:700;color:var(--navy-800);font-size:0.9rem;margin-bottom:0.6rem;">Additional Information</h6>
                     <div id="detailAI"
@@ -307,14 +720,14 @@
             </div>
         </div>
 
-        {{-- Dynamic footer buttons --}}
+        
         <div id="detailFooter" style="padding:1rem 1.5rem;border-top:1px solid #f0f4f8;
                     display:flex;align-items:center;gap:0.75rem;flex-shrink:0;flex-wrap:wrap;">
         </div>
     </div>
 </div>
 
-{{-- ═══ INTERVIEW SCHEDULE MODAL ═══ --}}
+
 <div id="interviewModal"
      style="display:none;position:fixed;inset:0;z-index:1070;
             background:rgba(15,23,42,0.6);align-items:center;justify-content:center;">
@@ -423,7 +836,6 @@ const statusLabels = {
 
 let currentDetailId   = null;
 let scheduleTargetId  = null;
-let applicantInterviews = {}; // Store interview info for each applicant
 
 // ── Applicants list modal ─────────────────────────────────────────
 document.querySelectorAll('.btn-applicants-link').forEach(btn => {
@@ -454,10 +866,6 @@ function openApplicantsModal(oppoId, oppoName) {
 
 function renderApplicants(applicants) {
     const list = document.getElementById('applicantsList');
-    // Store interview data for all applicants
-    applicants.forEach(a => {
-        applicantInterviews[a.id] = a.interview || null;
-    });
     if (!applicants.length) {
         list.innerHTML = '<p class="text-center py-4" style="color:var(--charcoal-400);">No applicants yet.</p>';
         return;
@@ -500,13 +908,13 @@ function renderApplicants(applicants) {
             </div>
             ${interviewInfo}
             <div id="actions-${a.id}" style="display:flex;gap:0.6rem;flex-wrap:wrap;">
-                ${renderActionButtons(a.id, a.status, a.interview)}
+                ${renderActionButtons(a.id, a.status)}
             </div>
         </div>`;
     }).join('');
 }
 
-function renderActionButtons(id, status, interview = null) {
+function renderActionButtons(id, status) {
     const viewBtn = `<button onclick="openDetailModal(${id})"
         style="background:var(--navy-50);color:var(--navy-700);border:1.5px solid var(--navy-100);
                border-radius:8px;padding:5px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;
@@ -534,15 +942,13 @@ function renderActionButtons(id, status, interview = null) {
         </button>` + rejectBtn;
     }
     if (status === 'shortlisted') {
-        const hasInterview = interview || applicantInterviews[id];
-        const interviewBtn = `
+        return viewBtn + `
         <button onclick="openInterviewModal(${id})"
-            style="background:${hasInterview ? '#0891b2' : '#d97706'};color:#fff;border:none;border-radius:8px;
+            style="background:#d97706;color:#fff;border:none;border-radius:8px;
                    padding:5px 14px;font-size:0.8rem;font-weight:600;cursor:pointer;
                    display:flex;align-items:center;gap:5px;">
-            <i class="bi bi-${hasInterview ? 'pencil-square' : 'calendar-plus'}"></i> ${hasInterview ? 'Edit Interview' : 'Schedule Interview'}
-        </button>`;
-        return viewBtn + interviewBtn + rejectBtn;
+            <i class="bi bi-calendar-plus"></i> Schedule Interview
+        </button>` + rejectBtn;
     }
     // pending / review
     return viewBtn + `
@@ -604,16 +1010,6 @@ function openDetailModal(applicationId) {
 
             document.getElementById('detailCVName').textContent = d.cv_filename || 'CV File';
             document.getElementById('detailCVDate').textContent = 'Uploaded ' + d.applied_at;
-            
-            // Set CV download button
-            const cvBtn = document.getElementById('detailCVDownload');
-            if (d.cv_url) {
-                cvBtn.href = d.cv_url;
-                cvBtn.download = d.cv_filename || 'cv.pdf';
-                cvBtn.style.display = 'flex';
-            } else {
-                cvBtn.style.display = 'none';
-            }
 
             const clSection = document.getElementById('detailCLSection');
             if (d.cover_letter) { document.getElementById('detailCL').textContent = d.cover_letter; clSection.style.display = 'block'; }
@@ -740,14 +1136,6 @@ function submitInterview() {
     .then(r => r.json())
     .then(data => {
         closeInterviewModal();
-        // Store the interview data so button updates immediately
-        applicantInterviews[scheduleTargetId] = {
-            date: date,
-            time: time,
-            type: typeEl.value,
-            location_or_link: location,
-            notes: notes
-        };
         updateCardStatus(scheduleTargetId, 'interview_scheduled');
     })
     .catch(() => { errEl.textContent = 'Failed to schedule interview.'; errEl.style.display = 'block'; });
@@ -836,138 +1224,9 @@ function updateBadgeAndButtons(id, status) {
         badge.textContent = s.label; badge.style.background = s.bg; badge.style.color = s.color;
     }
     const actions = document.getElementById('actions-' + id);
-    if (actions) actions.innerHTML = renderActionButtons(id, status, applicantInterviews[id]);
+    if (actions) actions.innerHTML = renderActionButtons(id, status);
 }
-
-// ── CV Preview Modal ──────────────────────────────────────────────
-function openCVPreview(cvUrl, fileName) {
-    document.getElementById('cvPreviewModal').style.display = 'flex';
-    document.getElementById('cvPreviewTitle').textContent = fileName || 'CV Preview';
-    document.getElementById('cvPreviewDownload').href = cvUrl;
-    document.getElementById('cvPreviewDownload').download = fileName || 'cv.pdf';
-    
-    // Detect file type from extension
-    const ext = (fileName || '').toLowerCase().split('.').pop() || 'pdf';
-    const docxExtensions = ['docx', 'doc', 'xlsx', 'xls', 'pptx', 'ppt'];
-    const isOfficeDoc = docxExtensions.includes(ext);
-    
-    document.getElementById('cvPreviewLoading').style.display = 'block';
-    document.getElementById('cvPreviewFrame').style.display = 'none';
-    document.getElementById('cvPreviewMessage').style.display = 'none';
-    
-    if (isOfficeDoc) {
-        // Use PDF.js or fallback to download for Office documents
-        // First try to load directly (modern browsers may support)
-        const previewUrl = cvUrl + (cvUrl.includes('?') ? '&' : '?') + 'preview=true';
-        document.getElementById('cvPreviewFrame').src = previewUrl;
-        document.getElementById('cvPreviewFrame').style.display = '';
-    } else if (ext === 'pdf' || ext === 'txt') {
-        // Use browser's native PDF/text preview with inline parameter
-        const previewUrl = cvUrl + (cvUrl.includes('?') ? '&' : '?') + 'preview=true';
-        document.getElementById('cvPreviewFrame').src = previewUrl;
-        document.getElementById('cvPreviewFrame').style.display = '';
-    } else {
-        // Unsupported file type
-        document.getElementById('cvPreviewMessage').innerHTML = 
-            `<div style="padding:2rem;text-align:center;">
-                <div style="font-size:3rem;margin-bottom:1rem;">📄</div>
-                <p style="font-size:1rem;font-weight:600;color:#374151;margin-bottom:0.5rem;">
-                    Preview not available for this file type
-                </p>
-                <p style="font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem;">
-                    Files with extension .${ext} cannot be previewed online.
-                </p>
-                <a href="${cvUrl}"
-                   style="background:var(--navy-700);color:#fff;padding:0.7rem 1.5rem;
-                          border-radius:8px;text-decoration:none;display:inline-block;
-                          font-weight:600;cursor:pointer;">
-                    Download File
-                </a>
-            </div>`;
-        document.getElementById('cvPreviewMessage').style.display = 'block';
-    }
-    
-    // Set longer timeout for loading
-    let loadTimeout = setTimeout(() => {
-        if (document.getElementById('cvPreviewLoading').style.display !== 'none') {
-            document.getElementById('cvPreviewLoading').style.display = 'none';
-        }
-    }, 8000);
-    
-    document.getElementById('cvPreviewFrame').onload = () => {
-        clearTimeout(loadTimeout);
-        document.getElementById('cvPreviewLoading').style.display = 'none';
-    };
-    document.getElementById('cvPreviewFrame').onerror = () => {
-        clearTimeout(loadTimeout);
-        document.getElementById('cvPreviewLoading').style.display = 'none';
-        document.getElementById('cvPreviewFrame').style.display = 'none';
-        document.getElementById('cvPreviewMessage').innerHTML = 
-            `<div style="padding:2rem;text-align:center;">
-                <div style="font-size:3rem;margin-bottom:1rem;">⚠️</div>
-                <p style="font-size:1rem;font-weight:600;color:#991b1b;margin-bottom:0.5rem;">
-                    Unable to Preview File
-                </p>
-                <p style="font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem;">
-                    The preview could not be loaded. Please download the file instead.
-                </p>
-                <a href="${cvUrl}"
-                   style="background:var(--navy-700);color:#fff;padding:0.7rem 1.5rem;
-                          border-radius:8px;text-decoration:none;display:inline-block;
-                          font-weight:600;cursor:pointer;">
-                    Download File
-                </a>
-            </div>`;
-        document.getElementById('cvPreviewMessage').style.display = 'block';
-    };
-}
-
-function closeCVPreview() {
-    document.getElementById('cvPreviewModal').style.display = 'none';
-    document.getElementById('cvPreviewFrame').src = '';
-}
-
-document.getElementById('cvPreviewModal')?.addEventListener('click', function(e) {
-    if (e.target === this) closeCVPreview();
-});
 </script>
-
-{{-- ═══ CV PREVIEW MODAL ═══ --}}
-<div id="cvPreviewModal"
-     style="display:none;position:fixed;inset:0;z-index:1080;
-            background:rgba(15,23,42,0.6);align-items:center;justify-content:center;">
-    <div style="background:#fff;border-radius:16px;width:100%;max-width:900px;height:90vh;
-                margin:1rem;display:flex;flex-direction:column;
-                box-shadow:0 24px 64px rgba(0,0,0,0.3);">
-        
-        <div style="padding:1.25rem 1.5rem;border-bottom:1px solid #f0f4f8;
-                    display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
-            <h5 id="cvPreviewTitle" class="mb-0 fw-bold" style="color:var(--navy-800);font-size:1rem;"></h5>
-            <div style="display:flex;align-items:center;gap:0.75rem;">
-                <a id="cvPreviewDownload" href="#" download
-                   style="background:var(--navy-700);color:#fff;border:none;border-radius:8px;
-                          padding:0.5rem 1rem;font-size:0.875rem;font-weight:600;
-                          text-decoration:none;display:flex;align-items:center;gap:5px;cursor:pointer;">
-                    <i class="bi bi-download"></i> Download
-                </a>
-                <button onclick="closeCVPreview()"
-                        style="background:none;border:none;font-size:1.5rem;
-                               color:var(--charcoal-400);cursor:pointer;line-height:1;padding:4px;">&times;</button>
-            </div>
-        </div>
-
-        <div style="flex:1;overflow:hidden;position:relative;">
-            <div id="cvPreviewLoading" style="display:none;position:absolute;inset:0;
-                    background:#fff;display:flex;align-items:center;justify-content:center;z-index:10;">
-                <div class="spinner-border text-secondary" role="status"></div>
-            </div>
-            <div id="cvPreviewMessage" style="display:none;position:absolute;inset:0;
-                    background:#fff;overflow-y:auto;z-index:9;"></div>
-            <iframe id="cvPreviewFrame" 
-                    style="width:100%;height:100%;border:none;display:none;"></iframe>
-        </div>
-    </div>
-</div>
 
 </body>
 </html>

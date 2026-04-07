@@ -83,13 +83,17 @@
                                                          font-size:0.72rem;font-weight:700;
                                                          padding:3px 10px;border-radius:var(--radius-full);
                                                          text-transform:capitalize;">
-                                                {{ ucfirst($app->status) }}
+                                                {{ str_replace('_', ' ', ucwords($app->status)) }}
                                             </span>
                                         </td>
                                         <td class="py-3">
-                                            <span style="color:var(--charcoal-400);font-size:0.8rem;">
+                                            <button onclick="openStudentDetail({{ $app->id }})"
+                                                    style="background:none;border:none;padding:0;
+                                                           color:var(--navy-700);font-size:0.8rem;
+                                                           font-weight:600;cursor:pointer;
+                                                           text-decoration:underline;">
                                                 View Details
-                                            </span>
+                                            </button>
                                         </td>
                                     </tr>
                                 @empty
@@ -131,5 +135,144 @@
 
     @include('dash.parts.footer')
 </div>
+
+{{-- ═══ APPLICATION DETAIL MODAL (Student view) ═══ --}}
+<div id="studentDetailModal"
+     style="display:none;position:fixed;inset:0;z-index:1050;
+            background:rgba(15,23,42,0.5);align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:16px;width:100%;max-width:580px;
+                margin:1rem;max-height:90vh;display:flex;flex-direction:column;
+                box-shadow:0 24px 64px rgba(0,0,0,0.2);">
+
+        <div style="padding:1.25rem 1.5rem;border-bottom:1px solid #f0f4f8;
+                    display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+            <h5 class="mb-0 fw-bold" style="color:var(--navy-800);font-size:1rem;">Application Details</h5>
+            <button onclick="closeStudentDetail()"
+                    style="background:none;border:none;font-size:1.5rem;
+                           color:#94a3b8;cursor:pointer;line-height:1;">&times;</button>
+        </div>
+
+        <div style="overflow-y:auto;padding:1.5rem;flex:1;">
+            <div id="sdLoading" class="text-center py-5">
+                <div class="spinner-border spinner-border-sm text-secondary" role="status"></div>
+            </div>
+            <div id="sdContent" style="display:none;">
+
+                {{-- Status + Opportunity --}}
+                <div style="border:1px solid #e8edf3;border-radius:12px;padding:1.1rem 1.25rem;margin-bottom:1.25rem;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+                        <span id="sdOppo" style="font-weight:700;font-size:1rem;color:var(--navy-800);"></span>
+                        <span id="sdStatusBadge" style="font-size:0.72rem;font-weight:700;padding:3px 12px;border-radius:20px;"></span>
+                    </div>
+                    <div id="sdOrg" style="font-size:0.82rem;color:#64748b;"></div>
+                    <div id="sdApplied" style="font-size:0.78rem;color:#94a3b8;margin-top:4px;"></div>
+                </div>
+
+                {{-- Interview details (shown when scheduled) --}}
+                <div id="sdInterviewSection" style="display:none;margin-bottom:1.25rem;">
+                    <h6 style="font-weight:700;color:var(--navy-800);font-size:0.9rem;margin-bottom:0.6rem;">
+                        <i class="bi bi-calendar-event me-1"></i>Your Interview
+                    </h6>
+                    <div style="background:#fefce8;border:1px solid #fef08a;border-radius:10px;padding:0.85rem 1rem;">
+                        <div id="sdInterviewInfo" style="font-size:0.85rem;color:#713f12;line-height:1.8;"></div>
+                    </div>
+                </div>
+
+                {{-- Cover Letter --}}
+                <div id="sdCLSection" style="margin-bottom:1.25rem;">
+                    <h6 style="font-weight:700;color:var(--navy-800);font-size:0.9rem;margin-bottom:0.6rem;">Cover Letter</h6>
+                    <div id="sdCL" style="background:#f9fafb;border:1px solid #e8edf3;border-radius:10px;
+                                padding:0.85rem 1rem;font-size:0.85rem;color:#374151;line-height:1.65;"></div>
+                </div>
+
+                {{-- Additional Info --}}
+                <div id="sdAISection" style="margin-bottom:0.5rem;">
+                    <h6 style="font-weight:700;color:var(--navy-800);font-size:0.9rem;margin-bottom:0.6rem;">Additional Information</h6>
+                    <div id="sdAI" style="background:#f9fafb;border:1px solid #e8edf3;border-radius:10px;
+                               padding:0.85rem 1rem;font-size:0.85rem;color:#374151;line-height:1.65;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="padding:1rem 1.5rem;border-top:1px solid #f0f4f8;flex-shrink:0;">
+            <button onclick="closeStudentDetail()"
+                    style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;
+                           padding:0.5rem 1.25rem;font-size:0.875rem;font-weight:600;cursor:pointer;">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+const sdStatusLabels = {
+    pending:             { label: 'Pending',              bg: '#fef9ec', color: '#b45309' },
+    review:              { label: 'Under Review',         bg: '#eff6ff', color: '#1d4ed8' },
+    shortlisted:         { label: 'Shortlisted',          bg: '#f0fdf4', color: '#15803d' },
+    interview_scheduled: { label: 'Interview Scheduled',  bg: '#fef3c7', color: '#78350f' },
+    selected:            { label: 'Selected ✅',           bg: '#dcfce7', color: '#14532d' },
+    rejected:            { label: 'Not Successful',       bg: '#fef2f2', color: '#b91c1c' },
+};
+
+function openStudentDetail(applicationId) {
+    document.getElementById('studentDetailModal').style.display = 'flex';
+    document.getElementById('sdLoading').style.display  = 'block';
+    document.getElementById('sdContent').style.display  = 'none';
+
+    fetch(`/applications/${applicationId}/detail`, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(r => r.json())
+    .then(d => {
+        const s = sdStatusLabels[d.status] || { label: d.status, bg: '#f5f5f6', color: '#52525b' };
+
+        document.getElementById('sdOppo').textContent    = d.opportunity.oname;
+        document.getElementById('sdOrg').innerHTML       = '<i class="bi bi-building me-1"></i>' + (d.opportunity.org || '');
+        document.getElementById('sdApplied').innerHTML   = '<i class="bi bi-calendar me-1"></i>Applied: ' + d.applied_at;
+
+        const badge = document.getElementById('sdStatusBadge');
+        badge.textContent = s.label; badge.style.background = s.bg; badge.style.color = s.color;
+
+        // Interview section
+        const iSection = document.getElementById('sdInterviewSection');
+        if (d.interview) {
+            const typeIcon = d.interview.type === 'physical' ? '📍' : '💻';
+            const typeLabel = d.interview.type === 'physical' ? 'Physical' : 'Online';
+            document.getElementById('sdInterviewInfo').innerHTML =
+                `<strong>📅 Date:</strong> ${d.interview.date}<br>
+                 <strong>🕐 Time:</strong> ${d.interview.time}<br>
+                 <strong>📌 Type:</strong> ${typeIcon} ${typeLabel}<br>
+                 ${d.interview.location_or_link ? `<strong>${d.interview.type === 'physical' ? '📍 Location' : '🔗 Link'}:</strong> <a href="${d.interview.location_or_link.startsWith('http') ? d.interview.location_or_link : '#'}" target="_blank" style="color:var(--navy-700);">${d.interview.location_or_link}</a><br>` : ''}
+                 ${d.interview.notes ? `<strong>📝 Notes:</strong> ${d.interview.notes}` : ''}`;
+            iSection.style.display = 'block';
+        } else {
+            iSection.style.display = 'none';
+        }
+
+        const clSection = document.getElementById('sdCLSection');
+        if (d.cover_letter) { document.getElementById('sdCL').textContent = d.cover_letter; clSection.style.display = 'block'; }
+        else { clSection.style.display = 'none'; }
+
+        const aiSection = document.getElementById('sdAISection');
+        if (d.additional_info) { document.getElementById('sdAI').textContent = d.additional_info; aiSection.style.display = 'block'; }
+        else { aiSection.style.display = 'none'; }
+
+        document.getElementById('sdLoading').style.display = 'none';
+        document.getElementById('sdContent').style.display = 'block';
+    })
+    .catch(() => {
+        document.getElementById('sdLoading').innerHTML =
+            '<p class="text-danger text-center mt-3">Failed to load details.</p>';
+    });
+}
+
+function closeStudentDetail() {
+    document.getElementById('studentDetailModal').style.display = 'none';
+}
+document.getElementById('studentDetailModal').addEventListener('click', function(e) {
+    if (e.target === this) closeStudentDetail();
+});
+</script>
+
 </body>
 </html>

@@ -86,7 +86,43 @@ class NotificationService
         }
     }
 
-   
+    // New application submitted → notify company (called from Apps controller)
+    public static function newApplication(
+        string $companyUname,
+        string $studentName,
+        string $opportunityTitle,
+        string $fromUname = 'system'
+    ): void {
+        $org = User::where('uname', $companyUname)->first();
+        if (! $org) return;
+
+        $pref         = NotificationPreference::forUser((int) $org->getKey());
+        $inAppEnabled = (bool) $pref->getAttribute('in_app');
+
+        if ($inAppEnabled) {
+            Notifydb::send(
+                $companyUname,
+                'New Application Received',
+                "{$studentName} applied for '{$opportunityTitle}'.",
+                $fromUname,
+            );
+        }
+    }
+
+    // Status changed → notify student by uname (called from Apps controller)
+    // Called from Apps controller with uname strings
+    public static function statusChangedByUname(
+        string      $studentUname,
+        string      $opportunityTitle,
+        string      $orgName,
+        string      $status,
+        string      $fromUname = 'system',
+    ): void {
+        $student = User::where('uname', $studentUname)->first();
+        if (! $student) return;
+        static::applicationStatusChanged($student, $opportunityTitle, $orgName, $status);
+    }
+
     public static function applicationStatusChanged(
         User        $student,
         string      $opportunityTitle,
@@ -103,9 +139,12 @@ class NotificationService
         $studentEmail = (string) $student->getAttribute('email');
 
         $labels = [
-            'shortlisted'  => 'Shortlisted',
-            'under_review' => 'Under Review',
-            'rejected'     => 'Not Successful',
+            'pending'              => 'Pending',
+            'review'               => 'Under Review',
+            'shortlisted'          => 'Shortlisted',
+            'interview_scheduled'  => 'Interview Scheduled',
+            'selected'             => 'Selected',
+            'rejected'             => 'Not Successful',
         ];
         $label = $labels[$status] ?? ucfirst($status);
 
@@ -124,6 +163,38 @@ class NotificationService
                 orgName:          $orgName,
                 status:           $status,
                 message:          $message,
+            ));
+        }
+    }
+
+    // Interview scheduled → notify student with email + in-app
+    public static function interviewScheduled(
+        User        $student,
+        string      $opportunityTitle,
+        string      $orgName,
+        string      $interviewDate,
+        string      $interviewTime,
+        string      $interviewType,     // 'physical' or 'online'
+        string|null $locationOrLink,    // address or zoom link
+        string|null $notes = null,
+    ): void {
+        $pref = NotificationPreference::forUser((int) $student->getKey());
+        $emailEnabled = (bool) $pref->getAttribute('email');
+
+        $studentName = (string) $student->getAttribute('fname');
+        $studentEmail = (string) $student->getAttribute('email');
+        $studentUname = (string) $student->getAttribute('uname');
+
+        if ($emailEnabled) {
+            self::sendMailSafely($studentEmail, new \App\Mail\InterviewScheduledMail(
+                studentName:      $studentName !== '' ? $studentName : $studentUname,
+                opportunityTitle: $opportunityTitle,
+                orgName:          $orgName,
+                interviewDate:    $interviewDate,
+                interviewTime:    $interviewTime,
+                interviewType:    $interviewType,
+                locationOrLink:   $locationOrLink,
+                notes:            $notes,
             ));
         }
     }

@@ -24,6 +24,14 @@ class GeminiService
      */
     public function ask(string $prompt): string
     {
+        return $this->askWithConfig($prompt, []);
+    }
+
+    /**
+     * Ask Gemini with custom generation config for structured responses.
+     */
+    public function askWithConfig(string $prompt, array $config = []): string
+    {
         try {
             if ($this->apiKey === '') {
                 Log::error('Gemini API key is missing');
@@ -32,16 +40,20 @@ class GeminiService
 
             $safePrompt = $this->toValidUtf8($prompt);
 
+            $defaultConfig = [
+                'temperature'     => 0.5,
+                'maxOutputTokens' => 2048,
+            ];
+
+            $generationConfig = array_merge($defaultConfig, $config);
+
             $response = Http::timeout(30)
                 ->retry(2, 400)
                 ->post("{$this->endpoint}?key={$this->apiKey}", [
                 'contents' => [
                     ['parts' => [['text' => $safePrompt]]]
                 ],
-                'generationConfig' => [
-                    'temperature'     => 0.7,
-                    'maxOutputTokens' => 2048,
-                ],
+                'generationConfig' => $generationConfig,
             ]);
 
             if ($response->failed()) {
@@ -78,6 +90,25 @@ class GeminiService
             Log::error('Gemini exception', ['message' => $e->getMessage(), 'model' => $this->model]);
             return 'An error occurred while contacting the AI service.';
         }
+    }
+
+    /**
+     * Specialized method for CV/Resume analysis with structured output.
+     * Uses optimized settings for consistent structured format.
+     */
+    public function analyzeCV(string $cvPrompt): string
+    {
+        // Add a system message prefix to ensure strict compliance
+        $systemMessage = "You are a professional CV reviewer who ALWAYS provides complete, detailed feedback. "
+            . "You will ALWAYS output all four required sections: Overall Score, Strengths, Weaknesses, and Recommendations, plus ATS Keywords. "
+            . "Never skip sections. Never say a section is not applicable. Always provide substantive content for all sections.\n\n";
+        
+        $fullPrompt = $systemMessage . $cvPrompt;
+
+        return $this->askWithConfig($fullPrompt, [
+            'temperature'     => 0.7,  // Balanced temperature for creativity + consistency
+            'maxOutputTokens' => 3000,  // Extra tokens for detailed feedback
+        ]);
     }
 
     /**
