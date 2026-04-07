@@ -36,6 +36,11 @@ class Opportunity extends Controller
             $query->where('org', $user->uname);
         }
 
+        // Filter by status if provided
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
         // Search filters
         if ($request->filled('q')) {
             $q = $request->q;
@@ -76,6 +81,14 @@ class Opportunity extends Controller
 
         $query = Oppodb::where('status', 'active');
 
+        // If accessed from dashboard with specific opportunity ID, prioritize it
+        if ($request->filled('oppo_id')) {
+            $oppoId = $request->oppo_id;
+            $query->orderByRaw("CASE WHEN id = ? THEN 0 ELSE 1 END, created_at DESC", [$oppoId]);
+        } else {
+            $query->latest();
+        }
+
         if ($request->filled('q')) {
             $q = $request->q;
             $query->where(function ($sub) use ($q) {
@@ -87,7 +100,7 @@ class Opportunity extends Controller
         if ($request->filled('loc'))  $query->where('loc',   $request->loc);
         if ($request->filled('dept')) $query->where('foth1', $request->dept);
 
-        $opportunities = $query->latest()->paginate(12);
+        $opportunities = $query->paginate(12);
 
         return view('dash.soppo', compact('opportunities'));
     }

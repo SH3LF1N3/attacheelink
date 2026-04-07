@@ -22,59 +22,59 @@
 
         <div class="app-content">
             <div class="container-fluid">
-                <div class="card shadow-sm" style="border:1px solid #e8edf3;border-radius:12px;overflow:hidden;">
+                <div class="card shadow-sm" style="border:2px solid #e8edf3;border-radius:14px;overflow:hidden;background:linear-gradient(to bottom, #fafbfc 0%, #ffffff 100%);">
 
-                    <div class="card-header bg-white px-4 py-3 d-flex align-items-center justify-content-between"
-                         style="border-bottom:1px solid #f0f4f8;">
-                        <h6 class="mb-0 fw-bold" style="color:var(--navy-800);">
-                            <i class="bi bi-briefcase me-2" style="color:var(--navy-600);"></i>
+                    <div class="card-header" style="background:linear-gradient(135deg, var(--navy-700) 0%, var(--navy-600) 100%);padding:1.5rem;d-flex;align-items:center;justify-content:space-between;border:none;">
+                        <h6 class="mb-0 fw-bold" style="color:#fff;font-size:1.1rem;">
+                            <i class="bi bi-briefcase me-2" style="color:rgba(255,255,255,0.9);"></i>
                             {{ Auth::user()->role === 'admin' ? 'All Opportunities' : 'Your Opportunities' }}
                             <span class="ms-2"
-                                  style="background:var(--navy-50);color:var(--navy-700);
+                                  style="background:rgba(255,255,255,0.2);color:#fff;
                                          font-size:0.75rem;font-weight:700;
-                                         padding:2px 10px;border-radius:var(--radius-full);">
+                                         padding:4px 12px;border-radius:var(--radius-full);
+                                         backdrop-filter:blur(10px);">
                                 {{ $opportunities->total() }}
                             </span>
                         </h6>
                         @if(Auth::user()->role === 'company')
                         <a href="{{ route('oppo.create') }}"
-                           style="background:var(--navy-700);color:#fff;padding:0.45rem 1.1rem;
-                                  border-radius:var(--radius-sm);font-size:0.875rem;font-weight:600;
-                                  text-decoration:none;">+ Post New</a>
+                           style="background:#fff;color:var(--navy-700);padding:0.6rem 1.35rem;
+                                  border-radius:var(--radius-sm);font-size:0.875rem;font-weight:700;
+                                  text-decoration:none;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.1);">+ Post New Opportunity</a>
                         @endif
                     </div>
 
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover mb-0" style="font-size:0.875rem;">
-                                <thead style="background:#f9fafb;">
+                                <thead style="background:linear-gradient(135deg, #f8fafc 0%, #f0f4f8 100%);border-bottom:2px solid #e8edf3;">
                                     <tr>
-                                        <th class="px-4 py-3 text-muted fw-semibold">Title</th>
-                                        <th class="py-3 text-muted fw-semibold">Department</th>
-                                        <th class="py-3 text-muted fw-semibold">County</th>
-                                        <th class="py-3 text-muted fw-semibold">Deadline</th>
-                                        <th class="py-3 text-muted fw-semibold">Applicants</th>
-                                        <th class="py-3 text-muted fw-semibold">Status</th>
-                                        <th class="py-3 text-muted fw-semibold">Actions</th>
+                                        <th class="px-4 py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">Title</th>
+                                        <th class="py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">Department</th>
+                                        <th class="py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">County</th>
+                                        <th class="py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">Deadline</th>
+                                        <th class="py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">Applicants</th>
+                                        <th class="py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">Status</th>
+                                        <th class="py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody style="border-top:1px solid #e8edf3;">
                                 @forelse($opportunities as $oppo)
                                     @php
                                         $sc = [
-                                            'active' => ['var(--navy-700)', 'var(--navy-50)'],
-                                            'closed' => ['#b91c1c',         '#fef2f2'],
-                                            'draft'  => ['var(--charcoal-500)', '#f5f7fa'],
-                                        ][$oppo->status] ?? ['var(--charcoal-500)', '#f5f7fa'];
+                                            'active' => ['var(--emerald-600)', 'var(--emerald-50)'],
+                                            'closed' => ['var(--rose-600)',     'var(--rose-50)'],
+                                            'draft'  => ['var(--charcoal-600)', 'var(--charcoal-400)'],
+                                        ][$oppo->status] ?? ['var(--charcoal-600)', '#f5f7fa'];
                                     @endphp
-                                    <tr>
-                                        <td class="px-4 py-3 fw-semibold" style="color:var(--navy-800);">{{ $oppo->oname }}</td>
-                                        <td class="py-3" style="color:var(--charcoal-500);">{{ $oppo->foth1 ?? 'Attachment' }}</td>
-                                        <td class="py-3" style="color:var(--charcoal-500);">{{ $oppo->loc ?? '—' }}</td>
-                                        <td class="py-3" style="color:var(--charcoal-400);">
+                                    <tr style="border-bottom:1px solid #f0f4f8;transition:all 0.3s ease;">
+                                        <td class="px-4 py-4 fw-semibold" style="color:var(--navy-800);">{{ $oppo->oname }}</td>
+                                        <td class="py-4" style="color:var(--charcoal-500);">{{ $oppo->foth1 ?? 'Attachment' }}</td>
+                                        <td class="py-4" style="color:var(--charcoal-500);">{{ $oppo->loc ?? '—' }}</td>
+                                        <td class="py-4" style="color:var(--charcoal-400);">
                                             {{ $oppo->dead ? \Carbon\Carbon::parse($oppo->dead)->format('M d, Y') : '—' }}
                                         </td>
-                                        <td class="py-3">
+                                        <td class="py-4">
                                             @if($oppo->applications_count > 0)
                                                 <button class="btn-applicants-link"
                                                         data-oppo-id="{{ $oppo->id }}"
@@ -82,17 +82,23 @@
                                                         style="background:none;border:none;padding:0;
                                                                color:var(--navy-700);font-weight:700;
                                                                font-size:0.875rem;cursor:pointer;
-                                                               text-decoration:underline;">
+                                                               text-decoration:underline;transition:all 0.3s;
+                                                               padding:0.25rem 0.5rem;border-radius:4px;"
+                                                        onmouseover="this.style.background='rgba(30,58,95,0.1)'"
+                                                        onmouseout="this.style.background='transparent'">
                                                     {{ $oppo->applications_count }}
                                                 </button>
                                             @else
                                                 <span style="color:var(--charcoal-400);">0</span>
                                             @endif
                                         </td>
-                                        <td class="py-3">
+                                        <td class="py-4">
                                             <span style="background:{{ $sc[1] }};color:{{ $sc[0] }};
                                                          font-size:0.72rem;font-weight:700;
-                                                         padding:3px 12px;border-radius:var(--radius-full);
+                                                         padding:5px 14px;border-radius:20px;
+                                                         display:inline-block;letter-spacing:0.3px;
+                                                         text-transform:capitalize;
+                                                         box-shadow:0 2px 4px rgba(0,0,0,0.08);
                                                          text-transform:capitalize;">
                                                 {{ ucfirst($oppo->status) }}
                                             </span>

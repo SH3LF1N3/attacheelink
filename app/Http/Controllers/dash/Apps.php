@@ -27,7 +27,7 @@ class Apps extends Controller
         return view('dash.apps', compact('opportunities'));
     }
 
-    public function sappo()
+    public function sappo(Request $request)
     {
         // ── Check profile completion ──
         $user = auth()->user();
@@ -39,10 +39,21 @@ class Apps extends Controller
                            ->with('message', 'Please complete your profile before managing applications.');
         }
 
-        $applications = Application::with('opportunity')
-            ->where('user_id', Auth::id())
-            ->latest()
-            ->paginate(20);
+        $query = Application::with('opportunity')
+            ->where('user_id', Auth::id());
+
+        // Filter by status if provided
+        if ($request->filled('status')) {
+            $status = $request->status;
+            if ($status === 'shortlisted') {
+                // Shortlisted includes both 'shortlisted' and 'interview_scheduled'
+                $query->whereIn('status', ['shortlisted', 'interview_scheduled']);
+            } else {
+                $query->where('status', $status);
+            }
+        }
+
+        $applications = $query->latest()->paginate(20);
 
         return view('dash.sappo', compact('applications'));
     }

@@ -23,18 +23,18 @@
         <div class="app-content">
             <div class="container-fluid">
 
-                <div class="card shadow-sm" style="border:1px solid #e8edf3;border-radius:12px;overflow:hidden;">
+                <div class="card shadow-sm" style="border:2px solid #e8edf3;border-radius:14px;overflow:hidden;background:linear-gradient(to bottom, #fafbfc 0%, #ffffff 100%);">
 
                     {{-- Card header --}}
-                    <div class="card-header bg-white px-4 py-3 d-flex align-items-center justify-content-between"
-                         style="border-bottom:1px solid #f0f4f8;">
-                        <h6 class="mb-0 fw-bold" style="color:var(--navy-800);">
-                            <i class="bi bi-file-earmark-text me-2" style="color:var(--navy-600);"></i>
+                    <div class="card-header" style="background:linear-gradient(135deg, var(--navy-700) 0%, var(--navy-600) 100%);padding:1.5rem;border:none;">
+                        <h6 class="mb-0 fw-bold" style="color:#fff;font-size:1.1rem;">
+                            <i class="bi bi-file-earmark-text me-2" style="color:rgba(255,255,255,0.9);"></i>
                             My Applications
                             <span class="ms-2"
-                                  style="background:var(--navy-50);color:var(--navy-700);
+                                  style="background:rgba(255,255,255,0.2);color:#fff;
                                          font-size:0.75rem;font-weight:700;
-                                         padding:2px 10px;border-radius:var(--radius-full);">
+                                         padding:4px 12px;border-radius:var(--radius-full);
+                                         backdrop-filter:blur(10px);">
                                 {{ $applications->total() }}
                             </span>
                         </h6>
@@ -44,49 +44,51 @@
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover mb-0" style="font-size:0.875rem;">
-                                <thead style="background:#f9fafb;">
+                                <thead style="background:linear-gradient(135deg, #f8fafc 0%, #f0f4f8 100%);border-bottom:2px solid #e8edf3;">
                                     <tr>
-                                        <th class="px-4 py-3 text-muted fw-semibold">#</th>
-                                        <th class="py-3 text-muted fw-semibold">Role / Position</th>
-                                        <th class="py-3 text-muted fw-semibold">Organisation</th>
-                                        <th class="py-3 text-muted fw-semibold">Date Applied</th>
-                                        <th class="py-3 text-muted fw-semibold">Status</th>
-                                        <th class="py-3 text-muted fw-semibold">Action</th>
+                                        <th class="px-4 py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">#</th>
+                                        <th class="py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">Role / Position</th>
+                                        <th class="py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">Organisation</th>
+                                        <th class="py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">Date Applied</th>
+                                        <th class="py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">Status</th>
+                                        <th class="py-4 text-muted fw-bold" style="color:var(--navy-700);letter-spacing:0.3px;text-transform:uppercase;font-size:0.7rem;">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody style="border-top:1px solid #e8edf3;">
                                 @forelse($applications as $app)
                                     @php
                                         $badges = [
-                                            'pending'     => ['#b45309', '#fef9ec'],
-                                            'review'      => ['#1d4ed8', '#eff6ff'],
-                                            'shortlisted' => ['#15803d', '#f0fdf4'],
-                                            'rejected'    => ['#b91c1c', '#fef2f2'],
+                                            'pending'     => ['var(--amber-600)', 'var(--amber-50)'],
+                                            'review'      => ['var(--purple-600)', 'var(--purple-50)'],
+                                            'shortlisted' => ['var(--teal-600)', 'var(--teal-50)'],
+                                            'rejected'    => ['var(--rose-600)', 'var(--rose-50)'],
                                         ];
-                                        $b = $badges[$app->status] ?? ['#52525b', '#f5f5f6'];
+                                        $b = $badges[$app->status] ?? ['var(--charcoal-600)', '#f5f5f6'];
                                     @endphp
-                                    <tr>
-                                        <td class="px-4 py-3 text-muted">
+                                    <tr style="border-bottom:1px solid #f0f4f8;transition:all 0.3s ease;">
+                                        <td class="px-4 py-4 text-muted">
                                             {{ $applications->firstItem() + $loop->index }}
                                         </td>
-                                        <td class="py-3 fw-semibold" style="color:var(--navy-800);">
+                                        <td class="py-4 fw-semibold" style="color:var(--navy-800);">
                                             {{ $app->opportunity->oname ?? '—' }}
                                         </td>
-                                        <td class="py-3" style="color:var(--charcoal-500);">
+                                        <td class="py-4" style="color:var(--charcoal-500);">
                                             {{ $app->opportunity->org ?? '—' }}
                                         </td>
-                                        <td class="py-3" style="color:var(--charcoal-400);">
+                                        <td class="py-4" style="color:var(--charcoal-400);">
                                             {{ $app->created_at->format('M d, Y') }}
                                         </td>
-                                        <td class="py-3">
+                                        <td class="py-4">
                                             <span style="background:{{ $b[1] }};color:{{ $b[0] }};
                                                          font-size:0.72rem;font-weight:700;
-                                                         padding:3px 10px;border-radius:var(--radius-full);
-                                                         text-transform:capitalize;">
+                                                         padding:5px 14px;border-radius:20px;
+                                                         display:inline-block;letter-spacing:0.3px;
+                                                         text-transform:capitalize;
+                                                         box-shadow:0 2px 4px rgba(0,0,0,0.08);">
                                                 {{ str_replace('_', ' ', ucwords($app->status)) }}
                                             </span>
                                         </td>
-                                        <td class="py-3">
+                                        <td class="py-4">
                                             <button onclick="openStudentDetail({{ $app->id }})"
                                                     style="background:none;border:none;padding:0;
                                                            color:var(--navy-700);font-size:0.8rem;
