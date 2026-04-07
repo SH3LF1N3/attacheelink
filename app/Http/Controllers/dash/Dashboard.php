@@ -95,6 +95,7 @@ class Dashboard extends Controller
             'total_apps'      => Application::whereIn('oppodb_id', $oppoIds)->count(),
             'pending_apps'    => Application::whereIn('oppodb_id', $oppoIds)->where('status', 'pending')->count(),
             'selected_apps'   => Application::whereIn('oppodb_id', $oppoIds)->where('status', 'selected')->count(),
+            'rejected_apps'   => Application::whereIn('oppodb_id', $oppoIds)->where('status', 'rejected')->count(),
             'my_oppo'         => Oppodb::where('org', $user->uname)->latest()->take(6)->get(),
             'recent_apps'     => Application::with(['opportunity', 'student'])
                                     ->whereIn('oppodb_id', $oppoIds)

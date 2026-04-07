@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Oppodb;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class Opportunity extends Controller
 {
@@ -158,15 +159,23 @@ class Opportunity extends Controller
             'status'   => ['required', 'in:active,closed,draft'],
         ]);
 
+        $status = $validated['status'];
+        $newDeadline = $validated['dead'];
+        
+        // Auto-reactivate if deadline is extended to future and currently closed
+        if ($status === 'closed' && Carbon::parse($newDeadline)->startOfDay() > Carbon::now()->startOfDay()) {
+            $status = 'active';
+        }
+
         $oppo->update([
             'oname'    => $validated['oname'],
             'foth1'    => $validated['foth1'],
             'loc'      => $validated['loc'],
             'descr'    => $validated['descr'],
-            'dead'     => $validated['dead'],
+            'dead'     => $newDeadline,
             'slot'     => $validated['slot'],
             'duration' => $validated['duration'] ?? $oppo->duration,
-            'status'   => $validated['status'],
+            'status'   => $status,
         ]);
 
         return redirect()->route('opportunities')

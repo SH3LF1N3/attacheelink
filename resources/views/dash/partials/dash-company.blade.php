@@ -56,6 +56,16 @@
         <div class="dash-stat-label">Selected</div>
     </div>
 
+    <div class="dash-stat-card">
+        <div class="dash-stat-icon" style="background:#fef2f2;color:#b91c1c;">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+        </div>
+        <div class="dash-stat-value">{{ $stats['rejected_apps'] ?? 0 }}</div>
+        <div class="dash-stat-label">Rejected</div>
+    </div>
+
 </div>
 
 {{-- Two-column grid --}}
