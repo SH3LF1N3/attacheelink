@@ -29,11 +29,11 @@
                                         background:#b4530920;color:#b45309;font-weight:700;
                                         display:flex;align-items:center;justify-content:center;
                                         font-size:0.85rem;">
-                                {{ strtoupper(substr($org->foth1 ?? $org->uname, 0, 1)) }}
+                                {{ strtoupper(substr($org->fname ?? $org->uname, 0, 1)) }}
                             </div>
                             <div>
                                 <div class="fw-semibold" style="color:var(--navy-800);">
-                                    {{ $org->foth1 ?? '—' }}
+                                    {{ $org->fname ?? '—' }}
                                 </div>
                                 <div style="font-size:0.75rem;color:#9ca3af;">{{ $org->email }}</div>
                             </div>
@@ -42,8 +42,7 @@
 
                     {{-- Contact person --}}
                     <td class="py-3">
-                        <div style="color:#374151;">{{ $org->fname ?? '—' }}</div>
-                        <div style="font-size:0.75rem;color:#9ca3af;">@{{ $org->uname }}</div>
+                        <div style="color:#374151;">{{ $org->foth1 ?? '—' }}</div>
                     </td>
 
                     <td class="py-3">
