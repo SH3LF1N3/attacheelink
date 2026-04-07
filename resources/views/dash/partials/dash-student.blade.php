@@ -2,6 +2,7 @@
 
 {{-- Profile Completion Alert --}}
 @php
+    // Students: 6 required fields
     $isComplete = $user->fname && $user->foth1 && $user->foth2 && $user->foth3 && $user->phone && $user->gender;
     if (!$isComplete) {
         $completedFields = 0;

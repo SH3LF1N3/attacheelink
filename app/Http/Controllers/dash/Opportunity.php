@@ -56,14 +56,16 @@ class Opportunity extends Controller
 
     public function soppo(Request $request)
     {
-        // ── Check profile completion ──
+        // ── Check profile completion (students only) ──
         $user = auth()->user();
-        $isProfileComplete = $user->fname && $user->foth1 && $user->foth2 && $user->foth3 && $user->phone && $user->gender;
-        
-        if (!$isProfileComplete) {
-            return redirect()->route('profile')
-                           ->with('redirected_incomplete', true)
-                           ->with('message', 'Please complete your profile before browsing opportunities.');
+        if ($user->role === 'student') {
+            $isProfileComplete = $user->fname && $user->foth1 && $user->foth2 && $user->foth3 && $user->phone && $user->gender;
+            
+            if (!$isProfileComplete) {
+                return redirect()->route('profile')
+                               ->with('redirected_incomplete', true)
+                               ->with('message', 'Please complete your profile before browsing opportunities.');
+            }
         }
 
         // Auto-close opportunities past their deadline

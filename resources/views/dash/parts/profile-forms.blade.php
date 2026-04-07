@@ -21,13 +21,16 @@
     </div>
 @endif
 
-{{-- ── Personal Information ── --}}
+{{-- ── STUDENT PROFILE ── --}}
+@if($user->role === 'student')
+
+{{-- Personal Information --}}
 <div class="profile-card">
     <div class="profile-card-header">Personal Information</div>
     <div class="profile-card-body">
         <div class="profile-form-grid">
             <div class="profile-field">
-                <label class="profile-label">First Name</label>
+                <label class="profile-label">First Name <span style="color:#dc2626;">*</span></label>
                 <input type="text" name="fname" class="profile-input @error('fname') is-error @enderror"
                        value="{{ old('fname', explode(' ', $user->fname ?? '')[0]) }}"
                        placeholder="First name" required />
@@ -39,21 +42,21 @@
                        placeholder="Last name" />
             </div>
             <div class="profile-field">
-                <label class="profile-label">Email Address</label>
+                <label class="profile-label">Email Address <span style="color:#dc2626;">*</span></label>
                 <input type="email" name="email" class="profile-input @error('email') is-error @enderror"
                        value="{{ old('email', $user->email) }}"
                        placeholder="Email" required />
             </div>
             <div class="profile-field">
-                <label class="profile-label">Phone Number</label>
+                <label class="profile-label">Phone Number <span style="color:#dc2626;">*</span></label>
                 <input type="tel" name="phone" class="profile-input"
                        value="{{ old('phone', $user->phone) }}"
-                       placeholder="+254 7XX XXX XXX" />
+                       placeholder="+254 7XX XXX XXX" required />
             </div>
             <div class="profile-field">
-                <label class="profile-label">Gender</label>
+                <label class="profile-label">Gender <span style="color:#dc2626;">*</span></label>
                 <div class="profile-select-wrap">
-                    <select name="gender" class="profile-select">
+                    <select name="gender" class="profile-select" required>
                         <option value="">Select an option</option>
                         @foreach(['Male','Female','Other'] as $g)
                             <option value="{{ $g }}" {{ ($user->gender ?? '') === $g ? 'selected' : '' }}>{{ $g }}</option>
@@ -71,16 +74,15 @@
     </div>
 </div>
 
-{{-- ── Academic Information (students only) ── --}}
-@if($user->role === 'student')
+{{-- Academic Information --}}
 <div class="profile-card">
     <div class="profile-card-header">Academic Information</div>
     <div class="profile-card-body">
         <div class="profile-form-grid">
             <div class="profile-field">
-                <label class="profile-label">University</label>
+                <label class="profile-label">University <span style="color:#dc2626;">*</span></label>
                 <div class="profile-select-wrap">
-                    <select name="foth2" class="profile-select">
+                    <select name="foth2" class="profile-select" required>
                         <option value="">Select an option</option>
                         @foreach(['University of Nairobi','Kenyatta University','Strathmore University','JKUAT','Moi University','Egerton University','Maseno University','Other'] as $uni)
                             <option value="{{ $uni }}" {{ ($user->foth2 ?? '') === $uni ? 'selected' : '' }}>{{ $uni }}</option>
@@ -89,10 +91,10 @@
                 </div>
             </div>
             <div class="profile-field">
-                <label class="profile-label">Course / Programme</label>
+                <label class="profile-label">Course / Programme <span style="color:#dc2626;">*</span></label>
                 <input type="text" name="foth1" class="profile-input"
                        value="{{ old('foth1', $user->foth1) }}"
-                       placeholder="e.g. BSc. Computer Science" />
+                       placeholder="e.g. BSc. Computer Science" required />
             </div>
             <div class="profile-field">
                 <label class="profile-label">Year of Study</label>
@@ -111,9 +113,9 @@
                        value="{{ old('foth6', $user->foth6) }}" />
             </div>
             <div class="profile-field">
-                <label class="profile-label">County of Residence</label>
+                <label class="profile-label">County of Residence <span style="color:#dc2626;">*</span></label>
                 <div class="profile-select-wrap">
-                    <select name="foth3" class="profile-select">
+                    <select name="foth3" class="profile-select" required>
                         <option value="">Select an option</option>
                         @foreach(['Nairobi','Mombasa','Kisumu','Nakuru','Eldoret','Thika','Nyeri','Meru','Other'] as $county)
                             <option value="{{ $county }}" {{ ($user->foth3 ?? '') === $county ? 'selected' : '' }}>{{ $county }}</option>
@@ -124,9 +126,8 @@
         </div>
     </div>
 </div>
-@endif
 
-{{-- ── About Me ── --}}
+{{-- About Me --}}
 <div class="profile-card">
     <div class="profile-card-header">About Me</div>
     <div class="profile-card-body">
@@ -137,6 +138,84 @@
         </div>
     </div>
 </div>
+
+{{-- ── ORGANIZATION/COMPANY PROFILE ── --}}
+@else
+
+{{-- Company Information --}}
+<div class="profile-card">
+    <div class="profile-card-header">Company Information</div>
+    <div class="profile-card-body">
+        <div class="profile-form-grid">
+            <div class="profile-field">
+                <label class="profile-label">Organization Name <span style="color:#dc2626;">*</span></label>
+                <input type="text" name="fname" class="profile-input @error('fname') is-error @enderror"
+                       value="{{ old('fname', $user->fname) }}"
+                       placeholder="e.g. Tech Solutions Inc." required />
+            </div>
+            <div class="profile-field">
+                <label class="profile-label">Email Address <span style="color:#dc2626;">*</span></label>
+                <input type="email" name="email" class="profile-input @error('email') is-error @enderror"
+                       value="{{ old('email', $user->email) }}"
+                       placeholder="contact@company.com" required />
+            </div>
+            <div class="profile-field">
+                <label class="profile-label">Phone Number <span style="color:#dc2626;">*</span></label>
+                <input type="tel" name="phone" class="profile-input"
+                       value="{{ old('phone', $user->phone) }}"
+                       placeholder="+254 7XX XXX XXX" required />
+            </div>
+            <div class="profile-field">
+                <label class="profile-label">Contact Person Name <span style="color:#dc2626;">*</span></label>
+                <input type="text" name="foth1" class="profile-input"
+                       value="{{ old('foth1', $user->foth1) }}"
+                       placeholder="Name of primary contact" required />
+            </div>
+            <div class="profile-field">
+                <label class="profile-label">Industry <span style="color:#dc2626;">*</span></label>
+                <div class="profile-select-wrap">
+                    <select name="foth2" class="profile-select" required>
+                        <option value="">Select an option</option>
+                        @foreach(['Technology','Finance','Healthcare','Education','Retail','Manufacturing','Logistics','Telecommunications','Energy','Real Estate','Consulting','Media','Other'] as $ind)
+                            <option value="{{ $ind }}" {{ ($user->foth2 ?? '') === $ind ? 'selected' : '' }}>{{ $ind }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="profile-field">
+                <label class="profile-label">Location (County) <span style="color:#dc2626;">*</span></label>
+                <div class="profile-select-wrap">
+                    <select name="foth3" class="profile-select" required>
+                        <option value="">Select an option</option>
+                        @foreach(['Nairobi','Mombasa','Kisumu','Nakuru','Eldoret','Thika','Nyeri','Meru','Kiambu','Machakos','Other'] as $county)
+                            <option value="{{ $county }}" {{ ($user->foth3 ?? '') === $county ? 'selected' : '' }}>{{ $county }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="profile-field">
+                <label class="profile-label">Office Address</label>
+                <input type="text" name="foth4" class="profile-input"
+                       value="{{ old('foth4', $user->foth4) }}"
+                       placeholder="Physical office location" />
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- About Organization --}}
+<div class="profile-card">
+    <div class="profile-card-header">About Organization</div>
+    <div class="profile-card-body">
+        <div class="profile-field">
+            <label class="profile-label">Company Overview</label>
+            <textarea name="foth7" class="profile-textarea"
+                      placeholder="Tell students about your organization, what you do, and your company culture...">{{ old('foth7', $user->foth7) }}</textarea>
+        </div>
+    </div>
+</div>
+
+@endif
 
 {{-- Hidden skills field synced by JS --}}
 <input type="hidden" name="foth8" id="skills-value" value="{{ $user->foth8 ?? '' }}" />

@@ -46,17 +46,33 @@
 
                     {{-- ── PROFILE COMPLETION ALERT ── --}}
                     @php
-                        $isComplete = $user->fname && $user->foth1 && $user->foth2 && $user->foth3 && $user->phone && $user->gender;
-                        if (!$isComplete) {
-                            $completedFields = 0;
+                        if ($user->role === 'student') {
+                            // Students: 6 required fields
+                            $isComplete = $user->fname && $user->foth1 && $user->foth2 && $user->foth3 && $user->phone && $user->gender;
                             $totalFields = 6;
-                            if ($user->fname) $completedFields++;
-                            if ($user->foth1) $completedFields++;
-                            if ($user->foth2) $completedFields++;
-                            if ($user->foth3) $completedFields++;
-                            if ($user->phone) $completedFields++;
-                            if ($user->gender) $completedFields++;
-                            $completion = round(($completedFields / $totalFields) * 100);
+                            if (!$isComplete) {
+                                $completedFields = 0;
+                                if ($user->fname) $completedFields++;
+                                if ($user->foth1) $completedFields++;
+                                if ($user->foth2) $completedFields++;
+                                if ($user->foth3) $completedFields++;
+                                if ($user->phone) $completedFields++;
+                                if ($user->gender) $completedFields++;
+                                $completion = round(($completedFields / $totalFields) * 100);
+                            }
+                        } else {
+                            // Organizations: 5 required fields (no gender)
+                            $isComplete = $user->fname && $user->foth1 && $user->foth2 && $user->foth3 && $user->phone;
+                            $totalFields = 5;
+                            if (!$isComplete) {
+                                $completedFields = 0;
+                                if ($user->fname) $completedFields++;
+                                if ($user->foth1) $completedFields++;
+                                if ($user->foth2) $completedFields++;
+                                if ($user->foth3) $completedFields++;
+                                if ($user->phone) $completedFields++;
+                                $completion = round(($completedFields / $totalFields) * 100);
+                            }
                         }
                     @endphp
 
@@ -120,8 +136,12 @@
                             <div>
                                 <div class="profile-header-name">{{ $user->fname ?? $user->uname }}</div>
                                 <div class="profile-header-sub">
-                                    {{ $user->foth1 ?? 'No course set' }} —
-                                    {{ $user->foth2 ?? 'No university set' }}
+                                    @if($user->role === 'student')
+                                        {{ $user->foth1 ?? 'No course set' }} —
+                                        {{ $user->foth2 ?? 'No university set' }}
+                                    @else
+                                        {{ $user->foth1 ?? 'No contact person set' }} — {{ $user->foth2 ?? 'No industry set' }}
+                                    @endif
                                 </div>
                                 <div class="profile-header-meta">
                                     <span class="profile-header-meta-item">
@@ -141,7 +161,7 @@
                                             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
                                             <circle cx="12" cy="9" r="2.5"/>
                                         </svg>
-                                        {{ $user->foth3 ?? 'Nairobi County' }}
+                                        {{ $user->foth3 ?? 'Location not set' }}
                                     </span>
                                 </div>
                             </div>
