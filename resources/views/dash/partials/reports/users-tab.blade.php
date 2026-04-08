@@ -115,15 +115,44 @@
                     </thead>
                     <tbody>
                         @forelse($orgs['list'] as $i => $o)
-                        <tr>
+                        @php
+                            // Determine organization name and contact person
+                            // If foth1 is empty, profile is incomplete
+                            $orgName = $o->foth1 ?? null;
+                            $contactPerson = $o->fname ?? null;
+                            $isIncomplete = empty($orgName);
+                            
+                            // If profile is incomplete, show placeholder
+                            $displayOrgName = $isIncomplete 
+                                ? '[Profile Incomplete]' 
+                                : $orgName;
+                            
+                            $displayContact = empty($contactPerson)
+                                ? '[Not Provided]'
+                                : $contactPerson;
+                            
+                            $industry = $o->foth2 ?? '—';
+                            $location = $o->foth3 ?? '—';
+                        @endphp
+                        <tr style="@if($isIncomplete) background:#fef7f7; @endif">
                             <td class="px-4 py-3 text-muted">{{ $i + 1 }}</td>
                             <td class="py-3">
-                                <div class="fw-semibold" style="color:var(--navy-800);">{{ $o->foth1 ?? $o->uname }}</div>
+                                <div class="fw-semibold" style="color:var(--navy-800);">
+                                    {{ $displayOrgName }}
+                                    @if($isIncomplete)
+                                    <span style="font-size:0.65rem;background:#fee2e2;color:#dc2626;padding:2px 6px;
+                                               border-radius:4px;font-weight:600;margin-left:0.5rem;">
+                                        INCOMPLETE
+                                    </span>
+                                    @endif
+                                </div>
                                 <div style="font-size:.75rem;color:#9ca3af;">{{ $o->email }}</div>
                             </td>
-                            <td class="py-3 text-muted">{{ $o->fname ?? '—' }}</td>
-                            <td class="py-3 text-muted">{{ $o->foth2 ?? '—' }}</td>
-                            <td class="py-3 text-muted">{{ $o->foth3 ?? '—' }}</td>
+                            <td class="py-3" style="@if($isIncomplete) color:#dc2626;font-weight:600; @else color:var(--charcoal-500); @endif">
+                                {{ $displayContact }}
+                            </td>
+                            <td class="py-3 text-muted">{{ $industry }}</td>
+                            <td class="py-3 text-muted">{{ $location }}</td>
                             <td class="py-3">
                                 <span class="badge" style="background:#fef9ec;color:#b45309;border-radius:6px;">
                                     {{ $orgs['oppoCounts'][$o->uname] ?? 0 }}
