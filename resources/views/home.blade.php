@@ -39,11 +39,11 @@
     {{-- ── STATS ── --}}
     <section class="stats">
         <div class="stat">
-            <div class="stat-number">50+</div>
-            <div class="stat-label">Partner Universities</div>
+            <div class="stat-number">5+</div>
+            <div class="stat-label">Partner Organisations</div>
         </div>
         <div class="stat">
-            <div class="stat-number">2,000+</div>
+            <div class="stat-number">20+</div>
             <div class="stat-label">Active Opportunities</div>
         </div>
         <div class="stat">
