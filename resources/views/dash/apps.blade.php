@@ -24,7 +24,7 @@
             <div class="container-fluid">
                 <div class="card shadow-sm" style="border:2px solid #e8edf3;border-radius:14px;overflow:hidden;background:linear-gradient(to bottom, #fafbfc 0%, #ffffff 100%);">
 
-                    <div class="card-header" style="background:linear-gradient(135deg, var(--navy-700) 0%, var(--navy-600) 100%);padding:1.5rem;d-flex;align-items:center;justify-content:space-between;border:none;">
+                    <div class="card-header" style="background:linear-gradient(135deg, var(--navy-700) 0%, var(--navy-600) 100%);padding:1.5rem;display:flex;align-items:center;justify-content:space-between;border:none;">
                         <h6 class="mb-0 fw-bold" style="color:#fff;font-size:1.1rem;">
                             <i class="bi bi-briefcase me-2" style="color:rgba(255,255,255,0.9);"></i>
                             {{ Auth::user()->role === 'admin' ? 'All Opportunities' : 'Your Opportunities' }}
@@ -40,7 +40,7 @@
                         <a href="{{ route('oppo.create') }}"
                            style="background:#fff;color:var(--navy-700);padding:0.6rem 1.35rem;
                                   border-radius:var(--radius-sm);font-size:0.875rem;font-weight:700;
-                                  text-decoration:none;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.1);">+ Post New Opportunity</a>
+                                  text-decoration:none;transition:all 0.3s ease;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-left:auto;">+ Add New Opportunity</a>
                         @endif
                     </div>
 
